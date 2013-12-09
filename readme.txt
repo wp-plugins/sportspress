@@ -12,7 +12,11 @@ SportsPress is a flexible sports management plugin that adds team management fun
 == Changelog ==
 
 = 0.2 - 12/09/2013 =
-* Add configuration options and register defaults for soccer.
+* Tweak - Use custom post types for metrics and statistics configuration.
+* Feature - Display HTML tables when viewing League Table and Player List post types.
+* Feature - Link player and team names to single post pages.
+* Feature - Register default configuration for soccer.
+* Feature - Sort league table and player list by priority.
 
 = 0.1 - 11/23/2013 =
 * Alpha release for first look and testing.
