@@ -11,8 +11,8 @@ SportsPress is a flexible sports management plugin that adds team management fun
 
 == Changelog ==
 
-= 0.1 - 11/23/2013 =
-* Alpha release for first look and testing.
-
 = 0.2 - 12/09/2013 =
 * Add configuration options and register defaults for soccer.
+
+= 0.1 - 11/23/2013 =
+* Alpha release for first look and testing.
