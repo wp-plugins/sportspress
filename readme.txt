@@ -7,7 +7,7 @@ Stable tag: 0.1
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
-SportsPress is a powerful, flexible sports management plugin that helps you broadcast your team to the world.
+SportsPress is a flexible sports management plugin that adds team management functionality to WordPress. Currently in alpha for theme development and testing purposes.
 
 == Changelog ==
 
