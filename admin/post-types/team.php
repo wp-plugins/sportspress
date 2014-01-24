@@ -8,6 +8,7 @@ function sportspress_team_post_init() {
 		'label' => $name,
 		'labels' => $labels,
 		'public' => true,
+		'has_archive' => false,
 		'hierarchical' => true,
 		'supports' => array( 'title', 'editor', 'author', 'thumbnail', 'page-attributes' ),
 		'register_meta_box_cb' => 'sportspress_team_meta_init',
@@ -40,6 +41,7 @@ function sportspress_team_edit_columns() {
 		'title' => __( 'Team', 'sportspress' ),
 		'sp_league' => __( 'Leagues', 'sportspress' ),
 		'sp_season' => __( 'Seasons', 'sportspress' ),
+		'sp_views' => __( 'Views', 'sportspress' ),
 	);
 	return $columns;
 }

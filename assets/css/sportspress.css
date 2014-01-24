@@ -26,12 +26,6 @@
 	content: "\f140";
 	position: absolute;
 }
-.sp-data-table .data-number.sorting_asc {
-	cursor: default;
-}
-.sp-data-table .data-number:after {
-	content: "";
-}
 .sp-data-table .data-name .logo {
 	vertical-align: middle;
 	height: 2.5em;
@@ -41,4 +35,56 @@
 /* Google Maps */
 .sp-google-map {
 	height: 320px;
+}
+
+@media only screen and (max-width: 40em) {
+	.sp-responsive-table {
+		margin-bottom: 0;
+	}
+
+	.sp-pinned-table {
+		position: absolute;
+		left: 0;
+		top: 0;
+		width: 50%;
+		overflow: hidden;
+		overflow-x: scroll;
+	}
+	.sp-pinned-table table {
+		border-right: none;
+		border-left: none;
+		width: 100%;
+	}
+	.sp-pinned-table table th,
+	.sp-pinned-table table td {
+		white-space: nowrap;
+	}
+	.sp-pinned-table td:last-child {
+		border-bottom: 0;
+	}
+	
+	.sp-responsive-table-wrapper {
+		position: relative;
+		overflow: hidden;
+		background: #fff;
+	}
+	.sp-responsive-table-wrapper .scrollable {
+		margin-left: 50%;
+	}
+	.sp-responsive-table-wrapper .scrollable {
+		overflow: scroll;
+		overflow-y: hidden;
+	}	
+	
+	.sp-responsive-table td,
+	.sp-responsive-table th {
+		position: relative;
+		white-space: nowrap;
+		overflow: hidden;
+	}
+	.sp-responsive-table .data-number,
+	.sp-responsive-table .data-name,
+	.sp-responsive-.sp-pinned-table td {
+		display: none;
+	}
 }

@@ -34,6 +34,8 @@ function sportspress_event_meta_init( $post ) {
 
 	remove_meta_box( 'submitdiv', 'sp_event', 'side' );
 	remove_meta_box( 'sp_venuediv', 'sp_event', 'side' );
+	remove_meta_box( 'sp_leaguediv', 'sp_event', 'side' );
+	remove_meta_box( 'sp_seasondiv', 'sp_event', 'side' );
 	
 	add_meta_box( 'submitdiv', __( 'Event', 'sportspress' ), 'post_submit_meta_box', 'sp_event', 'side', 'high' );
 	add_meta_box( 'sp_detailsdiv', __( 'Details', 'sportspress' ), 'sportspress_event_details_meta', 'sp_event', 'side', 'high' );
@@ -196,7 +198,8 @@ function sportspress_event_edit_columns() {
 		'sp_league' => __( 'League', 'sportspress' ),
 		'sp_season' => __( 'Season', 'sportspress' ),
 		'sp_venue' => __( 'Venue', 'sportspress' ),
-		'sp_kickoff' => __( 'Date/Time', 'sportspress' )
+		'sp_kickoff' => __( 'Date/Time', 'sportspress' ),
+		'sp_views' => __( 'Views', 'sportspress' ),
 	);
 	return $columns;
 }

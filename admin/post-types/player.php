@@ -8,6 +8,7 @@ function sportspress_player_post_init() {
 		'label' => $name,
 		'labels' => $labels,
 		'public' => true,
+		'has_archive' => false,
 		'hierarchical' => false,
 		'supports' => array( 'title', 'author', 'thumbnail', 'page-attributes' ),
 		'register_meta_box_cb' => 'sportspress_player_meta_init',
@@ -28,6 +29,7 @@ function sportspress_player_edit_columns() {
 		'sp_team' => __( 'Teams', 'sportspress' ),
 		'sp_league' => __( 'Leagues', 'sportspress' ),
 		'sp_season' => __( 'Seasons', 'sportspress' ),
+		'sp_views' => __( 'Views', 'sportspress' ),
 	);
 	return $columns;
 }
@@ -43,12 +45,12 @@ function sportspress_player_meta_init( $post ) {
 	add_meta_box( 'postimagediv', __( 'Photo', 'sportspress' ), 'post_thumbnail_meta_box', 'sp_player', 'side', 'low' );
 	add_meta_box( 'sp_detailsdiv', __( 'Details', 'sportspress' ), 'sportspress_player_details_meta', 'sp_player', 'side', 'high' );
 	add_meta_box( 'sp_teamdiv', __( 'Teams', 'sportspress' ), 'sportspress_player_team_meta', 'sp_player', 'side', 'high' );
+	add_meta_box( 'sp_metricsdiv', __( 'Metrics', 'sportspress' ), 'sportspress_player_metrics_meta', 'sp_player', 'normal', 'high' );
 
 	if ( $leagues && ! empty( $leagues ) && $seasons && is_array( $seasons ) && is_object( $seasons[0] ) ):
 		add_meta_box( 'sp_statsdiv', __( 'Statistics', 'sportspress' ), 'sportspress_player_stats_meta', 'sp_player', 'normal', 'high' );
 	endif;
 
-	add_meta_box( 'sp_metricsdiv', __( 'Metrics', 'sportspress' ), 'sportspress_player_metrics_meta', 'sp_player', 'normal', 'high' );
 	add_meta_box( 'sp_profilediv', __( 'Profile', 'sportspress' ), 'sportspress_player_profile_meta', 'sp_player', 'normal', 'high' );
 }
 
@@ -80,6 +82,7 @@ function sportspress_player_details_meta( $post ) {
 		<p>
 			<select id="sp_nationality" name="sp_nationality">
 				<?php foreach ( $continents as $continent => $countries ): ?>
+					<option value=""><?php _e( '-- Not set --', 'sportspress' ); ?></option>
 					<optgroup label="<?php echo $continent; ?>">
 						<?php foreach ( $countries as $code => $country ): ?>
 							<option value="<?php echo $code; ?>" <?php selected ( $nationality, $code ); ?>>
