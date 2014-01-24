@@ -2,12 +2,13 @@
 if ( !function_exists( 'sportspress_team_columns' ) ) {
 	function sportspress_team_columns( $id = null ) {
 
-		if ( ! $id ):
-			global $post;
-			$id = $post->ID;
-		endif;
+		if ( ! $id )
+			$id = get_the_ID();
 
 		$leagues = get_the_terms( $id, 'sp_league' );
+
+		if ( ! $leagues )
+			return false;
 
 		$output = '';
 
@@ -19,16 +20,15 @@ if ( !function_exists( 'sportspress_team_columns' ) ) {
 			if ( sizeof( $data ) <= 1 )
 				continue;
 
-			if ( sizeof( $leagues ) > 1 )
-				$output .= '<h4 class="sp-team-league-name">' . $league->name . '</h4>';
-
 			// The first row should be column labels
 			$labels = $data[0];
 
 			// Remove the first row to leave us with the actual data
 			unset( $data[0] );
 
-			$output .= '<table class="sp-team-columns sp-data-table">' . '<thead>' . '<tr>';
+			$output .= '<h4 class="sp-table-caption">' . $league->name . '</h4>' .
+				'<div class="sp-table-wrapper">' .
+				'<table class="sp-team-columns sp-data-table sp-responsive-table">' . '<thead>' . '<tr>';
 
 			foreach( $labels as $key => $label ):
 				$output .= '<th class="data-' . $key . '">' . $label . '</th>';
@@ -52,7 +52,7 @@ if ( !function_exists( 'sportspress_team_columns' ) ) {
 
 			endforeach;
 
-			$output .= '</tbody>' . '</table>';
+			$output .= '</tbody>' . '</table>' . '</div>';
 
 
 		endforeach;

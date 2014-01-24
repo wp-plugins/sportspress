@@ -2,23 +2,33 @@
 if ( !function_exists( 'sportspress_league_table' ) ) {
 	function sportspress_league_table( $id = null, $args = '' ) {
 
-		if ( ! $id ):
-			global $post;
-			$id = $post->ID;
-		endif;
+		if ( ! $id )
+			$id = get_the_ID();
 
 		$defaults = array(
 			'number_label' => __( 'Pos', 'sportspress' ),
-			'thumbnails' => 1,
+			'thumbnails' => 0,
 			'thumbnail_size' => 'thumbnail'
 		);
 
 		$r = wp_parse_args( $args, $defaults );
 
-		$data = sportspress_get_league_table_data( $id );
+		$leagues = get_the_terms( $id, 'sp_league' );
+		$seasons = get_the_terms( $id, 'sp_season' );
 
-		$output = '<table class="sp-league-table sp-data-table">' .
-		'<caption>' . get_the_title( $id ) . '</caption>' . '<thead>' . '<tr>';
+		$terms = array();
+		if ( isset( $leagues[0] ) )
+			$terms[] = $leagues[0]->name;
+		if ( isset( $seasons[0] ) )
+			$terms[] = $seasons[0]->name;
+
+		$title = sizeof( $terms ) ? implode( ' &mdash; ', $terms ) : get_the_title( $id );
+
+		$output = '<h4 class="sp-table-caption">' . $title . '</h4>' .
+			'<div class="sp-table-wrapper">' .
+			'<table class="sp-league-table sp-data-table sp-responsive-table">' . '<thead>' . '<tr>';
+
+		$data = sportspress_get_league_table_data( $id );
 
 		// The first row should be column labels
 		$labels = $data[0];
@@ -64,7 +74,7 @@ if ( !function_exists( 'sportspress_league_table' ) ) {
 
 		endforeach;
 
-		$output .= '</tbody>' . '</table>';
+		$output .= '</tbody>' . '</table>' . '</div>';
 
 		return apply_filters( 'sportspress_league_table',  $output );
 

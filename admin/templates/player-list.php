@@ -2,14 +2,13 @@
 if ( !function_exists( 'sportspress_player_list' ) ) {
 	function sportspress_player_list( $id = null ) {
 
-		if ( ! $id ):
-			global $post;
-			$id = $post->ID;
-		endif;
+		if ( ! $id )
+			$id = get_the_ID();
 
 		$data = sportspress_get_player_list_data( $id );
 
-		$output = '<table class="sp-player-list sp-data-table">' . '<thead>' . '<tr>';
+		$output = '<div class="sp-table-wrapper">' .
+			'<table class="sp-player-list sp-data-table sp-responsive-table">' . '<thead>' . '<tr>';
 
 		// The first row should be column labels
 		$labels = $data[0];
@@ -51,7 +50,7 @@ if ( !function_exists( 'sportspress_player_list' ) ) {
 
 		endforeach;
 
-		$output .= '</tbody>' . '</table>';
+		$output .= '</tbody>' . '</table>' . '</div>';
 
 		return apply_filters( 'sportspress_player_list',  $output );
 

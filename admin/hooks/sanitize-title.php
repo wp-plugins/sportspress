@@ -7,11 +7,13 @@ function sportspress_sanitize_title( $title ) {
 	
 	elseif ( isset( $_POST ) && array_key_exists( 'post_type', $_POST ) && in_array( $_POST['post_type'], array( 'sp_result', 'sp_outcome', 'sp_column', 'sp_statistic', 'sp_metric' ) ) ):
 
-		$key = $_POST['sp_key'];
+		$key = isset( $_POST['sp_key'] ) ? $_POST['sp_key'] : null;
 
 		if ( ! $key ) $key = $_POST['post_title'];
 
-		$title = sportspress_get_eos_safe_slug( $key, sportspress_array_value( $_POST, 'ID', 'var' ) );
+		$id = sportspress_array_value( $_POST, 'post_ID', 'var' );
+
+		$title = sportspress_get_eos_safe_slug( $key, $id );
 
 	elseif ( isset( $_POST ) && array_key_exists( 'post_type', $_POST ) && $_POST['post_type'] == 'sp_event' ):
 

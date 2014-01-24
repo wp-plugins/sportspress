@@ -2,10 +2,8 @@
 if ( !function_exists( 'sportspress_event_players' ) ) {
 	function sportspress_event_players( $id = null ) {
 
-		if ( ! $id ):
-			global $post;
-			$id = $post->ID;
-		endif;
+		if ( ! $id )
+			$id = get_the_ID();
 
 		$teams = (array)get_post_meta( $id, 'sp_team', false );
 		$staff = (array)get_post_meta( $id, 'sp_staff', false );
@@ -23,7 +21,8 @@ if ( !function_exists( 'sportspress_event_players' ) ) {
 
 			$output .= '<h3>' . get_the_title( $team_id ) . '</h3>';
 
-			$output .= '<table class="sp-event-statistics sp-data-table">' . '<thead>' . '<tr>';
+			$output .= '<div class="sp-table-wrapper">' .
+				'<table class="sp-event-statistics sp-data-table sp-responsive-table">' . '<thead>' . '<tr>';
 
 			$output .= '<th class="data-number">#</th>';
 			$output .= '<th class="data-number">' . __( 'Player', 'sportspress' ) . '</th>';
@@ -95,7 +94,7 @@ if ( !function_exists( 'sportspress_event_players' ) ) {
 
 			endif;
 
-			$output .= '</table>';
+			$output .= '</table>' . '</div>';
 
 		endforeach;
 

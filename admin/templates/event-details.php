@@ -2,10 +2,8 @@
 if ( !function_exists( 'sportspress_event_details' ) ) {
 	function sportspress_event_details( $id = null ) {
 
-		if ( ! $id ):
-			global $post;
-			$id = $post->ID;
-		endif;
+		if ( ! $id )
+			$id = get_the_ID();
 
 		$date = get_the_time( get_option('date_format'), $id );
 		$time = get_the_time( get_option('time_format'), $id );
@@ -14,16 +12,20 @@ if ( !function_exists( 'sportspress_event_details' ) ) {
 
 		$data = array( __( 'Date', 'sportspress' ) => $date, __( 'Time', 'sportspress' ) => $time );
 
-		if ( $leagues )
-			$data[ __( 'League', 'sportspress' ) ] = sportspress_array_value( $leagues, 0, '&mdash;' )->name;
+		if ( $leagues ):
+			$league = array_pop( $leagues );
+			$data[ __( 'League', 'sportspress' ) ] = $league->name;
+		endif;
 
-		if ( $seasons )
-			$data[ __( 'Season', 'sportspress' ) ] = sportspress_array_value( $seasons, 0, '&mdash;' )->name;
-
+		if ( $seasons ):
+			$season = array_pop( $seasons );
+			$data[ __( 'Season', 'sportspress' ) ] = $season->name;
+		endif;
 
 		$output = '<h3>' . __( 'Details', 'sportspress' ) . '</h3>';
 
-		$output .= '<table class="sp-event-details sp-data-table"><tbody>';
+		$output .= '<div class="sp-table-wrapper">' .
+			'<table class="sp-event-details sp-data-table sp-responsive-table"><tbody>';
 		
 		$i = 0;
 
@@ -38,7 +40,7 @@ if ( !function_exists( 'sportspress_event_details' ) ) {
 
 		endforeach;
 
-		$output .= '</tbody></table>';
+		$output .= '</tbody></table></div>';
 
 		return apply_filters( 'sportspress_event_details',  $output );
 
