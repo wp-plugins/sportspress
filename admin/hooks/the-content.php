@@ -1,6 +1,7 @@
 <?php
 function sportspress_the_content( $content ) {
-    sportspress_set_post_views( get_the_ID() );
+    if ( is_single() || is_page() )
+        sportspress_set_post_views( get_the_ID() );
     return $content;
 }
 add_filter( 'the_content', 'sportspress_the_content' );
@@ -20,15 +21,6 @@ function sportspress_default_event_content( $content ) {
     return $content;
 }
 add_filter( 'the_content', 'sportspress_default_event_content' );
-
-function sportspress_default_calendar_content( $content ) {
-    if ( is_singular( 'sp_calendar' ) && in_the_loop() ):
-        $calendar = sportspress_events_calendar();
-        $content = $calendar . $content;
-    endif;
-    return $content;
-}
-add_filter( 'the_content', 'sportspress_default_calendar_content' );
 
 function sportspress_default_team_content( $content ) {
     if ( is_singular( 'sp_team' ) && in_the_loop() ):

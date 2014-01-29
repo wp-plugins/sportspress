@@ -107,28 +107,47 @@ if ( !function_exists( 'sportspress_get_the_term_id' ) ) {
 	}
 }
 
-function sportspress_get_post_views( $post_id ) {
-    $count_key = 'sp_views';
-    $count = get_post_meta( $post_id, $count_key, true );
-    if ( $count == '' ):
-        delete_post_meta( $post_id, $count_key );
-        add_post_meta( $post_id, $count_key, '0' );
-        return sprintf( _n( '1 View', '%1$s Views', '0', 'sportspress' ), '0' );
-    endif;
-    return sprintf( _n( '1 View', '%1$s Views', $count, 'sportspress' ), $count );
+if ( !function_exists( 'sportspress_get_post_views' ) ) {
+	function sportspress_get_post_views( $post_id ) {
+	    $count_key = 'sp_views';
+	    $count = get_post_meta( $post_id, $count_key, true );
+	    if ( $count == '' ):
+	        delete_post_meta( $post_id, $count_key );
+	        add_post_meta( $post_id, $count_key, '0' );
+	        return sprintf( _n( '1 View', '%1$s Views', '0', 'sportspress' ), '0' );
+	    endif;
+	    return sprintf( _n( '1 View', '%1$s Views', $count, 'sportspress' ), $count );
+	}
 }
 
-function sportspress_set_post_views( $post_id ) {
-    $count_key = 'sp_views';
-    $count = get_post_meta( $post_id, $count_key, true );
-    if ( $count == '' ):
-        $count = 0;
-        delete_post_meta( $post_id, $count_key );
-        add_post_meta( $post_id, $count_key, '0' );
-    else:
-        $count++;
-        update_post_meta( $post_id, $count_key, $count );
-    endif;
+if ( !function_exists( 'sportspress_set_post_views' ) ) {
+	function sportspress_set_post_views( $post_id ) {
+	    $count_key = 'sp_views';
+	    $count = get_post_meta( $post_id, $count_key, true );
+	    if ( $count == '' ):
+	        $count = 0;
+	        delete_post_meta( $post_id, $count_key );
+	        add_post_meta( $post_id, $count_key, '0' );
+	    else:
+	        $count++;
+	        update_post_meta( $post_id, $count_key, $count );
+	    endif;
+	}
+}
+
+if ( !function_exists( 'sportspress_get_post_datetime' ) ) {
+	function sportspress_get_post_datetime( $post ) {
+		if ( $post->post_status == 'future' ):
+			$status = __( 'Scheduled', 'sportspress' );
+		elseif( $post->post_status == 'publish' ):
+			$status = __( 'Played', 'sportspress' );
+		elseif( $post->post_status == 'draft' ):
+			$status = __( 'Draft', 'sportspress' );
+		else:
+			$status = __( 'Pending Review', 'sportspress' );
+		endif;
+		return $status . '<br />' . date_i18n( __( 'M j, Y @ G:i', 'sportspress' ), strtotime( $post->post_date ) );
+	}
 }
 
 if ( !function_exists( 'sportspress_get_post_precision' ) ) {
@@ -590,7 +609,7 @@ if ( !function_exists( 'sportspress_edit_calendar_table' ) ) {
 						?>
 						<tr class="sp-row sp-post<?php if ( $i % 2 == 0 ) echo ' alternate'; ?>">
 							<td>
-								<?php echo $event->post_title; ?>
+								<?php edit_post_link( $event->post_title, null, null, $event->ID ); ?>
 							</td>
 							<td>
 								<?php echo get_the_time( get_option('date_format'), $event->ID ); ?>
@@ -1157,24 +1176,6 @@ if ( !function_exists( 'sportspress_get_calendar_data' ) ) {
 		$seasons = get_the_terms( $post_id, 'sp_season' );
 		$venues = get_the_terms( $post_id, 'sp_venue' );
 
-		if ( ! $leagues || ! $seasons || ! $venues )
-			return array();
-
-		$league_ids = array();
-		foreach( $leagues as $league ):
-			$league_ids[] = $league->term_id;
-		endforeach;
-
-		$season_ids = array();
-		foreach( $seasons as $season ):
-			$season_ids[] = $season->term_id;
-		endforeach;
-
-		$venue_ids = array();
-		foreach( $venues as $venue ):
-			$venue_ids[] = $venue->term_id;
-		endforeach;
-
 		$args = array(
 			'post_type' => 'sp_event',
 			'numberposts' => -1,
@@ -1183,24 +1184,46 @@ if ( !function_exists( 'sportspress_get_calendar_data' ) ) {
 			'order' => 'ASC',
 			'post_status' => 'any',
 			'tax_query' => array(
-				'relation' => 'AND',
-				array(
-					'taxonomy' => 'sp_league',
-					'field' => 'id',
-					'terms' => $league_ids
-				),
-				array(
-					'taxonomy' => 'sp_season',
-					'field' => 'id',
-					'terms' => $season_ids
-				),
-				array(
-					'taxonomy' => 'sp_venue',
-					'field' => 'id',
-					'terms' => $venue_ids
-				),
+				'relation' => 'AND'
 			),
 		);
+
+		if ( $leagues ):
+			$league_ids = array();
+			foreach( $leagues as $league ):
+				$league_ids[] = $league->term_id;
+			endforeach;
+			$args['tax_query'][] = array(
+				'taxonomy' => 'sp_league',
+				'field' => 'id',
+				'terms' => $league_ids
+			);
+		endif;
+
+		if ( $seasons ):
+			$season_ids = array();
+			foreach( $seasons as $season ):
+				$season_ids[] = $season->term_id;
+			endforeach;
+			$args['tax_query'][] = array(
+				'taxonomy' => 'sp_season',
+				'field' => 'id',
+				'terms' => $season_ids
+			);
+		endif;
+
+		if ( $venues ):
+			$venue_ids = array();
+			foreach( $venues as $venue ):
+				$venue_ids[] = $venue->term_id;
+			endforeach;
+			$args['tax_query'][] = array(
+				'taxonomy' => 'sp_venue',
+				'field' => 'id',
+				'terms' => $venue_ids
+			);
+		endif;
+
 		$events = get_posts( $args );
 
 		return $events;
