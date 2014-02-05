@@ -10,7 +10,7 @@ function sportspress_manage_posts_custom_column( $column, $post_id ) {
 	global $post;
 	switch ( $column ):
 		case 'sp_icon':
-			edit_post_link( get_the_post_thumbnail( $post_id, 'sportspress-icon' ), '', '', $post_id );
+			edit_post_link( get_the_post_thumbnail( $post_id, 'sportspress-fit-icon' ), '', '', $post_id );
 			break;
 		case 'sp_views':
         	echo sportspress_get_post_views( $post_id );
@@ -34,6 +34,7 @@ function sportspress_manage_posts_custom_column( $column, $post_id ) {
 					$team = get_post( $team_id );
 					$outcome_slug = sportspress_array_value( sportspress_array_value( $results, $team_id, null ), 'outcome', null );
 
+					echo $team->post_title;
 					if ( $outcome_slug && $outcome_slug != '-1' ):
 						$args=array(
 							'name' => $outcome_slug,
@@ -43,10 +44,12 @@ function sportspress_manage_posts_custom_column( $column, $post_id ) {
 						);
 						$outcomes = get_posts( $args );
 
-						echo $team->post_title . ( $outcomes ? ' &mdash; ' . $outcomes[0]->post_title : '' ) . '<br>';
-					else:
-						echo $team->post_title . '<br>';
+						if ( sizeof( $outcomes ) ):
+							$outcome = reset( $outcomes );
+							echo ' &mdash; ' . $outcome->post_title;
+						endif;
 					endif;
+					echo '<br>';
 				endforeach;
 			elseif ( $post_type == 'sp_player' ):
 				$results = get_post_meta( $post_id, 'sp_results', true );

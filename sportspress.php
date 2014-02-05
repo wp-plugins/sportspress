@@ -6,7 +6,7 @@
 Plugin Name: SportsPress
 Plugin URI: http://themeboy.com/sportspress
 Description: Manage your club and its players, staff, events, league tables, and player lists.
-Version: 0.2.1
+Version: 0.2.2
 Author: ThemeBoy
 Author URI: http://themeboy.com/
 License: GPLv3
@@ -18,28 +18,30 @@ if ( !function_exists( 'add_action' ) ) {
 	exit;
 }
 
-define( 'SPORTSPRESS_VERSION', '0.2' );
+define( 'SPORTSPRESS_VERSION', '0.2.2' );
 define( 'SPORTSPRESS_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 define( 'SPORTSPRESS_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
 define( 'SPORTSPRESS_PLUGIN_FILE', __FILE__ );
 
 // Libraries
-include dirname( __FILE__ ) . '/lib/eos/eos.class.php' ;
+require_once dirname( __FILE__ ) . '/lib/eos/eos.class.php' ;
 
 // Globals
-include_once dirname( __FILE__ ) . '/admin/globals/continents.php';
-include_once dirname( __FILE__ ) . '/admin/globals/countries.php';
-include_once dirname( __FILE__ ) . '/admin/globals/sports.php';
+require_once dirname( __FILE__ ) . '/admin/globals/continents.php';
+require_once dirname( __FILE__ ) . '/admin/globals/countries.php';
+require_once dirname( __FILE__ ) . '/admin/globals/sports.php';
 
 // Functions
 require_once dirname( __FILE__ ) . '/functions.php';
 
 // Templates
+require_once dirname( __FILE__ ) . '/admin/templates/countdown.php';
 require_once dirname( __FILE__ ) . '/admin/templates/event-details.php';
 require_once dirname( __FILE__ ) . '/admin/templates/event-players.php';
 require_once dirname( __FILE__ ) . '/admin/templates/event-results.php';
 require_once dirname( __FILE__ ) . '/admin/templates/event-staff.php';
 require_once dirname( __FILE__ ) . '/admin/templates/event-venue.php';
+require_once dirname( __FILE__ ) . '/admin/templates/events.php';
 require_once dirname( __FILE__ ) . '/admin/templates/events-calendar.php';
 require_once dirname( __FILE__ ) . '/admin/templates/league-table.php';
 require_once dirname( __FILE__ ) . '/admin/templates/player-league-statistics.php';
@@ -49,7 +51,7 @@ require_once dirname( __FILE__ ) . '/admin/templates/player-statistics.php';
 require_once dirname( __FILE__ ) . '/admin/templates/team-columns.php';
 
 // Settings
-include dirname( __FILE__ ) . '/admin/settings/settings.php' ;
+require_once dirname( __FILE__ ) . '/admin/settings/settings.php' ;
 
 // Custom post types
 require_once dirname( __FILE__ ) . '/admin/post-types/separator.php';
@@ -72,10 +74,13 @@ require_once dirname( __FILE__ ) . '/admin/terms/venue.php';
 require_once dirname( __FILE__ ) . '/admin/terms/position.php';
 
 // Widgets
-require_once dirname( __FILE__ ) . '/admin/widgets/calendar.php';
+require_once dirname( __FILE__ ) . '/admin/widgets/recent-events.php';
+require_once dirname( __FILE__ ) . '/admin/widgets/future-events.php';
+require_once dirname( __FILE__ ) . '/admin/widgets/countdown.php';
+require_once dirname( __FILE__ ) . '/admin/widgets/events-calendar.php';
+require_once dirname( __FILE__ ) . '/admin/widgets/league-table.php';
 
 // Typical request actions
-require_once dirname( __FILE__ ) . '/admin/hooks/widgets-init.php';
 require_once dirname( __FILE__ ) . '/admin/hooks/plugins-loaded.php';
 require_once dirname( __FILE__ ) . '/admin/hooks/after-setup-theme.php';
 require_once dirname( __FILE__ ) . '/admin/hooks/wp-enqueue-scripts.php';
@@ -91,12 +96,15 @@ require_once dirname( __FILE__ ) . '/admin/hooks/admin-head.php';
 require_once dirname( __FILE__ ) . '/admin/hooks/manage-posts-columns.php';
 require_once dirname( __FILE__ ) . '/admin/hooks/post-thumbnail-html.php';
 require_once dirname( __FILE__ ) . '/admin/hooks/restrict-manage-posts.php';
+require_once dirname( __FILE__ ) . '/admin/hooks/parse-query.php';
+//require_once dirname( __FILE__ ) . '/admin/hooks/media-buttons.php';
 require_once dirname( __FILE__ ) . '/admin/hooks/save-post.php';
 
 // Filters
 require_once dirname( __FILE__ ) . '/admin/hooks/admin-post-thumbnail-html.php';
 require_once dirname( __FILE__ ) . '/admin/hooks/gettext.php';
 require_once dirname( __FILE__ ) . '/admin/hooks/pre-get-posts.php';
+require_once dirname( __FILE__ ) . '/admin/hooks/the-posts.php';
 require_once dirname( __FILE__ ) . '/admin/hooks/sanitize-title.php';
 require_once dirname( __FILE__ ) . '/admin/hooks/the-content.php';
 require_once dirname( __FILE__ ) . '/admin/hooks/wp-insert-post-data.php';
