@@ -45,6 +45,8 @@ function sportspress_list_meta_init( $post ) {
 	if ( $players && $players != array(0) ):
 		add_meta_box( 'sp_statsdiv', __( 'Player List', 'sportspress' ), 'sportspress_list_stats_meta', 'sp_list', 'normal', 'high' );
 	endif;
+
+	add_meta_box( 'sp_detailsdiv', __( 'Details', 'sportspress' ), 'sportspress_list_details_meta', 'sp_list', 'normal', 'high' );
 }
 
 function sportspress_list_player_meta( $post ) {
@@ -60,7 +62,7 @@ function sportspress_list_player_meta( $post ) {
 				'taxonomy' => 'sp_league',
 				'name' => 'sp_league',
 				'selected' => $league_id,
-				'value' => 'term_id'
+				'values' => 'term_id'
 			);
 			sportspress_dropdown_taxonomies( $args );
 			?>
@@ -72,7 +74,7 @@ function sportspress_list_player_meta( $post ) {
 				'taxonomy' => 'sp_season',
 				'name' => 'sp_season',
 				'selected' => $season_id,
-				'value' => 'term_id'
+				'values' => 'term_id'
 			);
 			sportspress_dropdown_taxonomies( $args );
 			?>
@@ -104,4 +106,8 @@ function sportspress_list_stats_meta( $post ) {
 
 	sportspress_edit_player_list_table( $columns, $data, $placeholders );
 	sportspress_nonce();
+}
+
+function sportspress_list_details_meta( $post ) {
+	wp_editor( $post->post_content, 'content' );
 }

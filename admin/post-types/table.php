@@ -10,7 +10,7 @@ function sportspress_table_post_init() {
 		'public' => true,
 		'has_archive' => false,
 		'hierarchical' => false,
-		'supports' => array( 'title', 'author', 'thumbnail', 'excerpt' ),
+		'supports' => array( 'title', 'author', 'thumbnail' ),
 		'register_meta_box_cb' => 'sportspress_table_meta_init',
 		'rewrite' => array( 'slug' => get_option( 'sp_table_slug', 'tables' ) ),
 		'show_in_menu' => 'edit.php?post_type=sp_team',
@@ -38,11 +38,14 @@ function sportspress_table_meta_init( $post ) {
 	$teams = (array)get_post_meta( $post->ID, 'sp_team', false );
 
 	remove_meta_box( 'sp_seasondiv', 'sp_table', 'side' );
+	remove_meta_box( 'sp_leaguediv', 'sp_table', 'side' );
 	add_meta_box( 'sp_teamdiv', __( 'Teams', 'sportspress' ), 'sportspress_table_team_meta', 'sp_table', 'side', 'high' );
 
 	if ( $teams && $teams != array(0) ):
 		add_meta_box( 'sp_columnsdiv', __( 'League Table', 'sportspress' ), 'sportspress_table_columns_meta', 'sp_table', 'normal', 'high' );
 	endif;
+
+	add_meta_box( 'sp_detailsdiv', __( 'Details', 'sportspress' ), 'sportspress_table_details_meta', 'sp_table', 'normal', 'high' );
 }
 
 function sportspress_table_team_meta( $post, $test ) {
@@ -57,7 +60,7 @@ function sportspress_table_team_meta( $post, $test ) {
 				'taxonomy' => 'sp_league',
 				'name' => 'sp_league',
 				'selected' => $league_id,
-				'value' => 'term_id'
+				'values' => 'term_id'
 			);
 			sportspress_dropdown_taxonomies( $args );
 			?>
@@ -69,7 +72,7 @@ function sportspress_table_team_meta( $post, $test ) {
 				'taxonomy' => 'sp_season',
 				'name' => 'sp_season',
 				'selected' => $season_id,
-				'value' => 'term_id'
+				'values' => 'term_id'
 			);
 			sportspress_dropdown_taxonomies( $args );
 			?>
@@ -91,4 +94,8 @@ function sportspress_table_columns_meta( $post ) {
 	sportspress_edit_league_table( $columns, $data, $placeholders );
 
 	sportspress_nonce();
+}
+
+function sportspress_table_details_meta( $post ) {
+	wp_editor( $post->post_content, 'content' );
 }
