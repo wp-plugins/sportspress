@@ -4,7 +4,7 @@ Tags: sports, sports journalism, teams, team management, fixtures, results, stan
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=support@themeboy.com&item_name=Donation+for+SportsPress
 Requires at least: 3.5
 Tested up to: 3.8
-Stable tag: 0.2.2
+Stable tag: 0.2.3
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -71,6 +71,20 @@ SportsPress is currently in beta and is undergoing testing. We are still activel
 4. SportsPress Settings panel.
 
 == Changelog ==
+
+= 0.2.3 =
+* Feature - Enable selecting main event result.
+* Feature - Add Last 5 counter to table columns.
+* Localization - Update Japanese translations.
+* Preset - Complete American Football preset.
+
+= 0.2.2 =
+* Feature - League Table widget added.
+* Feature - Recent Events widget added.
+* Feature - Future Events widget added.
+* Feature - Countdown widget added.
+* Fix - Syntax error fixed for PHP version 5.2 and below.
+* Tweak - Editor section added to League Tables and Player Lists.
 
 = 0.2.1 =
 * Feature - Events Calendar widget added.
