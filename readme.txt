@@ -4,7 +4,7 @@ Tags: sports, sports journalism, teams, team management, fixtures, results, stan
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=support@themeboy.com&item_name=Donation+for+SportsPress
 Requires at least: 3.5
 Tested up to: 3.8
-Stable tag: 0.2.6
+Stable tag: 0.2.7
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -69,8 +69,13 @@ SportsPress is currently in beta and is undergoing testing. We are still activel
 2. Teams admin.
 3. Players admin.
 4. SportsPress Settings panel.
+5. League Table widget.
 
 == Changelog ==
+
+= 0.2.7 =
+* Feature - Select columns to display in league table widget.
+* Tweak - Start league table positions at 1 instead of 0.
 
 = 0.2.6 =
 * Localization - Add French translations.
@@ -81,9 +86,9 @@ SportsPress is currently in beta and is undergoing testing. We are still activel
 
 = 0.2.4 =
 * Feature - Display venue map on event page and venue archive.
-* Tweak - Sort sports presets alphabetically by localized name.
 * Fix - Add checks to prevent league table dividing by zero when no events have been played.
 * Fix - Flush rewrite rules for taxonomies on activation.
+* Tweak - Sort sports presets alphabetically by localized name.
 
 = 0.2.3 =
 * Feature - Enable selecting main event result.
