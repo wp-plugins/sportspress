@@ -21,8 +21,6 @@ Add schedules, results, league tables, player profile, and statistics to your te
 League table columns, Player statistics, and match results can be customized to fit any sport. Presets are available for some of the popular sports including soccer, rugby, American football, Australian Rules football, baseball, basketball, cricket, and hockey.
 
 = Languages =
-
-SportsPress is currently available in the following languages:
 * English
 * Spanish
 * French
