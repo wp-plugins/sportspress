@@ -10,6 +10,26 @@ License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
 SportsPress is a flexible sports management plugin that adds team management functionality to WordPress. Currently in beta for internal testing.
 
+== Description ==
+
+Add schedules, results, league tables, player profile, and statistics to your team or league site with SportsPress. It is designed to work with virtually every WordPress theme, and includes several language translations.
+
+[vimeo http://vimeo.com/60440851]
+
+= Customizable =
+
+League table columns, Player statistics, and match results can be customized to fit any sport. Presets are available for some of the popular sports including soccer, rugby, American football, Australian Rules football, baseball, basketball, cricket, and hockey.
+
+= Languages =
+
+SportsPress is currently available in the following languages:
+* English
+* Spanish
+* French
+* Japanese
+
+[Let us know](http://wordpress.org/support/plugin/sportspress) if you come across any missing or inaccurate translations in your language.
+
 == Installation ==
 
 = Minimum Requirements =
