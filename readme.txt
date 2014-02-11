@@ -1,27 +1,29 @@
-=== SportsPress ===
+=== SportsPress - Automated League Statistics ===
 Contributors: themeboy
 Tags: sports, sports journalism, teams, team management, fixtures, results, standings, league tables, leagues, reporting, themeboy, wordpress sports, configurable
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=support@themeboy.com&item_name=Donation+for+SportsPress
-Requires at least: 3.5
-Tested up to: 3.8
-Stable tag: 0.2.7
+Requires at least: 3.8
+Tested up to: 3.8.1
+Stable tag: 0.2.8
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
-SportsPress is a flexible sports management plugin that adds team management functionality to WordPress. Currently in beta for internal testing.
+SportsPress is a fully configurable sports plugin that seemlessly automates league, team, and player statistics. Currently in beta.
 
 == Description ==
 
-Add schedules, results, league tables, player profile, and statistics to your team or league site with SportsPress. It is designed to work with virtually every WordPress theme, and includes several language translations.
+Add schedules, results, league tables, player profiles and statistics to your team or league site with SportsPress. It is designed to work with virtually every WordPress theme, and includes several language translations.
 
 = Customizable =
 
 League table columns, player statistics, and match results can be customized to fit any sport. Presets are available for some of the most popular sports including soccer, rugby, American football, Australian Rules football, baseball, basketball, cricket, and hockey.
 
-= Languages =
+= Available Languages =
 * English
+* German
 * Spanish
 * French
+* Italian
 * Japanese
 
 [Let us know](http://wordpress.org/support/plugin/sportspress) if you come across any missing or inaccurate translations in your language.
@@ -88,6 +90,12 @@ SportsPress is currently in beta and is undergoing testing. We are still activel
 5. League Table widget.
 
 == Changelog ==
+
+= 0.2.8 =
+* Feature - Add player list widget.
+* Localization - Add German translations.
+* Localization - Add Spanish translations.
+* Localization - Add Italian translations.
 
 = 0.2.7 =
 * Feature - Select columns to display in league table widget.
