@@ -6,8 +6,6 @@ if ( !function_exists( 'sportspress_league_table' ) ) {
 			$id = get_the_ID();
 
 		$defaults = array(
-			'number_label' => __( 'Pos', 'sportspress' ),
-			'thumbnail_size' => 'thumbnail',
 			'columns' => null,
 		);
 
@@ -26,7 +24,7 @@ if ( !function_exists( 'sportspress_league_table' ) ) {
 
 		$columns = sportspress_array_value( $r, 'columns', null );
 
-		$output .= '<th class="data-number">' . $r['number_label'] . '</th>';
+		$output .= '<th class="data-number">' . __( 'Pos', 'sportspress' ) . '</th>';
 
 		foreach( $labels as $key => $label ):
 			if ( ! is_array( $columns ) || $key == 'name' || in_array( $key, $columns ) )
@@ -41,8 +39,8 @@ if ( !function_exists( 'sportspress_league_table' ) ) {
 
 			$output .= '<tr class="' . ( $i % 2 == 0 ? 'odd' : 'even' ) . '">';
 
-			// Position as number
-			$output .= '<td class="data-number">' . ( $i + 1 ) . '</td>';
+			// Rank
+			$output .= '<td class="data-rank">' . ( $i + 1 ) . '</td>';
 
 			$name = sportspress_array_value( $row, 'name', sportspress_array_value( $row, 'name', '&nbsp;' ) );
 			$output .= '<td class="data-name"><a href="' . get_post_permalink( $team_id ) . '">' . $name . '</a></td>';
@@ -62,7 +60,7 @@ if ( !function_exists( 'sportspress_league_table' ) ) {
 
 		$output .= '</tbody>' . '</table>' . '</div>';
 
-		return apply_filters( 'sportspress_league_table',  $output );
+		return apply_filters( 'sportspress_league_table',  $output, $id );
 
 	}
 }

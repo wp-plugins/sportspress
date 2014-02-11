@@ -1,12 +1,12 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: SportsPress 0.1\n"
+"Project-Id-Version: SportsPress 0.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-02-10 13:07+1000\n"
-"PO-Revision-Date: 2014-02-10 13:10+1000\n"
+"POT-Creation-Date: 2014-02-10 13:19+1000\n"
+"PO-Revision-Date: 2014-02-12 04:31+1000\n"
 "Last-Translator: ThemeBoy <translate@themeboy.com>\n"
 "Language-Team: ThemeBoy <translate@themeboy.com>\n"
-"Language: ja\n"
+"Language: de_DE\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -16,19 +16,19 @@ msgstr ""
 "X-Poedit-Basepath: .\n"
 "X-Generator: Poedit 1.6.3\n"
 "X-Poedit-SourceCharset: UTF-8\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-Bookmarks: -1,75,-1,-1,-1,-1,-1,-1,-1,-1\n"
 "X-Poedit-SearchPath-0: ..\n"
 
 #: ../functions.php:56
 msgid "Add New"
-msgstr "新規追加"
+msgstr "Neu hinzufügen"
 
 #: ../functions.php:57 ../functions.php:80 ../functions.php:1071
 #: ../functions.php:1072
 #, php-format
 msgid "Add New %s"
-msgstr "新規%sを追加"
+msgstr "Neu hinzufügen %s"
 
 #: ../functions.php:58 ../functions.php:77
 #: ../admin/hooks/post-updated-messages.php:10 ../admin/settings/events.php:32
@@ -36,37 +36,37 @@ msgstr "新規%sを追加"
 #: ../admin/settings/players.php:61 ../admin/settings/tables.php:33
 #, php-format
 msgid "Edit %s"
-msgstr "%sを編集"
+msgstr "Bearbeiten %s"
 
 #: ../functions.php:59
 #, php-format
 msgid "New %s"
-msgstr "新規%s"
+msgstr "Neuer %s"
 
 #: ../functions.php:60 ../functions.php:78
 #, php-format
 msgid "View %s"
-msgstr "%sを表示"
+msgstr "Ansehen %s"
 
 #: ../functions.php:61 ../functions.php:84
 #, php-format
 msgid "Search %s"
-msgstr "%sを検索"
+msgstr "Suchen %s"
 
 #: ../functions.php:62 ../functions.php:85 ../functions.php:626
 #, php-format
 msgid "No %s found."
-msgstr "%sが見つかりませんでした"
+msgstr "Keine %s gefunden."
 
 #: ../functions.php:63
 #, php-format
 msgid "No %s found in trash."
-msgstr "ゴミ箱内に%sが見つかりませんでした。"
+msgstr "Keine %s im Papierkorb gefunden."
 
 #: ../functions.php:64 ../functions.php:82 ../functions.php:83
 #, php-format
 msgid "Parent %s"
-msgstr "親%s"
+msgstr "Übergeordnete %s"
 
 #: ../functions.php:76 ../admin/hooks/restrict-manage-posts.php:8
 #: ../admin/hooks/restrict-manage-posts.php:18
@@ -80,146 +80,146 @@ msgstr "親%s"
 #: ../admin/widgets/recent-events.php:113
 #, php-format
 msgid "All %s"
-msgstr "すべての%s"
+msgstr "Alle %s"
 
 #: ../functions.php:79
 #, php-format
 msgid "Update %s"
-msgstr "%sを更新"
+msgstr "Aktualisieren %s"
 
 #: ../functions.php:81
 #, php-format
 msgid "New %s Name"
-msgstr "新規%s名"
+msgstr "Neuer %s Name"
 
 #: ../functions.php:116
 msgid "1 view"
-msgstr "1回"
+msgstr "1 Anzeigen"
 
 #: ../functions.php:118
 #, php-format
 msgid "%s views"
-msgstr "%s回"
+msgstr "%s Ansichten"
 
 #: ../functions.php:143
 msgid "Scheduled"
-msgstr "予約済み"
+msgstr "Geplant"
 
 #: ../functions.php:145 ../functions.php:482 ../functions.php:485
 #: ../functions.php:1899 ../functions.php:2050 ../functions.php:2187
 msgid "Played"
-msgstr "試合終了"
+msgstr "Gespielt"
 
 #: ../functions.php:147
 msgid "Draft"
-msgstr "下書き"
+msgstr "Entwurf"
 
 #: ../functions.php:149
 msgid "Pending Review"
-msgstr "レビュー待ち"
+msgstr "Ausstehender Review"
 
 #: ../functions.php:151 ../admin/hooks/post-updated-messages.php:31
 msgid "M j, Y @ G:i"
-msgstr "Y年n月j日 @ G:i"
+msgstr "d. F Y H:i"
 
 #: ../functions.php:172 ../functions.php:176 ../functions.php:416
 msgid "Sum"
-msgstr "合計"
+msgstr "Summe"
 
 #: ../functions.php:172 ../functions.php:417
 msgid "Average"
-msgstr "平均"
+msgstr "Durchschnitt"
 
 #: ../functions.php:214
 msgid "Integer"
-msgstr "整数"
+msgstr "Ganzezahl"
 
 #: ../functions.php:215
 msgid "Decimal"
-msgstr "少数"
+msgstr "Dezimal"
 
 #: ../functions.php:216 ../functions.php:636
 #: ../admin/templates/event-details.php:13
 msgid "Time"
-msgstr "時間"
+msgstr "Zeit"
 
 #: ../functions.php:217
 msgid "Custom Field"
-msgstr "カスタムフィールド"
+msgstr "Benutzerdefiniertefeld"
 
 #: ../functions.php:344 ../functions.php:398
 msgid "(no title)"
-msgstr "(タイトルなし)"
+msgstr "(kein Titel)"
 
 #: ../functions.php:482 ../functions.php:485 ../admin/post-types/event.php:3
 #: ../admin/settings/settings.php:11
 msgid "Events"
-msgstr "試合"
+msgstr "Ereignisse"
 
 #: ../functions.php:482
 msgid "Attended"
-msgstr "出場"
+msgstr "Teilnehmen"
 
 #: ../functions.php:488 ../admin/post-types/event.php:44
 #: ../admin/post-types/result.php:3 ../admin/settings/events.php:16
 #: ../admin/settings/events.php:32 ../admin/templates/event-results.php:48
 msgid "Results"
-msgstr "結果"
+msgstr "Resultat"
 
 #: ../functions.php:491 ../functions.php:492 ../functions.php:493
 #: ../functions.php:494 ../admin/post-types/outcome.php:3
 #: ../admin/settings/events.php:47 ../admin/settings/events.php:63
 msgid "Outcomes"
-msgstr "勝敗"
+msgstr "Ergebnisse"
 
 #: ../functions.php:492
 msgid "Streak"
-msgstr "連勝敗"
+msgstr "Streifen"
 
 #: ../functions.php:493
 msgid "Last 5"
-msgstr "ラスト5"
+msgstr "Letzte 5"
 
 #: ../functions.php:494
 msgid "Last 10"
-msgstr "ラスト10"
+msgstr "Letzte 10"
 
 #: ../functions.php:497 ../admin/post-types/column.php:3
 #: ../admin/post-types/team.php:33 ../admin/settings/tables.php:11
 #: ../admin/settings/tables.php:33
 msgid "Columns"
-msgstr "列"
+msgstr "Spalten"
 
 #: ../functions.php:500
 msgid "Player Statistics"
-msgstr "選手統計"
+msgstr "Spieler Statistiken"
 
 #: ../functions.php:509
 msgid "Operators"
-msgstr "演算子"
+msgstr "Operator"
 
 #: ../functions.php:519
 msgid "Constants"
-msgstr "定数"
+msgstr "Konstanten"
 
 #: ../functions.php:523 ../admin/post-types/event.php:134
 msgid "&mdash; Select &mdash;"
-msgstr "&mdash; Select &mdash;"
+msgstr "&mdash; Auswählen &mdash;"
 
 #: ../functions.php:626 ../admin/post-types/event.php:5
 #: ../admin/widgets/future-events.php:123
 #: ../admin/widgets/recent-events.php:123
 msgid "events"
-msgstr "試合"
+msgstr "Ereignisse"
 
 #: ../functions.php:634 ../admin/post-types/event.php:4
 #: ../admin/post-types/event.php:40 ../admin/post-types/event.php:196
 msgid "Event"
-msgstr "試合"
+msgstr "Veranstaltung"
 
 #: ../functions.php:635 ../admin/templates/event-details.php:13
 msgid "Date"
-msgstr "日付"
+msgstr "Datum"
 
 #: ../functions.php:673 ../functions.php:814 ../functions.php:887
 #: ../functions.php:1071 ../functions.php:1752 ../functions.php:2187
@@ -227,13 +227,13 @@ msgstr "日付"
 #: ../admin/post-types/list.php:82 ../admin/post-types/team.php:4
 #: ../admin/post-types/team.php:41 ../admin/templates/event-results.php:52
 msgid "Team"
-msgstr "チーム"
+msgstr "Mannschaft"
 
 #: ../functions.php:716 ../functions.php:992 ../functions.php:1984
 #: ../admin/hooks/register-activation-hook.php:147
 #: ../admin/post-types/player.php:4 ../admin/templates/event-players.php:28
 msgid "Player"
-msgstr "選手"
+msgstr "Spieler"
 
 #: ../functions.php:761 ../functions.php:813 ../functions.php:1484
 #: ../functions.php:2187 ../admin/post-types/event.php:69
@@ -242,49 +242,49 @@ msgstr "選手"
 #: ../admin/post-types/table.php:68 ../admin/templates/event-details.php:22
 #: ../admin/terms/season.php:4
 msgid "Season"
-msgstr "シーズン"
+msgstr "Saison"
 
 #: ../functions.php:837 ../functions.php:915 ../admin/post-types/event.php:64
 #: ../admin/post-types/event.php:77 ../admin/post-types/event.php:90
 #: ../admin/post-types/player.php:85
 msgid "-- Not set --"
-msgstr "-- 未設定 --"
+msgstr "-- Leer --"
 
 #: ../functions.php:891 ../admin/post-types/outcome.php:4
 msgid "Outcome"
-msgstr "勝敗"
+msgstr "Ergebnis"
 
 #: ../functions.php:943 ../functions.php:1048
 msgid "Starting Lineup"
-msgstr "スターティングメンバー"
+msgstr "Startaufstellung"
 
 #: ../functions.php:944 ../functions.php:1049
 msgid "Substitute"
-msgstr "補欠"
+msgstr "Ersatz"
 
 #: ../functions.php:968
 msgid "None"
-msgstr "なし"
+msgstr "Keine"
 
 #: ../functions.php:996
 msgid "Status"
-msgstr "ステータス"
+msgstr "Status:"
 
 #: ../functions.php:1027 ../admin/templates/event-players.php:82
 msgid "Total"
-msgstr "合計"
+msgstr "Summe"
 
 #: ../admin/hooks/admin-enqueue-scripts.php:20
 #: ../admin/post-types/event.php:110
 msgid "Remove"
-msgstr "削除"
+msgstr "Entfernen"
 
 #: ../admin/hooks/admin-menu.php:46 ../admin/post-types/player.php:30
 #: ../admin/post-types/staff.php:48 ../admin/post-types/team.php:42
 #: ../admin/terms/league.php:3 ../admin/widgets/future-events.php:65
 #: ../admin/widgets/recent-events.php:65
 msgid "Leagues"
-msgstr "リーグ"
+msgstr "Ligen"
 
 #: ../admin/hooks/admin-menu.php:52
 #: ../admin/hooks/restrict-manage-posts.php:18
@@ -293,7 +293,7 @@ msgstr "リーグ"
 #: ../admin/settings/players.php:16 ../admin/settings/players.php:48
 #: ../admin/terms/position.php:3
 msgid "Positions"
-msgstr "ポジション"
+msgstr "Positionen"
 
 #: ../admin/hooks/admin-menu.php:58
 #: ../admin/hooks/restrict-manage-posts.php:28
@@ -301,12 +301,12 @@ msgstr "ポジション"
 #: ../admin/post-types/team.php:43 ../admin/terms/season.php:3
 #: ../admin/widgets/future-events.php:81 ../admin/widgets/recent-events.php:81
 msgid "Seasons"
-msgstr "シーズン"
+msgstr "Jahreszeiten"
 
 #: ../admin/hooks/admin-menu.php:64 ../admin/terms/venue.php:3
 #: ../admin/widgets/future-events.php:97 ../admin/widgets/recent-events.php:97
 msgid "Venues"
-msgstr "会場"
+msgstr "Veranstaltungsorte"
 
 #: ../admin/hooks/admin-post-thumbnail-html.php:5
 #: ../admin/hooks/admin-post-thumbnail-html.php:6
@@ -318,14 +318,14 @@ msgstr "会場"
 #: ../admin/hooks/gettext.php:27 ../admin/hooks/gettext.php:30
 #, php-format
 msgid "Select %s"
-msgstr "%sを選択"
+msgstr "Auswählen %s"
 
 #: ../admin/hooks/admin-post-thumbnail-html.php:5
 #: ../admin/hooks/admin-post-thumbnail-html.php:6
 #: ../admin/hooks/gettext.php:12 ../admin/hooks/gettext.php:15
 #: ../admin/hooks/gettext.php:18 ../admin/post-types/team.php:30
 msgid "Logo"
-msgstr "ロゴ"
+msgstr "Logo"
 
 #: ../admin/hooks/admin-post-thumbnail-html.php:9
 #: ../admin/hooks/admin-post-thumbnail-html.php:10
@@ -335,101 +335,101 @@ msgstr "ロゴ"
 #: ../admin/hooks/gettext.php:33 ../admin/post-types/player.php:45
 #: ../admin/post-types/staff.php:27
 msgid "Photo"
-msgstr "写真"
+msgstr "Foto"
 
 #: ../admin/hooks/gettext.php:18 ../admin/hooks/gettext.php:33
 #, php-format
 msgid "Remove %s"
-msgstr "%sを削除"
+msgstr "%s entfernen"
 
 #: ../admin/hooks/gettext.php:24 ../admin/post-types/player.php:27
 #: ../admin/post-types/staff.php:45
 msgid "Name"
-msgstr "名前"
+msgstr "Name"
 
 #: ../admin/hooks/gettext.php:36 ../admin/hooks/gettext.php:39
 #: ../admin/hooks/gettext.php:42
 #, php-format
 msgid "Date/Time: <b>%1$s</b>"
-msgstr "キックオフ: <b>%1$s</b>"
+msgstr "Datum/Zeit: <b>%1$s</b>"
 
 #: ../admin/hooks/manage-posts-columns.php:3 ../admin/post-types/event.php:202
 #: ../admin/post-types/list.php:32 ../admin/post-types/player.php:32
 #: ../admin/post-types/staff.php:50 ../admin/post-types/table.php:31
 #: ../admin/post-types/team.php:44
 msgid "Views"
-msgstr "表示回数"
+msgstr "Ansichten"
 
 #: ../admin/hooks/media-buttons.php:7 ../admin/hooks/media-buttons.php:8
 #, php-format
 msgid "Add %s"
-msgstr "新規%sを追加"
+msgstr "%s hinzufügen"
 
 #: ../admin/hooks/media-buttons.php:7
 msgid "Map"
-msgstr "地図"
+msgstr "Karte"
 
 #: ../admin/hooks/media-buttons.php:8 ../admin/post-types/table.php:4
 #: ../admin/post-types/table.php:45 ../admin/widgets/league-table.php:6
 msgid "League Table"
-msgstr "順位表"
+msgstr "Liga Tabelle"
 
 #: ../admin/hooks/plugin-action-links.php:3
 msgid "Settings"
-msgstr "設定"
+msgstr "Einstellungen"
 
 #: ../admin/hooks/post-updated-messages.php:8
 #: ../admin/hooks/post-updated-messages.php:15
 #: ../admin/hooks/post-updated-messages.php:18
 #, php-format
 msgid "%s updated."
-msgstr "%sを更新しました。"
+msgstr "%s aktualisiert."
 
 #: ../admin/hooks/post-updated-messages.php:20
 #, php-format
 msgid "%s published."
-msgstr "%sを公開しました。"
+msgstr "%s veröffentlicht. "
 
 #: ../admin/hooks/post-updated-messages.php:23
 #, php-format
 msgid "%s saved."
-msgstr "%sを保存しました。"
+msgstr "%s gespeichert."
 
 #: ../admin/hooks/post-updated-messages.php:25
 #, php-format
 msgid "%s submitted."
-msgstr "%sを作成しました。"
+msgstr "%s übermittelt."
 
 #: ../admin/hooks/post-updated-messages.php:27
 #: ../admin/hooks/post-updated-messages.php:33
 #: ../admin/hooks/post-updated-messages.php:37
 #, php-format
 msgid "Preview %s"
-msgstr "%sをプレビュー"
+msgstr "Vorschau %s"
 
 #: ../admin/hooks/post-updated-messages.php:30
 #, php-format
 msgid "%s scheduled for: <strong>%s</strong>."
-msgstr "%s公開予定日時: <strong>%s</strong>"
+msgstr "%s geplant für: <strong>%s</strong>."
 
 #: ../admin/hooks/post-updated-messages.php:35
 #, php-format
 msgid "%s draft updated."
-msgstr "%sの下書きを更新しました。"
+msgstr "Der %s entwurf wurde aktualisiert."
 
 #: ../admin/hooks/register-activation-hook.php:8
 msgid "League Manager"
-msgstr "リーグマネージャー"
+msgstr "Liga Manger"
 
 #: ../admin/hooks/register-activation-hook.php:84
 msgid "Team Manager"
-msgstr "チームマネージャー"
+msgstr "Mannschaft-Betriebsleiter"
 
 #: ../admin/hooks/register-activation-hook.php:129
 #: ../admin/post-types/event.php:119 ../admin/post-types/staff.php:3
 #: ../admin/post-types/staff.php:4
 msgid "Staff"
-msgstr "スタッフ"
+msgstr "Personal"
 
 #: ../admin/hooks/restrict-manage-posts.php:8
 #: ../admin/hooks/restrict-manage-posts.php:40
@@ -441,27 +441,27 @@ msgstr "スタッフ"
 #: ../admin/widgets/future-events.php:113
 #: ../admin/widgets/recent-events.php:113
 msgid "Teams"
-msgstr "チーム"
+msgstr "Mannschaften"
 
 #: ../admin/hooks/wp-enqueue-scripts.php:14
 #: ../admin/templates/countdown.php:43
 msgid "days"
-msgstr "日"
+msgstr "Tage"
 
 #: ../admin/hooks/wp-enqueue-scripts.php:14
 #: ../admin/templates/countdown.php:44
 msgid "hrs"
-msgstr "時間"
+msgstr "Stunden"
 
 #: ../admin/hooks/wp-enqueue-scripts.php:14
 #: ../admin/templates/countdown.php:45
 msgid "mins"
-msgstr "分"
+msgstr "Protokoll"
 
 #: ../admin/hooks/wp-enqueue-scripts.php:14
 #: ../admin/templates/countdown.php:46
 msgid "secs"
-msgstr "秒"
+msgstr "Sekunden"
 
 #: ../admin/hooks/wp-insert-post-data.php:13
 msgid "vs"
@@ -469,17 +469,15 @@ msgstr "vs"
 
 #: ../admin/includes/notice-install.php:5
 msgid "<strong>Welcome to SportsPress</strong> &#8211; Get Started"
-msgstr ""
-"<strong>SportsPressへようこそ</strong> &#8211; リンクをクリックしてスタートし"
-"ましょう。"
+msgstr "<strong>Willkommen bei SportsPress</strong> &#8211; Erste Schritte"
 
 #: ../admin/includes/notice-install.php:7
 msgid "Go to SportsPress Settings"
-msgstr "SportsPress設定ページへ"
+msgstr "Gehe zum SportsPress Einstellungen"
 
 #: ../admin/includes/notice-install.php:8
 msgid "Skip setup"
-msgstr "スキップする"
+msgstr "Setup berspringen"
 
 #: ../admin/includes/notice-theme-support.php:6
 msgid ""
@@ -487,25 +485,25 @@ msgid ""
 "you encounter layout issues please read our integration guide or choose a "
 "SportsPress theme :)"
 msgstr ""
-"<strong>あなたのテーマはSportsPressサポートに対応していません。</"
-"strong>&#8211; サイト設計の問題が発生した場合は統合ガイドを読んだり、"
-"SportsPressのテーマを選んで下さい。:)"
+"<strong>Ihr Theme wird nicht von Sportpress unterstützt.</strong>&#8211;  "
+"Wenn Sie Probleme mit dem Layout haben, lesen Sie bitte unsere Integrations "
+"Anleitung oder wählen Sie ein Sportpress Theme :)"
 
 #: ../admin/includes/notice-theme-support.php:8
 msgid "Theme Integration Guide"
-msgstr "テーマ統合ガイド"
+msgstr "Theme Integration Leitfaden"
 
 #: ../admin/includes/notice-theme-support.php:9
 msgid "Hide this notice"
-msgstr "非表示にする"
+msgstr "Verstecken Sie diese Mitteilung"
 
 #: ../admin/post-types/column.php:4
 msgid "Column"
-msgstr "列"
+msgstr "Spalte"
 
 #: ../admin/post-types/column.php:5
 msgid "columns"
-msgstr "列"
+msgstr "Spalten"
 
 #: ../admin/post-types/column.php:26 ../admin/post-types/metric.php:25
 #: ../admin/post-types/outcome.php:26 ../admin/post-types/result.php:26
@@ -513,7 +511,7 @@ msgstr "列"
 #: ../admin/settings/events.php:51 ../admin/settings/players.php:15
 #: ../admin/settings/players.php:47 ../admin/settings/tables.php:15
 msgid "Label"
-msgstr "ラベル"
+msgstr "Etikett"
 
 #: ../admin/post-types/column.php:27 ../admin/post-types/column.php:49
 #: ../admin/post-types/outcome.php:27 ../admin/post-types/outcome.php:39
@@ -521,22 +519,22 @@ msgstr "ラベル"
 #: ../admin/settings/events.php:21 ../admin/settings/events.php:52
 #: ../admin/settings/tables.php:16
 msgid "Key"
-msgstr "キー"
+msgstr "Schlüssel"
 
 #: ../admin/post-types/column.php:28 ../admin/post-types/column.php:53
 #: ../admin/settings/tables.php:17
 msgid "Equation"
-msgstr "方程式"
+msgstr "Gleichung"
 
 #: ../admin/post-types/column.php:29 ../admin/post-types/column.php:61
 #: ../admin/settings/tables.php:18
 msgid "Precision"
-msgstr "浮動小数点数"
+msgstr "Präzision"
 
 #: ../admin/post-types/column.php:30 ../admin/post-types/column.php:65
 #: ../admin/settings/tables.php:19
 msgid "Sort Order"
-msgstr "ソート順"
+msgstr "Sortierung"
 
 #: ../admin/post-types/column.php:37 ../admin/post-types/event.php:41
 #: ../admin/post-types/list.php:49 ../admin/post-types/outcome.php:34
@@ -544,202 +542,202 @@ msgstr "ソート順"
 #: ../admin/post-types/statistic.php:35 ../admin/post-types/table.php:48
 #: ../admin/templates/event-details.php:25
 msgid "Details"
-msgstr "詳細"
+msgstr "Details"
 
 #: ../admin/post-types/column.php:69
 msgid "Disable"
-msgstr "無効化"
+msgstr "Deaktivieren"
 
 #: ../admin/post-types/column.php:77
 msgid "Descending"
-msgstr "降順"
+msgstr "Absteigend"
 
 #: ../admin/post-types/column.php:77
 msgid "Ascending"
-msgstr "昇順"
+msgstr "Aufsteigend"
 
 #: ../admin/post-types/event.php:45 ../admin/post-types/event.php:118
 #: ../admin/post-types/list.php:28 ../admin/post-types/list.php:43
 #: ../admin/post-types/list.php:93 ../admin/post-types/player.php:3
 #: ../admin/settings/settings.php:13
 msgid "Players"
-msgstr "選手"
+msgstr "Spieler"
 
 #: ../admin/post-types/event.php:47
 msgid "Article"
-msgstr "戦評"
+msgstr "Artikel"
 
 #: ../admin/post-types/event.php:56 ../admin/post-types/event.php:198
 #: ../admin/post-types/list.php:29 ../admin/post-types/list.php:58
 #: ../admin/post-types/table.php:28 ../admin/post-types/table.php:56
 #: ../admin/templates/event-details.php:17 ../admin/terms/league.php:4
 msgid "League"
-msgstr "リーグ"
+msgstr "Liga"
 
 #: ../admin/post-types/event.php:82 ../admin/post-types/event.php:200
 #: ../admin/templates/event-venue.php:24 ../admin/terms/venue.php:4
 msgid "Venue"
-msgstr "会場"
+msgstr "Austragungsort"
 
 #: ../admin/post-types/event.php:201
 msgid "Date/Time"
-msgstr "キックオフ"
+msgstr "Datum/Zeit"
 
 #: ../admin/post-types/list.php:3
 msgid "Player Lists"
-msgstr "選手名鑑"
+msgstr "Spieler liste"
 
 #: ../admin/post-types/list.php:4 ../admin/post-types/list.php:46
 msgid "Player List"
-msgstr "選手名鑑"
+msgstr "Spielerliste"
 
 #: ../admin/post-types/list.php:5
 msgid "player lists"
-msgstr "選手名鑑"
+msgstr "Spielerlisten "
 
 #: ../admin/post-types/list.php:27 ../admin/post-types/table.php:27
 msgid "Title"
-msgstr "タイトル"
+msgstr "Titel"
 
 #: ../admin/post-types/metric.php:3 ../admin/post-types/player.php:48
 #: ../admin/settings/players.php:11 ../admin/settings/players.php:29
 msgid "Metrics"
-msgstr "メトリック"
+msgstr "Metrik"
 
 #: ../admin/post-types/metric.php:4 ../admin/post-types/player.php:148
 msgid "Metric"
-msgstr "メトリック"
+msgstr "Metrisch"
 
 #: ../admin/post-types/metric.php:5
 msgid "metrics"
-msgstr "メトリック"
+msgstr "Metrik"
 
 #: ../admin/post-types/outcome.php:5
 msgid "outcome"
-msgstr "勝敗"
+msgstr "Ergebnis"
 
 #: ../admin/post-types/player.php:5
 msgid "players"
-msgstr "選手"
+msgstr "Spieler"
 
 #: ../admin/post-types/player.php:43 ../admin/post-types/staff.php:25
 #: ../admin/post-types/team.php:28
 msgid "Publish"
-msgstr "公開"
+msgstr "Veröffentlichen"
 
 #: ../admin/post-types/player.php:51 ../admin/post-types/statistic.php:3
 #: ../admin/settings/players.php:43 ../admin/settings/players.php:61
 msgid "Statistics"
-msgstr "統計"
+msgstr "Statistiken"
 
 #: ../admin/post-types/player.php:54 ../admin/post-types/staff.php:29
 msgid "Profile"
-msgstr "プロフィール"
+msgstr "Profil"
 
 #: ../admin/post-types/player.php:74 ../admin/templates/player-metrics.php:15
 msgid "Number"
-msgstr "背番号"
+msgstr "Anzahl"
 
 #: ../admin/post-types/player.php:80 ../admin/templates/player-metrics.php:16
 msgid "Nationality"
-msgstr "国籍"
+msgstr "Staatsangehörigkeit"
 
 #: ../admin/post-types/player.php:98
 msgid "Current Team"
-msgstr "現チーム"
+msgstr "Aktuelles Team"
 
 #: ../admin/post-types/player.php:149
 msgid "Value"
-msgstr "値"
+msgstr "Wert"
 
 #: ../admin/post-types/result.php:4
 msgid "Result"
-msgstr "結果"
+msgstr "Resultat"
 
 #: ../admin/post-types/result.php:5
 msgid "result"
-msgstr "結果"
+msgstr "Resultat"
 
 #: ../admin/post-types/staff.php:5
 msgid "staff"
-msgstr "スタッフ"
+msgstr "Personal"
 
 #: ../admin/post-types/statistic.php:4
 msgid "Statistic"
-msgstr "統計"
+msgstr "statistisch"
 
 #: ../admin/post-types/statistic.php:5
 msgid "statistics"
-msgstr "統計"
+msgstr "Statistiken"
 
 #: ../admin/post-types/statistic.php:28 ../admin/post-types/statistic.php:41
 #: ../admin/settings/players.php:49
 msgid "Calculate"
-msgstr "計算"
+msgstr "berechnen"
 
 #: ../admin/post-types/table.php:3 ../admin/settings/settings.php:12
 msgid "League Tables"
-msgstr "順位表"
+msgstr "Liga Tabellen"
 
 #: ../admin/post-types/table.php:5
 msgid "league tables"
-msgstr "順位表"
+msgstr "Liga Tabellen"
 
 #: ../admin/post-types/team.php:5
 msgid "teams"
-msgstr "チーム"
+msgstr "Mannschaften"
 
 #: ../admin/presets/baseball.php:5
 msgid "Baseball"
-msgstr "野球"
+msgstr "Baseball"
 
 #: ../admin/presets/basketball.php:5
 msgid "Basketball"
-msgstr "バスケットボール"
+msgstr "Basketball"
 
 #: ../admin/presets/cricket.php:5
 msgid "Cricket"
-msgstr "クリケット"
+msgstr "Kricket"
 
 #: ../admin/presets/football.php:5
 msgid "American Football"
-msgstr "アメリカンフットボール"
+msgstr "American Football"
 
 #: ../admin/presets/footy.php:5
 msgid "Australian Rules Football"
-msgstr "オージーフットボール"
+msgstr "Australian Rules Football"
 
 #: ../admin/presets/gaming.php:5
 msgid "Competitive Gaming"
-msgstr "ゲーミング"
+msgstr "Competitive Gaming"
 
 #: ../admin/presets/golf.php:5
 msgid "Golf"
-msgstr "ゴルフ"
+msgstr "Golf"
 
 #: ../admin/presets/hockey.php:5
 msgid "Hockey"
-msgstr "ホッケー"
+msgstr "Hockey"
 
 #: ../admin/presets/racing.php:5
 msgid "Racing"
-msgstr "レーシング"
+msgstr "Rennsport"
 
 #: ../admin/presets/rugby.php:5
 msgid "Rugby"
-msgstr "ラグビー"
+msgstr "Rugby"
 
 #: ../admin/presets/soccer.php:5
 msgid "Soccer (Association Football)"
-msgstr "サッカー"
+msgstr "Fußball"
 
 #: ../admin/settings/events.php:1
 msgid "Event Settings"
-msgstr "イベント設定"
+msgstr "Einstellungen Veranstaltungen"
 
 #: ../admin/settings/general.php:1
 msgid "General Settings"
-msgstr "一般設定"
+msgstr "Allgemeinen Einstellungen"
 
 #: ../admin/settings/settings.php:10 ../admin/settings/settings.php:236
 #: ../admin/settings/settings.php:237
@@ -748,15 +746,15 @@ msgstr "SportsPress"
 
 #: ../admin/settings/settings.php:59 ../admin/widgets/countdown.php:43
 msgid "(Auto)"
-msgstr "(自動)"
+msgstr "(Automatisch)"
 
 #: ../admin/settings/settings.php:98
 msgid "Sport"
-msgstr "スポーツ"
+msgstr "Sport"
 
 #: ../admin/settings/settings.php:119
 msgid "Main Result"
-msgstr "主な結果"
+msgstr "Haupt Ergebnis"
 
 #. translators: Calendar caption: 1: month name, 2: 4-digit year
 #: ../admin/templates/events-calendar.php:56
@@ -765,7 +763,7 @@ msgstr "主な結果"
 #, php-format
 msgctxt "calendar caption"
 msgid "%1$s %2$s"
-msgstr "%2$s年%1$s月"
+msgstr "%1$s %2$s"
 
 #: ../admin/templates/league-table.php:9
 msgid "Pos"
@@ -773,107 +771,110 @@ msgstr "Pos"
 
 #: ../admin/terms/league.php:5
 msgid "league"
-msgstr "リーグ"
+msgstr "Liga"
 
 #: ../admin/terms/position.php:4
 msgid "Position"
-msgstr "ポジション"
+msgstr "Position"
 
 #: ../admin/terms/position.php:5
 msgid "position"
-msgstr "ポジション"
+msgstr "Position"
 
 #: ../admin/terms/season.php:5
 msgid "season"
-msgstr "シーズン"
+msgstr "Saison"
 
 #: ../admin/terms/venue.php:5
 msgid "venue"
-msgstr "会場"
+msgstr "Austragungsort"
 
 #: ../admin/terms/venue.php:27 ../admin/terms/venue.php:74
 msgid "Address"
-msgstr "住所"
+msgstr "Adresse"
 
 #: ../admin/terms/venue.php:34
 msgid "Latitude"
-msgstr "緯度"
+msgstr "Breite"
 
 #: ../admin/terms/venue.php:40
 msgid "Longitude"
-msgstr "経度"
+msgstr "Länge"
 
 #: ../admin/widgets/countdown.php:5 ../admin/widgets/events-calendar.php:5
 #: ../admin/widgets/future-events.php:5 ../admin/widgets/league-table.php:5
 #: ../admin/widgets/recent-events.php:5
 msgid "SportsPress widget."
-msgstr "SportsPressウィジェット"
+msgstr "SportsPress Widget."
 
 #: ../admin/widgets/countdown.php:6 ../admin/widgets/countdown.php:11
 msgid "Countdown"
-msgstr "カウントダウン"
+msgstr "Countdown"
 
 #: ../admin/widgets/countdown.php:33 ../admin/widgets/events-calendar.php:32
 #: ../admin/widgets/future-events.php:55 ../admin/widgets/league-table.php:38
 #: ../admin/widgets/recent-events.php:55
 msgid "Title:"
-msgstr "タイトル:"
+msgstr "Titel:"
 
 #: ../admin/widgets/countdown.php:36
 msgid "Event:"
-msgstr "イベント:"
+msgstr "Veranstaltung:"
 
 #: ../admin/widgets/events-calendar.php:6
 msgid "Events Calendar"
-msgstr "イベントカレンダー"
+msgstr "Veranstaltungskalender"
 
 #: ../admin/widgets/future-events.php:6 ../admin/widgets/future-events.php:11
 msgid "Future Events"
-msgstr "試合日程"
+msgstr "Zukünftige Veranstaltungen"
 
 #: ../admin/widgets/future-events.php:58 ../admin/widgets/recent-events.php:58
 msgid "League:"
-msgstr "リーグ:"
+msgstr "Liga:"
 
 #: ../admin/widgets/future-events.php:74 ../admin/widgets/recent-events.php:74
 msgid "Season:"
-msgstr "シーズン:"
+msgstr "Saison:"
 
 #: ../admin/widgets/future-events.php:90 ../admin/widgets/recent-events.php:90
 msgid "Venue:"
-msgstr "会場:"
+msgstr "Austragungsort:"
 
 #: ../admin/widgets/future-events.php:106
 #: ../admin/widgets/recent-events.php:106
 msgid "Team:"
-msgstr "チーム:"
+msgstr "Mannschaft:"
 
 #: ../admin/widgets/future-events.php:123
 #: ../admin/widgets/recent-events.php:123
 #, php-format
 msgid "Number of %s to show:"
-msgstr "表示する%sの数:"
+msgstr "Anzahl der %s zu zeigen:"
 
 #: ../admin/widgets/league-table.php:41
 msgid "League Table:"
-msgstr "順位表:"
+msgstr "Liga Tabelle:"
 
 #: ../admin/widgets/league-table.php:58
 msgid "Columns:"
-msgstr "列:"
+msgstr "Spalten:"
 
 #: ../admin/widgets/recent-events.php:6 ../admin/widgets/recent-events.php:11
 msgid "Recent Events"
-msgstr "試合記録"
+msgstr "Vergangene Veranstaltungen"
 
-#~ msgid "1 View"
-#~ msgstr "1回"
+#~ msgid "%1$s %2$s"
+#~ msgstr "%1$s %2$s"
 
 #~ msgid "Select"
-#~ msgstr "選択"
+#~ msgstr "Sélectionner"
 
 #~ msgid "-- Not Set --"
-#~ msgstr "-- 未設定 --"
+#~ msgstr "-- Pas réglé --"
+
+#~ msgid "1 View"
+#~ msgstr "1 vue"
 
 #~ msgid "positions"
 #~ msgstr "ポジション"
@@ -909,9 +910,6 @@ msgstr "試合記録"
 
 #~ msgid "Red Cards"
 #~ msgstr "退場"
-
-#~ msgid "%1$s %2$s"
-#~ msgstr "%2$s年%1$s月"
 
 #~ msgid "#"
 #~ msgstr "#"
