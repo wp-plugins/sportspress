@@ -4,7 +4,7 @@ Tags: sports, sports journalism, teams, team management, fixtures, results, stan
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=support@themeboy.com&item_name=Donation+for+SportsPress
 Requires at least: 3.8
 Tested up to: 3.8.1
-Stable tag: 0.2.8
+Stable tag: 0.2.9
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -31,7 +31,7 @@ League table columns, player statistics, and match results can be customized to 
 == Installation ==
 
 = Minimum Requirements =
-* WordPress 3.5 or greater (WordPress 3.8 recommended)
+* WordPress 3.8 or greater
 * PHP version 5.2.4 or greater
 * MySQL version 5.0 or greater
 
@@ -90,6 +90,10 @@ SportsPress is currently in beta and is undergoing testing. We are still activel
 5. League Table widget.
 
 == Changelog ==
+
+= 0.2.9 =
+* Feature - Ability to select players from all teams in player list.
+* Fix - Decimal sorting in league tables and player lists.
 
 = 0.2.8 =
 * Feature - Add player list widget.
