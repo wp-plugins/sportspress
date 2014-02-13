@@ -237,7 +237,7 @@ if ( !function_exists( 'sportspress_dropdown_taxonomies' ) ) {
 		$name = ( $args['name'] ) ? $args['name'] : $args['taxonomy'];
 		$class = $args['class'];
 		unset( $args['class'] );
-		if ( $terms ) {
+		if ( $terms ):
 			printf( '<select name="%1$s" class="postform %2$s">', $name, $class );
 			if ( $args['show_option_all'] ) {
 				printf( '<option value="0">%s</option>', $args['show_option_all'] );
@@ -252,7 +252,10 @@ if ( !function_exists( 'sportspress_dropdown_taxonomies' ) ) {
 					printf( '<option value="%s" %s>%s</option>', $term->slug, selected( true, $args['selected'] == $term->slug, false ), $term->name );
 			}
 			print( '</select>' );
-		}
+			return true;
+		else:
+			return false;
+		endif;
 	}
 }
 
@@ -285,29 +288,37 @@ if ( !function_exists( 'sportspress_dropdown_pages' ) ) {
 		    'class' => null,
 		);
 		$args = array_merge( $defaults, $args );
+
 		$name = $args['name'];
 		unset( $args['name'] );
+
 		$id = $args['id'];
 		unset( $args['id'] );
+
 		$values = $args['values'];
 		unset( $args['values'] );
+
 		$class = $args['class'];
 		unset( $args['class'] );
+
+		$selected = $args['selected'];
+		unset( $args['selected'] );
+		
 		$posts = get_posts( $args );
 		if ( $posts ):
 			printf( '<select name="%s" id="%s" class="postform %s">', $name, $id, $class );
 			if ( $args['show_option_all'] ):
-				printf( '<option value="%s" %s>%s</option>', $args['option_all_value'], selected( $args['selected'], $args['option_all_value'], false ), $args['show_option_all'] );
+				printf( '<option value="%s" %s>%s</option>', $args['option_all_value'], selected( $selected, $args['option_all_value'], false ), $args['show_option_all'] );
 			endif;
 			if ( $args['show_option_none'] ):
-				printf( '<option value="%s" %s>%s</option>', $args['option_none_value'], selected( $args['selected'], $args['option_none_value'], false ), $args['show_option_none'] );
+				printf( '<option value="%s" %s>%s</option>', $args['option_none_value'], selected( $selected, $args['option_none_value'], false ), $args['show_option_none'] );
 			endif;
 			foreach ( $posts as $post ):
 				setup_postdata( $post );
 				if ( $values == 'ID' ):
-					printf( '<option value="%s" %s>%s</option>', $post->ID, selected( $args['selected'], $post->ID, false ), $post->post_title . ( $args['show_dates'] ? ' (' . $post->post_date . ')' : '' ) );
+					printf( '<option value="%s" %s>%s</option>', $post->ID, selected( $selected, $post->ID, false ), $post->post_title . ( $args['show_dates'] ? ' (' . $post->post_date . ')' : '' ) );
 				else:
-					printf( '<option value="%s" %s>%s</option>', $post->post_name, selected( $args['selected'], $post->post_name, false ), $post->post_title );
+					printf( '<option value="%s" %s>%s</option>', $post->post_name, selected( $selected, $post->post_name, false ), $post->post_title );
 				endif;
 			endforeach;
 			wp_reset_postdata();
@@ -1065,12 +1076,27 @@ if ( !function_exists( 'sportspress_player_nationality_selector' ) ) {
 }
 
 if ( !function_exists( 'sportspress_post_adder' ) ) {
-	function sportspress_post_adder( $meta = 'post' ) {
-		$obj = get_post_type_object( $meta );
+	function sportspress_post_adder( $post_type = 'post' ) {
+		$obj = get_post_type_object( $post_type );
 		?>
-		<div id="<?php echo $meta; ?>-adder">
+		<div id="<?php echo $post_type; ?>-adder">
 			<h4>
-				<a title="<?php echo sprintf( esc_attr__( 'Add New %s', 'sportspress' ), esc_attr__( 'Team', 'sportspress' ) ); ?>" href="<?php echo admin_url( 'post-new.php?post_type=' . $meta ); ?>" target="_blank">
+				<a title="<?php echo sprintf( esc_attr__( 'Add New %s', 'sportspress' ), esc_attr( $obj->labels->singular_name ) ); ?>" href="<?php echo admin_url( 'post-new.php?post_type=' . $post_type ); ?>" target="_blank">
+					+ <?php echo sprintf( __( 'Add New %s', 'sportspress' ), $obj->labels->singular_name ); ?>
+				</a>
+			</h4>
+		</div>
+		<?php
+	}
+}
+
+if ( !function_exists( 'sportspress_taxonomy_adder' ) ) {
+	function sportspress_taxonomy_adder( $taxonomy = 'category', $post_type = 'post' ) {
+		$obj = get_taxonomy( $taxonomy );
+		?>
+		<div id="<?php echo $taxonomy; ?>-adder">
+			<h4>
+				<a title="<?php echo sprintf( esc_attr__( 'Add New %s', 'sportspress' ), esc_attr( $obj->labels->singular_name ) ); ?>" href="<?php echo admin_url( 'edit-tags.php?taxonomy=' . $taxonomy . '&post_type=' . $post_type ); ?>" target="_blank">
 					+ <?php echo sprintf( __( 'Add New %s', 'sportspress' ), $obj->labels->singular_name ); ?>
 				</a>
 			</h4>
@@ -1888,7 +1914,9 @@ if ( !function_exists( 'sportspress_get_player_list_data' ) ) {
 						continue;
 
 					// Increment events played
-					$totals[ $player_id ]['eventsplayed']++;
+					if ( sportspress_array_value( $player_statistics, 'status' ) != 'sub' || sportspress_array_value( $player_statistics, 'sub', 0 ) ): 
+						$totals[ $player_id ]['eventsplayed']++;
+					endif;
 
 					foreach ( $player_statistics as $key => $value ):
 
@@ -1910,7 +1938,9 @@ if ( !function_exists( 'sportspress_get_player_list_data' ) ) {
 							continue;
 
 						// Increment events played
-						$totals[ $player_id ]['eventsplayed']++;
+						if ( sportspress_array_value( $player_statistics, 'status' ) != 'sub' || sportspress_array_value( $player_statistics, 'sub', 0 ) ): 
+							$totals[ $player_id ]['eventsplayed']++;
+						endif;
 
 						foreach ( $player_statistics as $key => $value ):
 
@@ -2069,6 +2099,10 @@ if ( !function_exists( 'sportspress_get_player_metrics_data' ) ) {
 
 		foreach( $metric_labels as $key => $value ):
 
+			$metric = sportspress_array_value( $metrics, $key, null );
+			if ( $metric == null )
+				continue;
+
 			$data[ $value ] = sportspress_array_value( $metrics, $key, '&nbsp;' );
 
 		endforeach;
@@ -2148,11 +2182,6 @@ if ( !function_exists( 'sportspress_get_player_statistics_data' ) ) {
 				'numberposts' => -1,
 				'posts_per_page' => -1,
 				'meta_query' => array(
-					'relation' => 'AND',
-					array(
-						'key' => 'sp_team',
-						'value' => $team_id
-					),
 					array(
 						'key' => 'sp_player',
 						'value' => $post_id
@@ -2176,19 +2205,22 @@ if ( !function_exists( 'sportspress_get_player_statistics_data' ) ) {
 
 			foreach( $events as $event ):
 				$totals['eventsattended']++;
-				$totals['eventsplayed']++;
 				$team_statistics = (array)get_post_meta( $event->ID, 'sp_players', true );
-				if ( array_key_exists( $team_id, $team_statistics ) ):
-					$players = sportspress_array_value( $team_statistics, $team_id, array() );
+
+				// Add all team statistics
+				foreach ( $team_statistics as $players ):
 					if ( array_key_exists( $post_id, $players ) ):
 						$player_statistics = sportspress_array_value( $players, $post_id, array() );
+						if ( sportspress_array_value( $player_statistics, 'status' ) != 'sub' || sportspress_array_value( $player_statistics, 'sub', 0 ) ): 
+							$totals['eventsplayed']++;
+						endif;
 						foreach ( $player_statistics as $key => $value ):
 							if ( array_key_exists( $key, $totals ) ):
 								$totals[ $key ] += $value;
 							endif;
 						endforeach;
 					endif;
-				endif;
+				endforeach;
 			endforeach;
 
 			// Generate array of placeholder values for each league
