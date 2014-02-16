@@ -4,7 +4,7 @@ Tags: sports, sports journalism, teams, team management, fixtures, results, stan
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=support@themeboy.com&item_name=Donation+for+SportsPress
 Requires at least: 3.8
 Tested up to: 3.8.1
-Stable tag: 0.3.2
+Stable tag: 0.3.3
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -105,6 +105,10 @@ SportsPress is currently in beta and is undergoing testing. We are still activel
 8. Countdown widget.
 
 == Changelog ==
+
+= 0.3.3 =
+* Feature - Add default sorting options per player list.
+* Feature - Add option to sort player list alphabetically by name or by default.
 
 = 0.3.2 =
 * Feature - Add England, Scotland, Northern Ireland, and Wales to countries selector.
