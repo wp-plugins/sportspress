@@ -168,12 +168,12 @@ if ( !function_exists( 'sportspress_get_post_calculate' ) ) {
 		$calculate = get_post_meta ( $post_id, 'sp_calculate', true );
 		if ( $calculate ):
 			return str_replace(
-				array( 'sum', 'average' ),
-				array( __( 'Sum', 'sportspress' ), __( 'Average', 'sportspress' ) ),
+				array( 'total', 'average' ),
+				array( __( 'Total', 'sportspress' ), __( 'Average', 'sportspress' ) ),
 				$calculate
 			);
 		else:
-			return __( 'Sum', 'sportspress' );
+			return __( 'Total', 'sportspress' );
 		endif;
 	}
 }
@@ -262,6 +262,8 @@ if ( !function_exists( 'sportspress_dropdown_taxonomies' ) ) {
 if ( !function_exists( 'sportspress_dropdown_pages' ) ) {
 	function sportspress_dropdown_pages( $args = array() ) {
 		$defaults = array(
+			'prepend_options' => null,
+			'append_options' => null,
 			'show_option_all' => false,
 			'show_option_none' => false,
 			'show_dates' => false,
@@ -305,13 +307,18 @@ if ( !function_exists( 'sportspress_dropdown_pages' ) ) {
 		unset( $args['selected'] );
 		
 		$posts = get_posts( $args );
-		if ( $posts ):
+		if ( $posts || $prepend || $append ):
 			printf( '<select name="%s" id="%s" class="postform %s">', $name, $id, $class );
 			if ( $args['show_option_all'] ):
 				printf( '<option value="%s" %s>%s</option>', $args['option_all_value'], selected( $selected, $args['option_all_value'], false ), $args['show_option_all'] );
 			endif;
 			if ( $args['show_option_none'] ):
 				printf( '<option value="%s" %s>%s</option>', $args['option_none_value'], selected( $selected, $args['option_none_value'], false ), $args['show_option_none'] );
+			endif;
+			if ( $args['prepend_options'] && is_array( $args['prepend_options'] ) ):
+				foreach( $args['prepend_options'] as $slug => $label ):
+					printf( '<option value="%s" %s>%s</option>', $slug, selected( $selected, $slug, false ), $label );
+				endforeach;
 			endif;
 			foreach ( $posts as $post ):
 				setup_postdata( $post );
@@ -322,6 +329,11 @@ if ( !function_exists( 'sportspress_dropdown_pages' ) ) {
 				endif;
 			endforeach;
 			wp_reset_postdata();
+			if ( $args['append_options'] && is_array( $args['append_options'] ) ):
+				foreach( $args['append_options'] as $slug => $label ):
+					printf( '<option value="%s" %s>%s</option>', $slug, selected( $selected, $slug, false ), $label );
+				endforeach;
+			endif;
 			print( '</select>' );
 			return true;
 		else:
@@ -426,7 +438,7 @@ if ( !function_exists( 'sportspress_post_checklist' ) ) {
 if ( !function_exists( 'sportspress_calculate_selector' ) ) {
 	function sportspress_calculate_selector( $postid, $selected = null ) {
 		$options = array(
-			'sum' => __( 'Sum', 'sportspress' ),
+			'total' => __( 'Total', 'sportspress' ),
 			'average' => __( 'Average', 'sportspress' ),
 		);
 		?>
@@ -867,7 +879,21 @@ if ( !function_exists( 'sportspress_edit_player_statistics_table' ) ) {
 										),
 									),
 								);
-								sportspress_dropdown_pages( $args );
+								if ( ! sportspress_dropdown_pages( $args ) ):
+									$args = array(
+										'post_type' => 'sp_team',
+										'name' => 'sp_leagues[' . $league_id . '][' . $div_id . ']',
+										'show_option_none' => __( '-- Not set --', 'sportspress' ),
+									    'sort_order'   => 'ASC',
+									    'sort_column'  => 'menu_order',
+										'selected' => $value,
+										'values' => 'ID',
+										'include' => $teams,
+									);
+									if ( ! sportspress_dropdown_pages( $args ) ):
+										echo '&mdash;';
+									endif;
+								endif;
 								?>
 							</td>
 							<?php foreach( $columns as $column => $label ):
@@ -1826,6 +1852,8 @@ if ( !function_exists( 'sportspress_get_player_list_data' ) ) {
 		$team_id = get_post_meta( $post_id, 'sp_team', true );
 		$player_ids = (array)get_post_meta( $post_id, 'sp_player', false );
 		$stats = (array)get_post_meta( $post_id, 'sp_players', true );
+		$orderby = get_post_meta( $post_id, 'sp_orderby', true );
+		$order = get_post_meta( $post_id, 'sp_order', true );
 
 		// Get labels from result variables
 		$columns = (array)sportspress_get_var_labels( 'sp_statistic' );
@@ -1997,7 +2025,7 @@ if ( !function_exists( 'sportspress_get_player_list_data' ) ) {
 				if ( sportspress_array_value( $placeholders[ $player_id ], $statistic->post_name, '' ) == '' ):
 
 					if ( $statistic->post_name == 'eventsplayed' ):
-						$calculate = 'sum';
+						$calculate = 'total';
 					else:
 						$calculate = get_post_meta( $statistic->ID, 'sp_calculate', true );
 					endif;
@@ -2043,6 +2071,17 @@ if ( !function_exists( 'sportspress_get_player_list_data' ) ) {
 			endforeach;
 		endforeach;
 
+		if ( $orderby != 'number' || $order != 'ASC' ):
+			global $sportspress_statistic_priorities;
+			$sportspress_statistic_priorities = array(
+				array(
+					'statistic' => $orderby,
+					'order' => $order,
+				),
+			);
+			uasort( $merged, 'sportspress_sort_list_players' );
+		endif;
+
 		// Rearrange data array to reflect statistics
 		$data = array();
 		foreach( $merged as $key => $value ):
@@ -2050,7 +2089,7 @@ if ( !function_exists( 'sportspress_get_player_list_data' ) ) {
 		endforeach;
 
 		if ( $admin ):
-			return array( $columns, $tempdata, $placeholders, $merged );
+			return array( $columns, $data, $placeholders, $merged );
 		else:
 			$labels = array_merge( array( 'name' => __( 'Player', 'sportspress' ) ), $columns );
 			$merged[0] = $labels;
@@ -2070,8 +2109,16 @@ if ( !function_exists( 'sportspress_sort_list_players' ) ) {
 			// Proceed if columns are not equal
 			if ( sportspress_array_value( $a, $priority['statistic'], 0 ) != sportspress_array_value( $b, $priority['statistic'], 0 ) ):
 
-				// Compare statistic values
-				$output = sportspress_array_value( $a, $priority['statistic'], 0 ) - sportspress_array_value( $b, $priority['statistic'], 0 );
+				if ( $priority['statistic'] == 'name' ):
+
+					$output = strcmp( sportspress_array_value( $a, 'name', null ), sportspress_array_value( $b, 'name', null ) );
+
+				else:
+
+					// Compare statistic values
+					$output = sportspress_array_value( $a, $priority['statistic'], 0 ) - sportspress_array_value( $b, $priority['statistic'], 0 );
+
+				endif;
 
 				// Flip value if descending order
 				if ( $priority['order'] == 'DESC' ) $output = 0 - $output;
@@ -2083,7 +2130,7 @@ if ( !function_exists( 'sportspress_sort_list_players' ) ) {
 		endforeach;
 
 		// Default sort by number
-		return strcmp( sportspress_array_value( $a, 'number', '' ), sportspress_array_value( $b, 'number', '' ) );
+		return sportspress_array_value( $a, 'number', 0 ) - sportspress_array_value( $b, 'number', 0 );
 	}
 }
 
@@ -2145,7 +2192,7 @@ if ( !function_exists( 'sportspress_get_player_statistics_data' ) ) {
 		$statistics = get_posts( $args );
 
 		$statistic_labels = array();
-		$equations = array( 'eventsplayed' => 'sum' );
+		$equations = array( 'eventsplayed' => 'total' );
 		foreach ( $statistics as $statistic ):
 			$statistic_labels[ $statistic->post_name ] = $statistic->post_title;
 			$equations[ $statistic->post_name ] = get_post_meta( $statistic->ID, 'sp_calculate', true );

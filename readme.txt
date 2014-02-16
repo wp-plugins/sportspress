@@ -4,7 +4,7 @@ Tags: sports, sports journalism, teams, team management, fixtures, results, stan
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=support@themeboy.com&item_name=Donation+for+SportsPress
 Requires at least: 3.8
 Tested up to: 3.8.1
-Stable tag: 0.3
+Stable tag: 0.3.3
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -13,6 +13,18 @@ SportsPress is a fully configurable sports plugin that seemlessly automates leag
 == Description ==
 
 Add schedules, results, league tables, player profiles and statistics to your team or league site with SportsPress. It is designed to work with virtually every WordPress theme, and includes several language translations.
+
+= Features =
+* Team Profiles
+* League Tables
+* Events (Fixtures & Results)
+* Events Calendar
+* Player Profiles & Statistics Per Position
+* Player Lists
+* Staff Profiles
+* Season Archives
+* Venue Information & Maps
+* Statistics & League Table Columns Configuration
 
 = Customizable =
 
@@ -94,8 +106,25 @@ SportsPress is currently in beta and is undergoing testing. We are still activel
 
 == Changelog ==
 
+= 0.3.3 =
+* Feature - Add default sorting options per player list.
+* Feature - Add option to sort player list alphabetically by name or by default.
+
+= 0.3.2 =
+* Feature - Add England, Scotland, Northern Ireland, and Wales to countries selector.
+* Feature - Enable searching for countries in dropdown.
+
+= 0.3.1 =
+* Feature - Import tool added for importing teams from CSV file.
+* Tweak - Added option to select custom sport and enter sport name.
+* Tweak - Display player number under photo in admin screen.
+* Tweak - Positions, Leagues, and Seasons columns added to player import tool.
+* Tweak - Styled SportsPress setup notice.
+* Refactor - Sum changed to Total in player statistic calculation settings.
+
 = 0.3 =
 * Feature - Import tool added for importing players from CSV file.
+* Feature - Add ability to select 
 * Tweak - Display current team indicator in players admin screen.
 
 = 0.2.10 =

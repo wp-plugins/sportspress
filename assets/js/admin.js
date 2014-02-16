@@ -1,5 +1,17 @@
 jQuery(document).ready(function($){
 
+	// Display custom sport name field as needed
+	$("body.settings_page_sportspress #sportspress_sport").change(function() {
+		$target = $("#sportspress_custom_sport_name");
+		if ( $(this).val() == "custom" )
+			$target.show();
+		else
+			$target.hide();
+	});
+
+	// Chosen select
+	$(".chosen-select").chosen();
+
 	// Auto key placeholder
 	$("#poststuff #title").on("keyup", function() {
 		$("#sp_key").attr("placeholder", $(this).val().replace(/[^a-z]/gi,"").toLowerCase());
@@ -7,6 +19,11 @@ jQuery(document).ready(function($){
 
 	// Activate auto key placeholder
 	$("#poststuff #title").keyup();
+
+	// Orderby affects order select in widget options
+	$("body.widgets-php").on("change", ".sp-select-orderby", function() {
+		$(this).closest(".widget-content").find(".sp-select-order").prop("disabled", $(this).val() == "default");
+	});
 
 	// Tab switcher
 	$(".sp-tab-panel").siblings(".sp-tab-bar").find("a").click(function() {
