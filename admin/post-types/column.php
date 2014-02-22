@@ -1,11 +1,18 @@
 <?php
 function sportspress_column_post_init() {
-	$name = __( 'Columns', 'sportspress' );
-	$singular_name = __( 'Column', 'sportspress' );
-	$lowercase_name = __( 'columns', 'sportspress' );
-	$labels = sportspress_get_post_labels( $name, $singular_name, $lowercase_name, true );
+	$labels = array(
+		'name' => __( 'Columns', 'sportspress' ),
+		'singular_name' => __( 'Column', 'sportspress' ),
+		'add_new_item' => __( 'Add New', 'sportspress' ),
+		'edit_item' => __( 'Edit', 'sportspress' ),
+		'new_item' => __( 'New', 'sportspress' ),
+		'view_item' => __( 'View', 'sportspress' ),
+		'search_items' => __( 'Search', 'sportspress' ),
+		'not_found' => __( 'No results found.', 'sportspress' ),
+		'not_found_in_trash' => __( 'No results found.', 'sportspress' ),
+	);
 	$args = array(
-		'label' => $name,
+		'label' => __( 'Columns', 'sportspress' ),
 		'labels' => $labels,
 		'public' => false,
 		'show_ui' => true,
@@ -26,7 +33,7 @@ function sportspress_column_edit_columns() {
 		'title' => __( 'Label', 'sportspress' ),
 		'sp_key' => __( 'Key', 'sportspress' ),
 		'sp_equation' => __( 'Equation', 'sportspress' ),
-		'sp_precision' => __( 'Precision', 'sportspress' ),
+		'sp_precision' => __( 'Rounding', 'sportspress' ),
 		'sp_order' => __( 'Sort Order', 'sportspress' ),
 	);
 	return $columns;
@@ -44,7 +51,7 @@ function sportspress_column_details_meta( $post ) {
 	$precision = get_post_meta( $post->ID, 'sp_precision', true );
 
 	// Defaults
-	if ( $precision == '' ) $precision = 1;
+	if ( $precision == '' ) $precision = 0;
 	?>
 	<p><strong><?php _e( 'Key', 'sportspress' ); ?></strong></p>
 	<p>
@@ -58,15 +65,19 @@ function sportspress_column_details_meta( $post ) {
 		endforeach;
 		?>
 	</p>
-	<p><strong><?php _e( 'Precision', 'sportspress' ); ?></strong></p>
+	<p><strong><?php _e( 'Rounding', 'sportspress' ); ?></strong></p>
 	<p class="sp-precision-selector">
-		<input name="sp_precision" type="text" size="4" id="sp_precision" value="<?php echo $precision; ?>" placeholder="1">
+		<input name="sp_precision" type="text" size="4" id="sp_precision" value="<?php echo $precision; ?>" placeholder="0">
 	</p>
 	<p><strong><?php _e( 'Sort Order', 'sportspress' ); ?></strong></p>
 	<p class="sp-order-selector">
 		<select name="sp_priority">
 			<?php
-			$options = array( '0' => __( 'Disable', 'sportspress' ), '1' => '1', '2' => '2', '3' => '3', '4' => '4', '5' => '5', '6' => '6', '7' => '7', '8' => '8', '9' => '9', '10' => '10',  );
+			$options = array( '0' => __( 'Disable', 'sportspress' ) );
+			$count = wp_count_posts( 'sp_column' );
+			for( $i = 1; $i <= $count->publish; $i++ ):
+				$options[ $i ] = $i;
+			endfor;
 			foreach ( $options as $key => $value ):
 				printf( '<option value="%s" %s>%s</option>', $key, selected( true, $key == $priority, false ), $value );
 			endforeach;

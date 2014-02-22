@@ -2,8 +2,8 @@
 class SportsPress_Widget_Player_list extends WP_Widget {
 
 	function __construct() {
-		$widget_ops = array('classname' => 'widget_player_list widget_sp_player_list', 'description' => __( 'SportsPress widget.', 'sportspress' ) );
-		parent::__construct('sp_player_list', __( 'Player List', 'sportspress' ), $widget_ops);
+		$widget_ops = array('classname' => 'widget_player_list widget_sp_player_list', 'description' => __( 'Display a list of players.', 'sportspress' ) );
+		parent::__construct('sp_player_list', __( 'SportsPress Player List', 'sportspress' ), $widget_ops);
 	}
 
 	function widget( $args, $instance ) {
@@ -55,7 +55,7 @@ class SportsPress_Widget_Player_list extends WP_Widget {
 			'class' => 'widefat',
 		);
 		if ( ! sportspress_dropdown_pages( $args ) ):
-			sportspress_post_adder( 'sp_list' );
+			sportspress_post_adder( 'sp_list', __( 'Add New', 'sportspress' ) );
 		endif;
 		?>
 		</p>
@@ -98,7 +98,7 @@ class SportsPress_Widget_Player_list extends WP_Widget {
 			'class' => 'sp-select-orderby widefat',
 		);
 		if ( ! sportspress_dropdown_pages( $args ) ):
-			sportspress_post_adder( 'sp_list' );
+			sportspress_post_adder( 'sp_list', __( 'Add New', 'sportspress' ) );
 		endif;
 		?>
 		</p>

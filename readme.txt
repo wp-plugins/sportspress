@@ -4,7 +4,7 @@ Tags: sports, sports journalism, teams, team management, fixtures, results, stan
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=support@themeboy.com&item_name=Donation+for+SportsPress
 Requires at least: 3.8
 Tested up to: 3.8.1
-Stable tag: 0.3.3
+Stable tag: 0.4
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -67,9 +67,50 @@ Automatic updates should work like a charm; as always though, ensure you backup 
 
 If on the off-chance you do encounter issues with the event/team/player/staff pages after an update you simply need to flush the permalinks by going to WordPress > Settings > Permalinks and hitting 'save'. That should return things to normal.
 
-= Settings =
+= General Settings =
 
-SportsPress comes with settings for some sports that you can apply by going to WordPress > Settings > SportsPress. You can also add your own table columns, event results, and player statistics by clicking on the tabs on this screen.
+SportsPress comes with settings for some sports that you can apply by going to WordPress > Settings > SportsPress. By selecting a sport, presets will be applied to Events, League Tables, and Players.
+
+= Event Settings =
+
+Manage the results and outcomes you would like to track for each event.
+
+Main Result is the default result that will be displayed in the admin list.
+
+Results are the values that you want to keep track of and display on your event pages. In Association Football, for example, typical results are "1st half", "2nd half", and "Goals". For Baseball, you would have 9+ "Innings", "Hits", "Runs", and "Errors".
+
+To add a new result, go to Settings > SportsPress > Results > Add New. Enter a name that you would like to be displayed in the column.
+
+The "Key" is the variable name used in league table calculations and will be automatically generated when you create a new result, but you can also change this. The Order Attribute is the order that your result will be displayed among your other results.
+
+= League Table Settings =
+
+Manage the columns you would like to calculate and display in league tables.
+
+Create a Title that you want to use as the column label, the Key will automatically be generated but you do have the option to change it here.
+
+You can define an equation for a column by selecting the options from the dropdown menu. As an example, a “Wins” column should just be “W” from the dropdown. For more complex calculations, you'll need to select multiple elements to create your equations. For example, the equation for Pts in Association Football would be W x 3 + D.
+
+"Events Played" accounts for the number of events that have an outcome selected. If an outcome has not been selected for an event, it will not be counted towards this number. For example if you played a friendly match and do not want to include the points towards your league table, do not select an outcome.
+
+Results are tracked for each team. When you create equations, the left arrow (&larr;) represents “for” and the right arrow (&rarr;) represents “against.” For example, Goals &rarr; represents “Goals For.”
+
+"Rounding" is the number of decimal points you want to round to at the end of a calculation.
+Example: if the equation is "W &divide; Events Played" where W = 2 and Events Played = 3, setting "Rounding" to 3 will output "1.667" and rounding to 1 will output "1.7". Rounding is set to 0 by default, which returns a whole number (integer), in this case, "2".
+
+Sort Order is for the way you want to sort your League Table. You can create and specify multiple sort orders. The first dropdown is the priority, and the second dropdown is the direction. If you want a secondary column, in the event of a tie, set another column to sort with priority "2".
+
+As an example, in Association Football, Pts would be 1 descending, and GD would be 2 descending. This means that the leading team is the team with the most points, then the highest goal difference (GD).
+
+Outcomes are very similar to results but you can only have one outcome per team per event. An outcome determines the ultimate result (win, draw, loss, etc.) of an event. Examples of outcomes are: W, D, L, and OT.
+
+= Player Settings =
+
+Manage the metrics and statistics you would like to track for each player.
+
+Metrics are useful for variables like their height, weight, hobbies, etc. that will be displayed on player profile pages. When you create a new metric, remember to select the position(s) that the metric applies to or it will not show up in player profiles. Metrics are independent of leagues, seasons, and teams.
+
+Statistics are for keeping track of the performance variables like goals, assists, yellow cards, and red cards. They are displayed on player profile pages, event pages, and player lists. Each player will have their own set of statistics for each event and league per season. You can choose whether to calculate the total or average of each variable by selecting from the “Calculate” dropdown menu. Be sure to select the position(s) that each statistic applies to so it shows up on the appropriate players' profile pages.
 
 == Frequently Asked Questions ==
 
@@ -87,7 +128,7 @@ Bugs can be reported either in our support forum or preferably on the [SportsPre
 
 = Is this plugin ready for production? =
 
-SportsPress is currently in beta and is undergoing testing. We are still actively making adjustments to the code, so we do not recommend installing it on a live server until we officially leave the beta phase.
+SportsPress is currently in beta and is undergoing testing. We are still actively making adjustments to the code, so we do not recommend using it until we officially leave the beta phase.
 
 == Screenshots ==
 
@@ -95,12 +136,40 @@ SportsPress is currently in beta and is undergoing testing. We are still activel
 2. Teams admin.
 3. Players admin.
 4. SportsPress Settings panel.
-5. League Table widget.
-6. Player List widget.
-7. Events Calendar widget.
-8. Countdown widget.
+5. League Table widget settings.
+6. Player List widget settings.
+7. Events Calendar widget settings.
+8. Countdown widget settings.
+9. SportsPress Status dashboard widget.
 
 == Changelog ==
+
+= 0.4 =
+* Feature - SportsPress Status dashboard widget added to display number of events and countdown in admin.
+* Feature - New dashboard menu icons.
+* Feature - More intuitive player edit screen.
+* Feature - Enable spreadsheet style keyboard navigation in admin data tables.
+* Feature - Add hover action on league table team names to edit display name.
+* Refactor - Remove min and max outcome options from column equation.
+* Refactor - Change Rounding precision to default to 0.
+* Tweak - Used jQuery Chosen for inputs where useful.
+* Tweak - Prepend plugin name to widget titles.
+* Tweak - Highlight settings in admin menu when adding new config post type.
+* Tweak - Display Events as Schedule in admin sidebar menu.
+* Tweak - Update widget descriptions.
+* Tweak - Remove unused external class eqGraph.
+* Tweak - Display sort order priority options for number of columns available.
+* Fix - Apply table column rounding when precision is set.
+* Fix - Display event results on events page when available.
+* Fix - Check that event results are available before displaying a warning under certain conditions.
+* Fix - Namespace eqEOS class to avoid conflict with other plugins.
+* Localization - Use specific strings instead of dynamic ones for more accurate translations.
+* Localization - Use generic strings where appropriate.
+* Localization - Update German translation.
+* Localization - Update Spanish translation.
+* Localization - Update French translation.
+* Localization - Update Italian translation.
+* Localization - Update Japanese translation.
 
 = 0.3.3 =
 * Feature - Add default sorting options per player list.
@@ -183,15 +252,6 @@ SportsPress is currently in beta and is undergoing testing. We are still activel
 * Fix - Force numerical sorting of number column.
 * Tweak - Enable SportsPress content functions to be called without explicit ID.
 * Tweak - Remove redundant admin menu links via filter.
-
-= 0.1.10 =
-* Documentation - Add Installation, FAQ and Screenshots to assets.
-
-= 0.1.9 =
-* Fix - Calculation dependencies.
-
-= 0.1.8 =
-* Tweak - Update subversion.
 
 = 0.1.7 =
 * Feature - Enable selecting venues to use uploaded images.

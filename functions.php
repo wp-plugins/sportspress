@@ -46,48 +46,6 @@ if ( !function_exists( 'sportspress_numbers_to_words' ) ) {
     }
 }
 
-if ( !function_exists( 'sportspress_get_post_labels' ) ) {
-	function sportspress_get_post_labels( $name, $singular_name, $lowercase_name = null ) {
-		if ( !$lowercase_name ) $lowercase_name = $name;
-		$labels = array(
-			'name' => $name,
-			'singular_name' => $singular_name,
-			'all_items' => $name,
-			'add_new' => sprintf( __( 'Add New', 'sportspress' ), $singular_name ),
-			'add_new_item' => sprintf( __( 'Add New %s', 'sportspress' ), $singular_name ),
-			'edit_item' => sprintf( __( 'Edit %s', 'sportspress' ), $singular_name ),
-			'new_item' => sprintf( __( 'New %s', 'sportspress' ), $singular_name ),
-			'view_item' => sprintf( __( 'View %s', 'sportspress' ), $singular_name ),
-			'search_items' => sprintf( __( 'Search %s', 'sportspress' ), $name ),
-			'not_found' => sprintf( __( 'No %s found.', 'sportspress' ), $lowercase_name ),
-			'not_found_in_trash' => sprintf( __( 'No %s found in trash.', 'sportspress' ), $lowercase_name ),
-			'parent_item_colon' => sprintf( __( 'Parent %s', 'sportspress' ), $singular_name ) . ':'
-		);
-		return $labels;
-	}
-}
-
-if ( !function_exists( 'sportspress_get_term_labels' ) ) {
-	function sportspress_get_term_labels( $name, $singular_name, $lowercase_name = null ) {
-		if ( !$lowercase_name ) $lowercase_name = $name;
-		$labels = array(
-			'name' => $name,
-			'singular_name' => $singular_name,
-			'all_items' => sprintf( __( 'All %s', 'sportspress' ), $name ),
-			'edit_item' => sprintf( __( 'Edit %s', 'sportspress' ), $singular_name ),
-			'view_item' => sprintf( __( 'View %s', 'sportspress' ), $singular_name ),
-			'update_item' => sprintf( __( 'Update %s', 'sportspress' ), $singular_name ),
-			'add_new_item' => sprintf( __( 'Add New %s', 'sportspress' ), $singular_name ),
-			'new_item_name' => sprintf( __( 'New %s Name', 'sportspress' ), $singular_name ),
-			'parent_item' => sprintf( __( 'Parent %s', 'sportspress' ), $singular_name ),
-			'parent_item_colon' => sprintf( __( 'Parent %s', 'sportspress' ), $singular_name ) . ':',
-			'search_items' =>  sprintf( __( 'Search %s', 'sportspress' ), $name ),
-			'not_found' => sprintf( __( 'No %s found.', 'sportspress' ), $lowercase_name )
-		);
-		return $labels;
-	}
-}
-
 if ( !function_exists( 'sportspress_get_the_term_id' ) ) {
 	function sportspress_get_the_term_id( $post_id, $taxonomy, $index ) {
 		$terms = get_the_terms( $post_id, $taxonomy );
@@ -158,7 +116,7 @@ if ( !function_exists( 'sportspress_get_post_precision' ) ) {
 		if ( $precision ):
 			return $precision;
 		else:
-			return '1';
+			return 0;
 		endif;
 	}
 }
@@ -227,30 +185,66 @@ if ( !function_exists( 'sportspress_dropdown_taxonomies' ) ) {
 			'show_option_none' => false,
 			'taxonomy' => null,
 			'name' => null,
+			'id' => null,
 			'selected' => null,
 			'hide_empty' => false,
 			'values' => 'slug',
 		    'class' => null,
+		    'property' => null,
+		    'placeholder' => null,
+		    'chosen' => false,
 		);
 		$args = array_merge( $defaults, $args ); 
 		$terms = get_terms( $args['taxonomy'], $args );
 		$name = ( $args['name'] ) ? $args['name'] : $args['taxonomy'];
+		$id = ( $args['id'] ) ? $args['id'] : $name;
+
+		unset( $args['name'] );
+		unset( $args['id'] );
+
 		$class = $args['class'];
 		unset( $args['class'] );
+
+		$property = $args['property'];
+		unset( $args['property'] );
+
+		$placeholder = $args['placeholder'];
+		unset( $args['placeholder'] );
+
+		$selected = $args['selected'];
+		unset( $args['selected'] );
+
+		$chosen = $args['chosen'];
+		unset( $args['chosen'] );
+
 		if ( $terms ):
-			printf( '<select name="%1$s" class="postform %2$s">', $name, $class );
-			if ( $args['show_option_all'] ) {
-				printf( '<option value="0">%s</option>', $args['show_option_all'] );
-			}
-			if ( $args['show_option_none'] ) {
-				printf( '<option value="-1">%s</option>', $args['show_option_none'] );
-			}
-			foreach ( $terms as $term ) {
-				if ( $args['values'] == 'term_id' )
-					printf( '<option value="%s" %s>%s</option>', $term->term_id, selected( true, $args['selected'] == $term->term_id, false ), $term->name );
-				else
-					printf( '<option value="%s" %s>%s</option>', $term->slug, selected( true, $args['selected'] == $term->slug, false ), $term->name );
-			}
+			printf( '<select name="%s" class="postform %s" %s>', $name, $class . ( $chosen ? ' chosen-select' . ( is_rtl() ? ' chosen-rtl' : '' ) : '' ), ( $placeholder != null ? 'data-placeholder="' . $placeholder . '" ' : '' ) . $property );
+
+			if ( strpos( $property, 'multiple' ) === false ):
+				if ( $args['show_option_all'] ):
+					printf( '<option value="0">%s</option>', $args['show_option_all'] );
+				endif;
+				if ( $args['show_option_none'] ):
+					printf( '<option value="-1">%s</option>', $args['show_option_none'] );
+				endif;
+			endif;
+
+			foreach ( $terms as $term ):
+
+				if ( $args['values'] == 'term_id' ):
+					$this_value = $term->term_id;
+				else:
+					$this_value = $term->slug;
+				endif;
+
+				if ( strpos( $property, 'multiple' ) !== false ):
+					$selected_prop = in_array( $this_value, $selected ) ? 'selected' : '';
+				else:
+					$selected_prop = selected( $this_value, $selected, false );
+				endif;
+
+				printf( '<option value="%s" %s>%s</option>', $this_value, $selected_prop, $term->name );
+			endforeach;
 			print( '</select>' );
 			return true;
 		else:
@@ -264,19 +258,20 @@ if ( !function_exists( 'sportspress_dropdown_pages' ) ) {
 		$defaults = array(
 			'prepend_options' => null,
 			'append_options' => null,
+			'show_option_blank' => false,
 			'show_option_all' => false,
 			'show_option_none' => false,
 			'show_dates' => false,
 			'option_all_value' => 0,
 			'option_none_value' => -1,
 			'name' => 'page_id',
-			'id' => 'page_id',
+			'id' => null,
 			'selected' => null,
 			'numberposts' => -1,
 			'posts_per_page' => -1,
 			'child_of' => 0,
-			'sort_order' => 'ASC',
-		    'sort_column' => 'post_title',
+			'order' => 'ASC',
+		    'orderby' => 'title',
 		    'hierarchical' => 1,
 		    'exclude' => null,
 		    'include' => null,
@@ -288,13 +283,16 @@ if ( !function_exists( 'sportspress_dropdown_pages' ) ) {
 			'post_status' => 'publish',
 		    'values' => 'post_name',
 		    'class' => null,
+		    'property' => null,
+		    'placeholder' => null,
+		    'chosen' => false,
 		);
 		$args = array_merge( $defaults, $args );
 
 		$name = $args['name'];
 		unset( $args['name'] );
 
-		$id = $args['id'];
+		$id = ( $args['id'] ) ? $args['id'] : $name;
 		unset( $args['id'] );
 
 		$values = $args['values'];
@@ -303,36 +301,64 @@ if ( !function_exists( 'sportspress_dropdown_pages' ) ) {
 		$class = $args['class'];
 		unset( $args['class'] );
 
+		$property = $args['property'];
+		unset( $args['property'] );
+
+		$placeholder = $args['placeholder'];
+		unset( $args['placeholder'] );
+
 		$selected = $args['selected'];
 		unset( $args['selected'] );
+
+		$chosen = $args['chosen'];
+		unset( $args['chosen'] );
 		
 		$posts = get_posts( $args );
-		if ( $posts || $prepend || $append ):
-			printf( '<select name="%s" id="%s" class="postform %s">', $name, $id, $class );
-			if ( $args['show_option_all'] ):
-				printf( '<option value="%s" %s>%s</option>', $args['option_all_value'], selected( $selected, $args['option_all_value'], false ), $args['show_option_all'] );
+		if ( $posts || $args['prepend_options'] || $args['append_options'] ):
+			printf( '<select name="%s" id="%s" class="postform %s" %s>', $name, $id, $class . ( $chosen ? ' chosen-select' . ( is_rtl() ? ' chosen-rtl' : '' ) : '' ), ( $placeholder != null ? 'data-placeholder="' . $placeholder . '" ' : '' ) . $property );
+
+			if ( strpos( $property, 'multiple' ) === false ):
+				if ( $args['show_option_blank'] ):
+					printf( '<option value=""></option>' );
+				endif;
+				if ( $args['show_option_all'] ):
+					printf( '<option value="%s" %s>%s</option>', $args['option_all_value'], selected( $selected, $args['option_all_value'], false ), $args['show_option_all'] );
+				endif;
+				if ( $args['show_option_none'] ):
+					printf( '<option value="%s" %s>%s</option>', $args['option_none_value'], selected( $selected, $args['option_none_value'], false ), ( $args['show_option_none'] === true ? '' : $args['show_option_none'] ) );
+				endif;
+				if ( $args['prepend_options'] && is_array( $args['prepend_options'] ) ):
+					foreach( $args['prepend_options'] as $slug => $label ):
+						printf( '<option value="%s" %s>%s</option>', $slug, selected( $selected, $slug, false ), $label );
+					endforeach;
+				endif;
 			endif;
-			if ( $args['show_option_none'] ):
-				printf( '<option value="%s" %s>%s</option>', $args['option_none_value'], selected( $selected, $args['option_none_value'], false ), $args['show_option_none'] );
-			endif;
-			if ( $args['prepend_options'] && is_array( $args['prepend_options'] ) ):
-				foreach( $args['prepend_options'] as $slug => $label ):
-					printf( '<option value="%s" %s>%s</option>', $slug, selected( $selected, $slug, false ), $label );
-				endforeach;
-			endif;
+
 			foreach ( $posts as $post ):
 				setup_postdata( $post );
+
 				if ( $values == 'ID' ):
-					printf( '<option value="%s" %s>%s</option>', $post->ID, selected( $selected, $post->ID, false ), $post->post_title . ( $args['show_dates'] ? ' (' . $post->post_date . ')' : '' ) );
+					$this_value = $post->ID;
 				else:
-					printf( '<option value="%s" %s>%s</option>', $post->post_name, selected( $selected, $post->post_name, false ), $post->post_title );
+					$this_value = $post->post_name;
 				endif;
+
+				if ( strpos( $property, 'multiple' ) !== false ):
+					$selected_prop = in_array( $this_value, $selected ) ? 'selected' : '';
+				else:
+					$selected_prop = selected( $this_value, $selected, false );
+				endif;
+
+				printf( '<option value="%s" %s>%s</option>', $this_value, $selected_prop, $post->post_title . ( $args['show_dates'] ? ' (' . $post->post_date . ')' : '' ) );
 			endforeach;
 			wp_reset_postdata();
-			if ( $args['append_options'] && is_array( $args['append_options'] ) ):
-				foreach( $args['append_options'] as $slug => $label ):
-					printf( '<option value="%s" %s>%s</option>', $slug, selected( $selected, $slug, false ), $label );
-				endforeach;
+
+			if ( strpos( $property, 'multiple' ) === false ):
+				if ( $args['append_options'] && is_array( $args['append_options'] ) ):
+					foreach( $args['append_options'] as $slug => $label ):
+						printf( '<option value="%s" %s>%s</option>', $slug, selected( $selected, $slug, false ), $label );
+					endforeach;
+				endif;
 			endif;
 			print( '</select>' );
 			return true;
@@ -381,9 +407,10 @@ if ( !function_exists( 'sportspress_post_checklist' ) ) {
 		if ( ! isset( $post_id ) )
 			global $post_id;
 		?>
-		<div id="<?php echo $meta; ?>-all" class="posttypediv wp-tab-panel sp-tab-panel" style="display: <?php echo $display; ?>;">
+		<div id="<?php echo $meta; ?>-all" class="posttypediv wp-tab-panel sp-tab-panel sp-select-all-range" style="display: <?php echo $display; ?>;">
 			<input type="hidden" value="0" name="<?php echo $meta; ?><?php if ( isset( $index ) ) echo '[' . $index . ']'; ?>[]" />
 			<ul class="categorychecklist form-no-clear">
+				<li><label class="selectit sp-select-all-container"><input type="checkbox" class="sp-select-all"> <strong><?php _e( 'Select All', 'sportspress' ); ?></strong></label></li>
 				<?php
 				$selected = sportspress_array_between( (array)get_post_meta( $post_id, $meta, false ), 0, $index );
 				$posts = get_pages( array( 'post_type' => $meta, 'number' => 0 ) );
@@ -513,7 +540,7 @@ if ( !function_exists( 'sportspress_equation_selector' ) ) {
 					$options[ __( 'Results', 'sportspress' ) ] = sportspress_get_equation_optgroup_array( $postid, 'sp_result', array( 'for' => '&rarr;', 'against' => '&larr;' ), null, false );
 					break;
 				case 'outcome':
-					$options[ __( 'Outcomes', 'sportspress' ) ] = sportspress_get_equation_optgroup_array( $postid, 'sp_outcome', array( 'max' => '&uarr;', 'min' => '&darr;' ) );
+					$options[ __( 'Outcomes', 'sportspress' ) ] = sportspress_get_equation_optgroup_array( $postid, 'sp_outcome', array() );
 					$options[ __( 'Outcomes', 'sportspress' ) ]['$streak'] = __( 'Streak', 'sportspress' );
 					$options[ __( 'Outcomes', 'sportspress' ) ]['$last5'] = __( 'Last 5', 'sportspress' );
 					$options[ __( 'Outcomes', 'sportspress' ) ]['$last10'] = __( 'Last 10', 'sportspress' );
@@ -540,12 +567,15 @@ if ( !function_exists( 'sportspress_equation_selector' ) ) {
 			$constants[$i] = $i;
 		endfor;
 
+		// Add 100 to constants
+		$constants[100] = 100;
+
 		// Add constants to options
 		$options[ __( 'Constants', 'sportspress' ) ] = (array) $constants;
 
 		?>
 			<select name="sp_equation[]">
-				<option value="">(<?php _e( '&mdash; Select &mdash;', 'sportspress' ); ?>)</option>
+				<option value=""><?php _e( '&mdash; Select &mdash;', 'sportspress' ); ?></option>
 				<?php
 
 				foreach ( $options as $label => $option ):
@@ -616,7 +646,13 @@ if ( !function_exists( 'sportspress_get_var_equations' ) ) {
 		$output = array();
 		foreach ( $vars as $var ):
 			$equation = get_post_meta( $var->ID, 'sp_equation', true );
-			$output[ $var->post_name ] = $equation;
+			if ( ! $equation ) $equation = 0;
+			$precision = get_post_meta( $var->ID, 'sp_precision', true );
+			if ( ! $precision ) $precision = 0;
+			$output[ $var->post_name ] = array(
+				'equation' => $equation,
+				'precision' => $precision,
+			);
 		endforeach;
 
 		return $output;
@@ -645,54 +681,11 @@ if ( !function_exists( 'sportspress_get_var_calculates' ) ) {
 	}
 }
 
-if ( !function_exists( 'sportspress_edit_calendar_table' ) ) {
-	function sportspress_edit_calendar_table( $data = array() ) {
-		if ( empty( $data ) ):
-			printf( __( 'No %s found.', 'sportspress' ), __( 'events', 'sportspress' ) );
-			return false;
-		endif;
-		?>
-		<div class="sp-data-table-container">
-			<table class="widefat sp-data-table">
-				<thead>
-					<tr>
-						<th><?php _e( 'Event', 'sportspress' ); ?></th>
-						<th><?php _e( 'Date', 'sportspress' ); ?></th>
-						<th><?php _e( 'Time', 'sportspress' ); ?></th>
-					</tr>
-				</thead>
-				<tbody>
-					<?php
-					$i = 0;
-					foreach ( $data as $event ):
-						?>
-						<tr class="sp-row sp-post<?php if ( $i % 2 == 0 ) echo ' alternate'; ?>">
-							<td>
-								<?php edit_post_link( $event->post_title, null, null, $event->ID ); ?>
-							</td>
-							<td>
-								<?php echo get_the_time( get_option('date_format'), $event->ID ); ?>
-							</td>
-							<td>
-								<?php echo get_the_time( get_option('time_format'), $event->ID ); ?>
-							</td>
-						</tr>
-						<?php
-						$i++;
-					endforeach;
-					?>
-				</tbody>
-			</table>
-		</div>
-		<?php
-	}
-}
-
 if ( !function_exists( 'sportspress_edit_league_table' ) ) {
 	function sportspress_edit_league_table( $columns = array(), $data = array(), $placeholders = array() ) {
 		?>
 		<div class="sp-data-table-container">
-			<table class="widefat sp-data-table">
+			<table class="widefat sp-data-table sp-league-table">
 				<thead>
 					<tr>
 						<th><?php _e( 'Team', 'sportspress' ); ?></th>
@@ -705,12 +698,25 @@ if ( !function_exists( 'sportspress_edit_league_table' ) ) {
 					<?php
 					$i = 0;
 					foreach ( $data as $team_id => $team_stats ):
-						if ( !$team_id ) continue;
+						if ( !$team_id )
+							continue;
+
 						$div = get_term( $team_id, 'sp_season' );
+						$default_name = sportspress_array_value( $team_stats, 'name', '' );
+						if ( $default_name == null )
+							$default_name = get_the_title( $team_id );
 						?>
 						<tr class="sp-row sp-post<?php if ( $i % 2 == 0 ) echo ' alternate'; ?>">
 							<td>
-								<input type="text" name="sp_teams[<?php echo $team_id; ?>][name]" class="name" value="<?php echo sportspress_array_value( $team_stats, 'name', '' ); ?>" placeholder="<?php echo get_the_title( $team_id ); ?>">
+								<span class="sp-default-name">
+									<span class="sp-default-name-input"><?php echo $default_name; ?></span>
+									<a class="dashicons dashicons-edit sp-edit-name" title="<?php _e( 'Edit', 'sportspress' ); ?>"></a>
+								</span>
+								<span class="hidden sp-custom-name">
+									<input type="text" name="sp_teams[<?php echo $team_id; ?>][name]" class="name sp-custom-name-input" value="<?php echo sportspress_array_value( $team_stats, 'name', '' ); ?>" placeholder="<?php echo get_the_title( $team_id ); ?>">
+									<a class="button button-secondary sp-cancel"><?php _e( 'Cancel', 'sportspress' ); ?></a>
+									<a class="button button-primary sp-save"><?php _e( 'Save', 'sportspress' ); ?></a>
+								</span>
 							</td>
 							<?php foreach( $columns as $column => $label ):
 								$value = sportspress_array_value( $team_stats, $column, '' );
@@ -779,7 +785,7 @@ if ( !function_exists( 'sportspress_edit_team_columns_table' ) ) {
 	function sportspress_edit_team_columns_table( $league_id, $columns = array(), $data = array(), $placeholders = array(), $merged = array(), $seasons = array(), $readonly = true ) {
 		?>
 		<div class="sp-data-table-container">
-			<table class="widefat sp-data-table">
+			<table class="widefat sp-data-table sp-select-all-range">
 				<thead>
 					<tr>
 						<th class="check-column"><input class="sp-select-all" type="checkbox"></th>
@@ -859,7 +865,7 @@ if ( !function_exists( 'sportspress_edit_player_statistics_table' ) ) {
 								$args = array(
 									'post_type' => 'sp_team',
 									'name' => 'sp_leagues[' . $league_id . '][' . $div_id . ']',
-									'show_option_none' => __( '-- Not set --', 'sportspress' ),
+									'show_option_none' => __( '&mdash; None &mdash;', 'sportspress' ),
 								    'sort_order'   => 'ASC',
 								    'sort_column'  => 'menu_order',
 									'selected' => $value,
@@ -880,19 +886,7 @@ if ( !function_exists( 'sportspress_edit_player_statistics_table' ) ) {
 									),
 								);
 								if ( ! sportspress_dropdown_pages( $args ) ):
-									$args = array(
-										'post_type' => 'sp_team',
-										'name' => 'sp_leagues[' . $league_id . '][' . $div_id . ']',
-										'show_option_none' => __( '-- Not set --', 'sportspress' ),
-									    'sort_order'   => 'ASC',
-									    'sort_column'  => 'menu_order',
-										'selected' => $value,
-										'values' => 'ID',
-										'include' => $teams,
-									);
-									if ( ! sportspress_dropdown_pages( $args ) ):
-										echo '&mdash;';
-									endif;
+									_e( 'No results found.', 'sportspress' );
 								endif;
 								?>
 							</td>
@@ -1024,7 +1018,7 @@ if ( !function_exists( 'sportspress_edit_event_players_table' ) ) {
 	function sportspress_edit_event_players_table( $columns = array(), $data = array(), $team_id ) {
 		?>
 		<div class="sp-data-table-container">
-			<table class="widefat sp-data-table">
+			<table class="widefat sp-data-table sp-statistic-table">
 				<thead>
 					<tr>
 						<th>#</th>
@@ -1042,14 +1036,14 @@ if ( !function_exists( 'sportspress_edit_event_players_table' ) ) {
 						if ( !$player_id ) continue;
 						$number = get_post_meta( $player_id, 'sp_number', true );
 						?>
-						<tr class="sp-row sp-post<?php if ( $i % 2 == 0 ) echo ' alternate'; ?>">
+						<tr class="sp-row sp-post<?php if ( $i % 2 == 0 ) echo ' alternate'; ?>" data-player="<?php echo $player_id; ?>">
 							<td><?php echo ( $number ? $number : '&nbsp;' ); ?></td>
 							<td><?php echo get_the_title( $player_id ); ?></td>
 							<?php foreach( $columns as $column => $label ):
 								$value = sportspress_array_value( $player_statistics, $column, '' );
 								?>
 								<td>
-									<input type="text" name="sp_players[<?php echo $team_id; ?>][<?php echo $player_id; ?>][<?php echo $column; ?>]" value="<?php echo $value; ?>" placeholder="0" />
+									<input class="sp-player-<?php echo $column; ?>-input" type="text" name="sp_players[<?php echo $team_id; ?>][<?php echo $player_id; ?>][<?php echo $column; ?>]" value="<?php echo $value; ?>" placeholder="0" />
 								</td>
 							<?php endforeach; ?>
 							<td class="sp-status-selector">
@@ -1102,13 +1096,15 @@ if ( !function_exists( 'sportspress_player_nationality_selector' ) ) {
 }
 
 if ( !function_exists( 'sportspress_post_adder' ) ) {
-	function sportspress_post_adder( $post_type = 'post' ) {
+	function sportspress_post_adder( $post_type = 'post', $label = null ) {
 		$obj = get_post_type_object( $post_type );
+		if ( $label == null )
+			$label = __( 'Add New', 'sportspress' );
 		?>
 		<div id="<?php echo $post_type; ?>-adder">
 			<h4>
-				<a title="<?php echo sprintf( esc_attr__( 'Add New %s', 'sportspress' ), esc_attr( $obj->labels->singular_name ) ); ?>" href="<?php echo admin_url( 'post-new.php?post_type=' . $post_type ); ?>" target="_blank">
-					+ <?php echo sprintf( __( 'Add New %s', 'sportspress' ), $obj->labels->singular_name ); ?>
+				<a title="<?php echo esc_attr( $label ); ?>" href="<?php echo admin_url( 'post-new.php?post_type=' . $post_type ); ?>" target="_blank">
+					+ <?php echo $label; ?>
 				</a>
 			</h4>
 		</div>
@@ -1117,13 +1113,15 @@ if ( !function_exists( 'sportspress_post_adder' ) ) {
 }
 
 if ( !function_exists( 'sportspress_taxonomy_adder' ) ) {
-	function sportspress_taxonomy_adder( $taxonomy = 'category', $post_type = 'post' ) {
+	function sportspress_taxonomy_adder( $taxonomy = 'category', $post_type = 'post', $label = null ) {
 		$obj = get_taxonomy( $taxonomy );
+		if ( $label == null )
+			$label = __( 'Add New', 'sportspress' );
 		?>
 		<div id="<?php echo $taxonomy; ?>-adder">
 			<h4>
-				<a title="<?php echo sprintf( esc_attr__( 'Add New %s', 'sportspress' ), esc_attr( $obj->labels->singular_name ) ); ?>" href="<?php echo admin_url( 'edit-tags.php?taxonomy=' . $taxonomy . '&post_type=' . $post_type ); ?>" target="_blank">
-					+ <?php echo sprintf( __( 'Add New %s', 'sportspress' ), $obj->labels->singular_name ); ?>
+				<a title="<?php echo esc_attr( $label ); ?>" href="<?php echo admin_url( 'edit-tags.php?taxonomy=' . $taxonomy . '&post_type=' . $post_type ); ?>" target="_blank">
+					+ <?php echo $label; ?>
 				</a>
 			</h4>
 		</div>
@@ -1198,7 +1196,7 @@ if ( !function_exists( 'sportspress_get_eos_safe_slug' ) ) {
 }
 
 if ( !function_exists( 'sportspress_solve' ) ) {
-	function sportspress_solve( $equation, $vars ) {
+	function sportspress_solve( $equation, $vars, $precision = 0 ) {
 
 		if ( strpos( $equation, '$streak' ) !== false ):
 
@@ -1249,10 +1247,10 @@ if ( !function_exists( 'sportspress_solve' ) ) {
 
 		if ( $clearance ):
 			// Equation Operating System
-			$eos = new eqEOS();
+			$eos = new SP_eqEOS();
 
 			// Solve using EOS
-			return round( $eos->solveIF( str_replace( ' ', '', $equation ), $vars ), 3 ); // TODO: add precision setting to each column with default set to 3
+			return round( $eos->solveIF( str_replace( ' ', '', $equation ), $vars ), $precision );
 		else:
 			return 0;
 		endif;
@@ -1496,7 +1494,7 @@ if ( !function_exists( 'sportspress_get_team_columns_data' ) ) {
 			// Generate array of placeholder values for each league
 			$placeholders[ $div_id ] = array();
 			foreach ( $equations as $key => $value ):
-				$placeholders[ $div_id ][ $key ] = sportspress_solve( $value, $totals );
+				$placeholders[ $div_id ][ $key ] = sportspress_solve( $value['equation'], $totals, $value['precision'] );
 			endforeach;
 
 		endforeach;
@@ -1740,6 +1738,7 @@ if ( !function_exists( 'sportspress_get_league_table_data' ) ) {
 
 			// Add equation to object
 			$stat->equation = sportspress_array_value( sportspress_array_value( $meta, 'sp_equation', array() ), 0, 0 );
+			$stat->precision = sportspress_array_value( sportspress_array_value( $meta, 'sp_precision', array() ), 0, 0 );
 
 			// Add column name to columns
 			$columns[ $stat->post_name ] = $stat->post_title;
@@ -1765,7 +1764,7 @@ if ( !function_exists( 'sportspress_get_league_table_data' ) ) {
 
 			foreach ( $stats as $stat ):
 				if ( sportspress_array_value( $placeholders[ $team_id ], $stat->post_name, '' ) == '' ):
-					$placeholders[ $team_id ][ $stat->post_name ] = sportspress_solve( $stat->equation, sportspress_array_value( $totals, $team_id, array() ) );
+					$placeholders[ $team_id ][ $stat->post_name ] = sportspress_solve( $stat->equation, sportspress_array_value( $totals, $team_id, array() ), $stat->precision );
 				endif;
 			endforeach;
 		endforeach;
@@ -2340,6 +2339,21 @@ if ( !function_exists( 'sportspress_get_player_statistics_data' ) ) {
 	}
 }
 
+if ( !function_exists( 'sportspress_get_next_event' ) ) {
+	function sportspress_get_next_event( $args = array() ) {
+			$options = array(
+				'post_type' => 'sp_event',
+				'posts_per_page' => 1,
+				'order' => 'ASC',
+				'post_status' => 'future',
+				'meta_query' => $args,
+			);
+			$posts = get_posts( $options );
+			$post = array_pop( $posts );
+			return $post;
+	}
+}
+
 if ( !function_exists( 'sportspress_delete_duplicate_post' ) ) {
 	function sportspress_delete_duplicate_post( &$post ) {
 		global $wpdb;
@@ -2362,9 +2376,9 @@ if ( !function_exists( 'sportspress_delete_duplicate_post' ) ) {
 }
 
 if ( !function_exists( 'sportspress_highlight_admin_menu' ) ) {
-	function sportspress_highlight_admin_menu() {
+	function sportspress_highlight_admin_menu( $p = 'options-general.php', $s = 'sportspress' ) {
 		global $parent_file, $submenu_file;
-		$parent_file = 'options-general.php';
-		$submenu_file = 'sportspress';
+		$parent_file = $p;
+		$submenu_file = $s;
 	}
 }
