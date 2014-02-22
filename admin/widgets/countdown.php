@@ -2,8 +2,8 @@
 class SP_Widget_Countdown extends WP_Widget {
 
 	function __construct() {
-		$widget_ops = array('classname' => 'widget_countdown widget_sp_countdown', 'description' => __( 'SportsPress widget.', 'sportspress' ) );
-		parent::__construct('sp_countdown', __( 'Countdown', 'sportspress' ), $widget_ops);
+		$widget_ops = array('classname' => 'widget_countdown widget_sp_countdown', 'description' => __( 'A clock that counts down to an upcoming event.', 'sportspress' ) );
+		parent::__construct('sp_countdown', __( 'SportsPress Countdown', 'sportspress' ), $widget_ops);
 	}
 
 	function widget( $args, $instance ) {
@@ -48,13 +48,13 @@ class SP_Widget_Countdown extends WP_Widget {
 			'post_status' => 'future',
 		);
 		if ( ! sportspress_dropdown_pages( $args ) ):
-			sportspress_post_adder( 'sp_event' );
+			sportspress_post_adder( 'sp_event', __( 'Add New', 'sportspress' ) );
 		endif;
 		?>
 		</p>
 
 		<p><input class="checkbox" type="checkbox" id="<?php echo $this->get_field_id('show_league'); ?>" name="<?php echo $this->get_field_name('show_league'); ?>" value="1" <?php checked( $show_league, 1 ); ?>>
-		<label for="<?php echo $this->get_field_id('show_league'); ?>"><?php printf( __( 'Display %s', 'sportspress' ), __( 'League', 'sportspress' ) ); ?></label></p>
+		<label for="<?php echo $this->get_field_id('show_league'); ?>"><?php _e( 'Display league', 'sportspress' ); ?></label></p>
 <?php
 	}
 }

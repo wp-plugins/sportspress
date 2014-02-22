@@ -1,11 +1,19 @@
 <?php
 function sportspress_event_post_init() {
-	$name = __( 'Events', 'sportspress' );
-	$singular_name = __( 'Event', 'sportspress' );
-	$lowercase_name = __( 'events', 'sportspress' );
-	$labels = sportspress_get_post_labels( $name, $singular_name, $lowercase_name );
+	$labels = array(
+		'name' => __( 'Schedule', 'sportspress' ),
+		'singular_name' => __( 'Event', 'sportspress' ),
+		'all_items' => __( 'Events', 'sportspress' ),
+		'add_new_item' => __( 'Add New', 'sportspress' ),
+		'edit_item' => __( 'Edit', 'sportspress' ),
+		'new_item' => __( 'New', 'sportspress' ),
+		'view_item' => __( 'View', 'sportspress' ),
+		'search_items' => __( 'Search', 'sportspress' ),
+		'not_found' => __( 'No results found.', 'sportspress' ),
+		'not_found_in_trash' => __( 'No results found.', 'sportspress' ),
+	);
 	$args = array(
-		'label' => $name,
+		'label' => __( 'Events', 'sportspress' ),
 		'labels' => $labels,
 		'public' => true,
 		'has_archive' => true,
@@ -31,19 +39,23 @@ add_filter( 'the_posts', 'sportspress_event_display_scheduled' );
 
 function sportspress_event_meta_init( $post ) {
 	$teams = (array)get_post_meta( $post->ID, 'sp_team', false );
+	$players = (array)get_post_meta( $post->ID, 'sp_player', false );
 
 	remove_meta_box( 'submitdiv', 'sp_event', 'side' );
 	remove_meta_box( 'sp_venuediv', 'sp_event', 'side' );
 	remove_meta_box( 'sp_leaguediv', 'sp_event', 'side' );
 	remove_meta_box( 'sp_seasondiv', 'sp_event', 'side' );
-	
+
 	add_meta_box( 'submitdiv', __( 'Event', 'sportspress' ), 'post_submit_meta_box', 'sp_event', 'side', 'high' );
 	add_meta_box( 'sp_detailsdiv', __( 'Details', 'sportspress' ), 'sportspress_event_details_meta', 'sp_event', 'side', 'high' );
 	add_meta_box( 'sp_teamdiv', __( 'Teams', 'sportspress' ), 'sportspress_event_team_meta', 'sp_event', 'side', 'high' );
-	if ( sizeof( $teams ) > 0 ):
+	if ( sizeof( $teams ) > 0 )
 		add_meta_box( 'sp_resultsdiv', __( 'Results', 'sportspress' ), 'sportspress_event_results_meta', 'sp_event', 'normal', 'high' );
-		add_meta_box( 'sp_playersdiv', __( 'Players', 'sportspress' ), 'sportspress_event_players_meta', 'sp_event', 'normal', 'high' );
-	endif;
+
+	do_action( 'sportspress_event_meta_init' );
+
+	if ( sizeof( $players ) > 0 )
+		add_meta_box( 'sp_statisticsdiv', __( 'Statistics', 'sportspress' ), 'sportspress_event_statistics_meta', 'sp_event', 'normal', 'high' );
 	add_meta_box( 'sp_articlediv', __( 'Article', 'sportspress' ), 'sportspress_event_article_meta', 'sp_event', 'normal', 'high' );
 }
 
@@ -64,7 +76,7 @@ function sportspress_event_details_meta( $post ) {
 				'show_option_none' => __( '-- Not set --', 'sportspress' ),
 			);
 			if ( ! sportspress_dropdown_taxonomies( $args ) ):
-				sportspress_taxonomy_adder( 'sp_league', 'sp_team' );
+				sportspress_taxonomy_adder( 'sp_league', 'sp_team', __( 'Add New', 'sportspress' ) );
 			endif;
 			?>
 		</p>
@@ -79,7 +91,7 @@ function sportspress_event_details_meta( $post ) {
 				'show_option_none' => __( '-- Not set --', 'sportspress' ),
 			);
 			if ( ! sportspress_dropdown_taxonomies( $args ) ):
-				sportspress_taxonomy_adder( 'sp_season', 'sp_team' );
+				sportspress_taxonomy_adder( 'sp_season', 'sp_team', __( 'Add New', 'sportspress' )  );
 			endif;
 			?>
 		</p>
@@ -94,7 +106,7 @@ function sportspress_event_details_meta( $post ) {
 				'show_option_none' => __( '-- Not set --', 'sportspress' ),
 			);
 			if ( ! sportspress_dropdown_taxonomies( $args ) ):
-				sportspress_taxonomy_adder( 'sp_venue', 'sp_event' );
+				sportspress_taxonomy_adder( 'sp_venue', 'sp_event', __( 'Add New', 'sportspress' )  );
 			endif;
 			?>
 		</p>
@@ -148,11 +160,11 @@ function sportspress_event_team_meta( $post ) {
 	sportspress_nonce();
 }
 
-function sportspress_event_players_meta( $post ) {
+function sportspress_event_statistics_meta( $post ) {
 	$teams = (array)get_post_meta( $post->ID, 'sp_team', false );
 	$stats = (array)get_post_meta( $post->ID, 'sp_players', true );
 
-	// Get columns from result variables
+	// Get columns from statistic variables
 	$columns = sportspress_get_var_labels( 'sp_statistic' );
 
 	foreach ( $teams as $key => $team_id ):
@@ -170,7 +182,6 @@ function sportspress_event_players_meta( $post ) {
 		<?php
 
 	endforeach;
-
 }
 
 function sportspress_event_results_meta( $post ) {

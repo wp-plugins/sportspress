@@ -1,13 +1,161 @@
 /* SportsPress admin styles */
 
+@font-face {
+	font-family: 'sportspress';
+	src:url('../fonts/sportspress.eot?ofuus8');
+	src:url('../fonts/sportspress.eot?#iefixofuus8') format('embedded-opentype'),
+		url('../fonts/sportspress.woff?ofuus8') format('woff'),
+		url('../fonts/sportspress.ttf?ofuus8') format('truetype'),
+		url('../fonts/sportspress.svg?ofuus8#sportspress') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+	font-family: 'sportspress';
+	speak: none;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	line-height: 1;
+
+	/* Better Font Rendering =========== */
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+.icon-megaphone:before {
+	content: "\f155";
+}
+.icon-calendar:before {
+	content: "\f145";
+}
+.icon-shield:before {
+	content: "\f334";
+}
+.icon-calendar:before {
+	content: "\f469";
+}
+
+
+#adminmenu #toplevel_page_sportspress .menu-icon-generic div.wp-menu-image:before,
+#adminmenu #menu-posts-sp_event .menu-icon-sp_event div.wp-menu-image:before,
+#adminmenu #menu-posts-sp_team .menu-icon-sp_team div.wp-menu-image:before,
+#adminmenu #menu-posts-sp_sponsor .menu-icon-sp_sponsor div.wp-menu-image:before {
+	font-family: sportspress, dashicons !important;
+}
+
+#sportspress_dashboard_status .inside {
+	padding: 0;
+	margin: 0;
+}
+
+#sportspress_dashboard_status .sp_status_list {
+	overflow: hidden;
+	margin: 0;
+}
+
+#sportspress_dashboard_status .sp_status_list li {
+	width: 50%;
+	float: left;
+	padding: 0;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	margin: 0;
+	border-top: 1px solid #ececec;
+	color: #aaa;
+}
+
+#sportspress_dashboard_status .sp_status_list li:first-child {
+	border-top: 0;
+}
+
+#sportspress_dashboard_status .sp_status_list li.countdown {
+	width: 100%;
+}
+
+#sportspress_dashboard_status .sp_status_list li.events-scheduled {
+	border-right: 1px solid #ececec;
+}
+
+#sportspress_dashboard_status .sp_status_list li a {
+	display: block;
+	color: #aaa;
+	padding: 9px 12px;
+	-webkit-transition: all ease .5s;
+	position: relative;
+	font-size: 12px;
+}
+
+#sportspress_dashboard_status .sp_status_list li a:before {
+	font-family: sportspress, dashicons;
+	speak: none;
+	font-weight: 400;
+	font-variant: normal;
+	text-transform: none;
+	-webkit-font-smoothing: antialiased;
+	margin: 0;
+	text-indent: 0;
+	top: 0;
+	left: 0;
+	height: 100%;
+	text-align: center;
+	content: "\f145";
+	font-size: 2em;
+	position: relative;
+	width: auto;
+	line-height: 1.2em;
+	color: #464646;
+	float: left;
+	margin-right: 12px;
+	margin-bottom: 12px;
+}
+
+#sportspress_dashboard_status .sp_status_list li.countdown a:before {
+	content: "\f469";
+}
+
+#sportspress_dashboard_status .sp_status_list li.events-scheduled a:before,
+#sportspress_dashboard_status .sp_status_list li.events-published a:before {
+	color: #999;
+	font-size: 2.5em;
+	line-height: 1em;
+	margin-left: -3px;
+	margin-right: 9px;
+}
+
+#sportspress_dashboard_status .sp_status_list li.events-scheduled a:before {
+	color: #ffba00;
+}
+
+#sportspress_dashboard_status .sp_status_list li.events-published a:before {
+	color: #21759b;
+}
+
+#sportspress_dashboard_status .sp_status_list li strong {
+	font-size: 18px;
+	line-height: 1.2em;
+	font-weight: 400;
+	display: block;
+	color: #21759b;
+}
+
+#sportspress_dashboard_status .sp_status_list li a:hover,
+#sportspress_dashboard_status .sp_status_list li a:hover strong,
+#sportspress_dashboard_status .sp_status_list li a:hover:before {
+	color: #2ea2cc;
+}
+
 .sportspress-message {
-	border-left-color: #ff9900 !important;
+	border-left-color: #6bc2a5 !important;
 }
 
 .sportspress-message a.button-primary,
 .sportspress-message a.button-secondary {
-	background: #ff9900;
-	border-color: #f48600;
+	background: #6bc2a5;
+	border-color: #409e7f;
 	-webkit-box-shadow: inset 0 1px 0 rgba(255,255,255,.25),0 1px 0 rgba(0,0,0,.15);
 	box-shadow: inset 0 1px 0 rgba(255,255,255,.25),0 1px 0 rgba(0,0,0,.15);
 	color: #fff;
@@ -16,8 +164,8 @@
 
 .sportspress-message a.button-primary:hover,
 .sportspress-message a.button-secondary:hover {
-	background: #ff8800;
-	border-color: #f27000;
+	background: #3bad87;
+	border-color: #338a6d;
 	-webkit-box-shadow: inset 0 1px 0 rgba(255,255,255,.25),0 1px 0 rgba(0,0,0,.15);
 	box-shadow: inset 0 1px 0 rgba(255,255,255,.25),0 1px 0 rgba(0,0,0,.15);
 	color: #fff;
@@ -27,11 +175,9 @@
 .sportspress-message a.button-secondary {
 	-moz-opacity: 0.7;
 	opacity: 0.7;
-	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha"(Opacity=70);
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=70)";
 }
 
-.widget[id*="sp_recent_events-"] .widget-title h4:before,
-.widget[id*="sp_future_events-"] .widget-title h4:before,
 .widget[id*="sp_countdown-"] .widget-title h4:before,
 .widget[id*="sp_events_calendar-"] .widget-title h4:before,
 .widget[id*="sp_player_list-"] .widget-title h4:before,
@@ -84,6 +230,7 @@
 
 table.widefat.sp-data-table td {
 	line-height: 2;
+	overflow: visible;
 }
 
 table.widefat.sp-data-table td:first-child {
@@ -99,6 +246,24 @@ table.widefat.sp-data-table input[type="number"] {
 table.widefat.sp-data-table input.name {
 	min-width: 0;
 	width: auto;
+}
+
+table.widefat.sp-data-table a.dashicons {
+	cursor: pointer;
+	height: 27px;
+	line-height: 27px;
+}
+
+table.widefat.sp-data-table a.sp-edit-name {
+	-moz-opacity: 0;
+	opacity: 0;
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+}
+
+table.widefat.sp-data-table tr:hover a.sp-edit-name {
+	-moz-opacity: 1;
+	opacity: 1;
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
 }
 
 .sp-admin-config-table th,
@@ -162,6 +327,63 @@ table.widefat td.column-sp_number .sp-flag {
 	content: '\f335';
 	margin: -3px 0 0 -4px;
 	color: #a00;
+}
+
+.chosen-container-single .chosen-single {
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+	color: #555;
+	border-color: #ccc;
+	background: #f7f7f7;
+	-webkit-box-shadow: inset 0 1px 0 #fff,0 1px 0 rgba(0,0,0,.08);
+	box-shadow: inset 0 1px 0 #fff,0 1px 0 rgba(0,0,0,.08);
+}
+
+.chosen-container-active .chosen-single {
+	border-color: #999;
+	background: #fff;
+}
+
+.chosen-container-active.chosen-with-drop .chosen-single {
+	background: #fff;
+}
+
+.chosen-container-single .chosen-drop {
+	-webkit-border-radius: 0 0 3px 3px;
+	border-radius: 0 0 3px 3px;
+}
+
+.chosen-container-multi .chosen-choices {
+	background: #fff;
+	color: #333;
+	padding: 3px 0;
+	border-color: #ddd;
+	box-shadow: inset 0 1px 2px rgba(0,0,0,.07);
+	line-height: 2;
+}
+
+.chosen-container-multi .chosen-choices li.search-field input[type="text"] {
+	color: #a9a9a9;
+}
+
+.chosen-container-multi .chosen-choices li.search-choice {
+	color: #555;
+	border-color: #ccc;
+	background: #f7f7f7;
+	-webkit-box-shadow: inset 0 1px 0 #fff,0 1px 0 rgba(0,0,0,.08);
+	box-shadow: inset 0 1px 0 #fff,0 1px 0 rgba(0,0,0,.08);
+	vertical-align: top;
+}
+
+.chosen-container-multi .chosen-choices li.search-choice:hover {
+	background: #fafafa;
+	border-color: #999;
+	color: #222;
+}
+
+.chosen-container-multi .chosen-choices li.search-choice .search-choice-close {
+	transition: none;
+	-webkit-transition: none;
 }
 
 @media only screen and (max-width: 768px) {

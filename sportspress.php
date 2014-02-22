@@ -6,19 +6,19 @@
 Plugin Name: SportsPress
 Plugin URI: http://themeboy.com/sportspress
 Description: Manage your club and its players, staff, events, league tables, and player lists.
-Version: 0.3.3
+Version: 0.4
 Author: ThemeBoy
 Author URI: http://themeboy.com/
 License: GPLv3
 */
 
 // Make sure we don't expose any info if called directly
-if ( !function_exists( 'add_action' ) ) {
+if ( !function_exists( 'add_action' ) ):
 	echo 'Hi there!  I\'m just a plugin, not much I can do when called directly.';
 	exit;
-}
+endif;
 
-define( 'SPORTSPRESS_VERSION', '0.3.3' );
+define( 'SPORTSPRESS_VERSION', '0.4' );
 define( 'SPORTSPRESS_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 define( 'SPORTSPRESS_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
 define( 'SPORTSPRESS_PLUGIN_FILE', __FILE__ );
@@ -74,12 +74,13 @@ require_once dirname( __FILE__ ) . '/admin/terms/venue.php';
 require_once dirname( __FILE__ ) . '/admin/terms/position.php';
 
 // Widgets
-require_once dirname( __FILE__ ) . '/admin/widgets/recent-events.php';
-require_once dirname( __FILE__ ) . '/admin/widgets/future-events.php';
 require_once dirname( __FILE__ ) . '/admin/widgets/countdown.php';
 require_once dirname( __FILE__ ) . '/admin/widgets/events-calendar.php';
 require_once dirname( __FILE__ ) . '/admin/widgets/player-list.php';
 require_once dirname( __FILE__ ) . '/admin/widgets/league-table.php';
+
+// Tools
+require_once dirname( __FILE__ ) . '/admin/tools/importers.php';
 
 // Typical request actions
 require_once dirname( __FILE__ ) . '/admin/hooks/plugins-loaded.php';
@@ -93,6 +94,7 @@ require_once dirname( __FILE__ ) . '/admin/hooks/admin-menu.php';
 require_once dirname( __FILE__ ) . '/admin/hooks/admin-enqueue-scripts.php';
 require_once dirname( __FILE__ ) . '/admin/hooks/admin-print-styles.php';
 require_once dirname( __FILE__ ) . '/admin/hooks/admin-head.php';
+require_once dirname( __FILE__ ) . '/admin/hooks/current-screen.php';
 
 // Administrative actions
 require_once dirname( __FILE__ ) . '/admin/hooks/manage-posts-columns.php';

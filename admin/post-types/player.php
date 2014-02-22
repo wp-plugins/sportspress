@@ -1,11 +1,18 @@
 <?php
 function sportspress_player_post_init() {
-	$name = __( 'Players', 'sportspress' );
-	$singular_name = __( 'Player', 'sportspress' );
-	$lowercase_name = __( 'players', 'sportspress' );
-	$labels = sportspress_get_post_labels( $name, $singular_name, $lowercase_name );
+	$labels = array(
+		'name' => __( 'Players', 'sportspress' ),
+		'singular_name' => __( 'Player', 'sportspress' ),
+		'add_new_item' => __( 'Add New', 'sportspress' ),
+		'edit_item' => __( 'Edit', 'sportspress' ),
+		'new_item' => __( 'New', 'sportspress' ),
+		'view_item' => __( 'View', 'sportspress' ),
+		'search_items' => __( 'Search', 'sportspress' ),
+		'not_found' => __( 'No results found.', 'sportspress' ),
+		'not_found_in_trash' => __( 'No results found.', 'sportspress' ),
+	);
 	$args = array(
-		'label' => $name,
+		'label' => __( 'Players', 'sportspress' ),
 		'labels' => $labels,
 		'public' => true,
 		'has_archive' => false,
@@ -40,12 +47,15 @@ function sportspress_player_meta_init( $post ) {
 	$seasons = (array)get_the_terms( $post->ID, 'sp_season' );
 
 	remove_meta_box( 'submitdiv', 'sp_player', 'side' );
-	add_meta_box( 'submitdiv', __( 'Publish', 'sportspress' ), 'post_submit_meta_box', 'sp_player', 'side', 'high' );
+	remove_meta_box( 'sp_seasondiv', 'sp_player', 'side' );
+	remove_meta_box( 'sp_leaguediv', 'sp_player', 'side' );
+	remove_meta_box( 'sp_positiondiv', 'sp_player', 'side' );
 	remove_meta_box( 'postimagediv', 'sp_player', 'side' );
-	add_meta_box( 'postimagediv', __( 'Photo', 'sportspress' ), 'post_thumbnail_meta_box', 'sp_player', 'side', 'low' );
+
+	add_meta_box( 'submitdiv', __( 'Publish', 'sportspress' ), 'post_submit_meta_box', 'sp_player', 'side', 'high' );
 	add_meta_box( 'sp_detailsdiv', __( 'Details', 'sportspress' ), 'sportspress_player_details_meta', 'sp_player', 'side', 'high' );
-	add_meta_box( 'sp_teamdiv', __( 'Teams', 'sportspress' ), 'sportspress_player_team_meta', 'sp_player', 'side', 'high' );
-	add_meta_box( 'sp_metricsdiv', __( 'Metrics', 'sportspress' ), 'sportspress_player_metrics_meta', 'sp_player', 'normal', 'high' );
+	add_meta_box( 'sp_metricsdiv', __( 'Metrics', 'sportspress' ), 'sportspress_player_metrics_meta', 'sp_player', 'side', 'high' );
+	add_meta_box( 'postimagediv', __( 'Photo', 'sportspress' ), 'post_thumbnail_meta_box', 'sp_player', 'side', 'low' );
 
 	if ( $leagues && ! empty( $leagues ) && $seasons && ! empty( $seasons ) ):
 		add_meta_box( 'sp_statsdiv', __( 'Statistics', 'sportspress' ), 'sportspress_player_stats_meta', 'sp_player', 'normal', 'high' );
@@ -67,50 +77,125 @@ function sportspress_player_details_meta( $post ) {
 
 	$number = get_post_meta( $post->ID, 'sp_number', true );
 	$nationality = get_post_meta( $post->ID, 'sp_nationality', true );
-	$teams = array_filter( get_post_meta( $post->ID, 'sp_team', false ) );
+
+	$leagues = get_the_terms( $post->ID, 'sp_league' );
+	$league_ids = array();
+	if ( $leagues ):
+		foreach ( $leagues as $league ):
+			$league_ids[] = $league->term_id;
+		endforeach;
+	endif;
+
+	$seasons = get_the_terms( $post->ID, 'sp_season' );
+	$season_ids = array();
+	if ( $seasons ):
+		foreach ( $seasons as $season ):
+			$season_ids[] = $season->term_id;
+		endforeach;
+	endif;
+
+	$positions = get_the_terms( $post->ID, 'sp_position' );
+	$position_ids = array();
+	if ( $positions ):
+		foreach ( $positions as $position ):
+			$position_ids[] = $position->term_id;
+		endforeach;
+	endif;
+	
+	$teams = get_posts( array( 'post_type' => 'sp_team', 'posts_per_page' => -1 ) );
+	$past_teams = array_filter( get_post_meta( $post->ID, 'sp_past_team', false ) );
 	$current_team = get_post_meta( $post->ID, 'sp_current_team', true );
 	?>
-		<p>
-			<strong><?php _e( 'Number', 'sportspress' ); ?></strong>
-		</p>
-		<p>
-			<input type="text" size="4" id="sp_number" name="sp_number" value="<?php echo $number; ?>">
-		</p>
-		<p>
-			<strong><?php _e( 'Nationality', 'sportspress' ); ?></strong>
-		</p>
-		<p>
-			<select id="sp_nationality" name="sp_nationality" class="chosen-select<?php if ( is_rtl() ): ?> chosen-rtl<?php endif; ?>">
-				<option value=""><?php _e( '-- Not set --', 'sportspress' ); ?></option>
-				<?php foreach ( $continents as $continent => $countries ): ?>
-					<optgroup label="<?php echo $continent; ?>">
-						<?php foreach ( $countries as $code => $country ): ?>
-							<option value="<?php echo $code; ?>" <?php selected ( $nationality, $code ); ?>><?php echo $country; ?></option>
-						<?php endforeach; ?>
-					</optgroup>
-				<?php endforeach; ?>
-			</select>
-		</p>
-		<?php if ( $teams ): ?>
-		<p>
-			<strong><?php _e( 'Current Team', 'sportspress' ); ?></strong>
-		</p>
-		<p>
-			<select id="sp_current_team" name="sp_current_team">
-				<?php foreach ( $teams as $team ): ?>
-					<option value="<?php echo $team; ?>" <?php selected ( $current_team, $team ); ?>>
-						<?php echo get_the_title( $team ); ?>
-					</option>
-				<?php endforeach; ?>
-			</select>
-		</p>
-		<?php endif; ?>
-	<?php
-}
+	<p><strong><?php _e( 'Number', 'sportspress' ); ?></strong></p>
+	<p><input type="text" size="4" id="sp_number" name="sp_number" value="<?php echo $number; ?>"></p>
 
-function sportspress_player_team_meta( $post ) {
-	sportspress_post_checklist( $post->ID, 'sp_team' );
-	sportspress_post_adder( 'sp_team' );
+	<p><strong><?php _e( 'Nationality', 'sportspress' ); ?></strong></p>
+	<p><select id="sp_nationality" name="sp_nationality" data-placeholder="<?php printf( __( 'Select %s', 'sportspress' ), __( 'Nationality', 'sportspress' ) ); ?>" class="widefat chosen-select<?php if ( is_rtl() ): ?> chosen-rtl<?php endif; ?>">
+		<option value=""></option>
+		<?php foreach ( $continents as $continent => $countries ): ?>
+			<optgroup label="<?php echo $continent; ?>">
+				<?php foreach ( $countries as $code => $country ): ?>
+					<option value="<?php echo $code; ?>" <?php selected ( $nationality, $code ); ?>><?php echo $country; ?></option>
+				<?php endforeach; ?>
+			</optgroup>
+		<?php endforeach; ?>
+	</select></p>
+
+	<p><strong><?php _e( 'Positions', 'sportspress' ); ?></strong></p>
+	<p><?php
+	$args = array(
+		'taxonomy' => 'sp_position',
+		'name' => 'tax_input[sp_position][]',
+		'selected' => $position_ids,
+		'values' => 'term_id',
+		'placeholder' => sprintf( __( 'Select %s', 'sportspress' ), __( 'Positions', 'sportspress' ) ),
+		'class' => 'widefat',
+		'property' => 'multiple',
+		'chosen' => true,
+	);
+	sportspress_dropdown_taxonomies( $args );
+	?></p>
+
+	<p><strong><?php _e( 'Current Team', 'sportspress' ); ?></strong></p>
+	<p><?php
+	$args = array(
+		'post_type' => 'sp_team',
+		'name' => 'sp_current_team',
+		'show_option_blank' => true,
+		'selected' => $current_team,
+		'values' => 'ID',
+		'placeholder' => sprintf( __( 'Select %s', 'sportspress' ), __( 'Team', 'sportspress' ) ),
+		'class' => 'sp-current-team widefat',
+		'chosen' => true,
+	);
+	sportspress_dropdown_pages( $args );
+	?></p>
+
+	<p><strong><?php _e( 'Past Teams', 'sportspress' ); ?></strong></p>
+	<p><?php
+	$args = array(
+		'post_type' => 'sp_team',
+		'name' => 'sp_past_team[]',
+		'selected' => $past_teams,
+		'values' => 'ID',
+		'placeholder' => sprintf( __( 'Select %s', 'sportspress' ), __( 'Teams', 'sportspress' ) ),
+		'class' => 'sp-past-teams widefat',
+		'property' => 'multiple',
+		'chosen' => true,
+	);
+	sportspress_dropdown_pages( $args );
+	?></p>
+
+	<p><strong><?php _e( 'Leagues', 'sportspress' ); ?></strong></p>
+	<p><?php
+	$args = array(
+		'taxonomy' => 'sp_league',
+		'name' => 'tax_input[sp_league][]',
+		'selected' => $league_ids,
+		'values' => 'term_id',
+		'placeholder' => sprintf( __( 'Select %s', 'sportspress' ), __( 'Leagues', 'sportspress' ) ),
+		'class' => 'widefat',
+		'property' => 'multiple',
+		'chosen' => true,
+	);
+	sportspress_dropdown_taxonomies( $args );
+	?></p>
+
+	<p><strong><?php _e( 'Seasons', 'sportspress' ); ?></strong></p>
+	<p><?php
+	$args = array(
+		'taxonomy' => 'sp_season',
+		'name' => 'tax_input[sp_season][]',
+		'selected' => $season_ids,
+		'values' => 'term_id',
+		'placeholder' => sprintf( __( 'Select %s', 'sportspress' ), __( 'Seasons', 'sportspress' ) ),
+		'class' => 'widefat',
+		'property' => 'multiple',
+		'chosen' => true,
+	);
+	sportspress_dropdown_taxonomies( $args );
+	?></p>
+	<?php
 }
 
 function sportspress_player_metrics_meta( $post ) {
@@ -142,39 +227,14 @@ function sportspress_player_metrics_meta( $post ) {
 	$vars = get_posts( $args );
 
 	if ( $vars ):
-	?>
-	<div class="sp-data-table-container">
-		<table class="widefat sp-data-table">
-			<thead>
-				<tr>
-					<th><?php _e( 'Metric', 'sportspress' ); ?></th>
-					<th><?php _e( 'Value', 'sportspress' ); ?></th>
-				</tr>
-			</thead>
-			<tbody>
-			<?php
-			$i = 0;
-			foreach ( $vars as $var ):
-				?>
-				<tr class="sp-row sp-post<?php if ( $i % 2 == 0 ) echo ' alternate'; ?>">
-					<td>
-						<?php echo $var->post_title; ?>
-					</td>
-					<?php
-					$value = sportspress_array_value( $metrics, $var->post_name, '' );
-					?>
-					<td><input type="text" name="sp_metrics[<?php echo $var->post_name; ?>]" value="<?php echo $value; ?>" /></td>
-				</tr>
-				<?php
-				$i++;
-			endforeach;
-			?>
-			</tbody>
-		</table>
-	</div>
-	<?php
+		foreach ( $vars as $var ):
+		?>
+		<p><strong><?php echo $var->post_title; ?></strong></p>
+		<p><input type="text" name="sp_metrics[<?php echo $var->post_name; ?>]" value="<?php echo sportspress_array_value( $metrics, $var->post_name, '' ); ?>" /></p>
+		<?php
+		endforeach;
 	else:
-		sportspress_post_adder( 'sp_metric' );
+		sportspress_post_adder( 'sp_metric', __( 'Add New', 'sportspress' ) );
 	endif;
 	
 	sportspress_nonce();

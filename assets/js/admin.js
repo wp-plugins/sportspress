@@ -10,7 +10,10 @@ jQuery(document).ready(function($){
 	});
 
 	// Chosen select
-	$(".chosen-select").chosen();
+	$(".chosen-select").chosen({
+		allow_single_deselect: true,
+		single_backstroke_delete: false
+	});
 
 	// Auto key placeholder
 	$("#poststuff #title").on("keyup", function() {
@@ -66,6 +69,83 @@ jQuery(document).ready(function($){
 	// Activate self-cloning
 	$(".sp-clone:last").find("select").change();
 
+	// Name editor
+	$(".sp-data-table .sp-default-name").click(function() {
+		$(this).hide().siblings(".sp-custom-name").show().find(".sp-custom-name-input").focus();
+	});
+
+	// Name editor save
+	$(".sp-data-table .sp-custom-name .sp-save").click(function() {
+		$val = $(this).siblings(".sp-custom-name-input").val();
+		if($val == "") $val = $(this).siblings(".sp-custom-name-input").attr("placeholder");
+		$(this).closest(".sp-custom-name").hide().siblings(".sp-default-name").show().find(".sp-default-name-input").html($val);
+	});
+
+	// Name editor cancel
+	$(".sp-data-table .sp-custom-name .sp-cancel").click(function() {
+		$val = $(this).closest(".sp-custom-name").siblings(".sp-default-name").find(".sp-default-name-input").html();
+		$el = $(this).siblings(".sp-custom-name-input");
+		if($val == $el.attr("placeholder")) $el.val("");
+		else $el.val($val);
+		$(this).closest(".sp-custom-name").hide().siblings(".sp-default-name").show();
+	});
+
+	// Prevent name editor input from submitting form
+	$(".sp-data-table .sp-custom-name .sp-custom-name-input").keypress(function(event) {
+		if(event.keyCode == 13){
+			event.preventDefault();
+			$(this).siblings(".sp-save").click();
+			return false;
+		}
+	});
+
+	// Cancel name editor form on escape
+	$(".sp-data-table .sp-custom-name .sp-custom-name-input").keyup(function(event) {
+		if(event.keyCode == 27){
+			event.preventDefault();
+			$(this).siblings(".sp-cancel").click();
+			return false;
+		}
+	});
+
+	// Data table keyboard navigation
+	$(".sp-data-table tbody tr td input:text").keydown(function(event) {
+		if(! $(this).parent().hasClass("chosen-search") && [37,38,39,40].indexOf(event.keyCode) > -1){
+			$el = $(this).closest("td");
+			var col = $el.parent().children().index($el)+1;
+			var row = $el.parent().parent().children().index($el.parent())+1;
+			if(event.keyCode == 37){
+				if ( $(this).caret().start != 0 )
+					return true;
+				col -= 1;
+			}
+			if(event.keyCode == 38){
+				row -= 1;
+			}
+			if(event.keyCode == 39){
+				if ( $(this).caret().start != $(this).val().length )
+					return true;
+				col += 1;
+			}
+			if(event.keyCode == 40){
+				row += 1;
+			}
+			$el.closest("tbody").find("tr:nth-child("+row+") td:nth-child("+col+") input:text").focus();
+		}
+	});
+
+	// Prevent data table from submitting form
+	$(".sp-data-table tbody tr td input:text").keypress(function(event) {
+		if(! $(this).parent().hasClass("chosen-search") && event.keyCode == 13){
+			event.preventDefault();
+			$el = $(this).closest("td");
+			var col = $el.parent().children().index($el)+1;
+			var row = $el.parent().parent().children().index($el.parent())+2;
+			$el.closest("tbody").find("tr:nth-child("+row+") td:nth-child("+col+") input:text").focus();
+			return false;
+		}
+	});
+
 	// Total stats calculator
 	$(".sp-data-table .sp-total input").on("updateTotal", function() {
 		index = $(this).parent().index();
@@ -90,9 +170,9 @@ jQuery(document).ready(function($){
 	}
 
 	// Select all checkboxes
-	$(".sp-data-table thead .sp-select-all").change(function() {
-		$table = $(this).closest(".sp-data-table");
-		$table.find("tbody input[type=checkbox]").prop("checked", $(this).prop("checked"));
+	$(".sp-select-all").change(function() {
+		$range = $(this).closest(".sp-select-all-range");
+		$range.find("input[type=checkbox]").prop("checked", $(this).prop("checked"));
 	});
 
 	// Check if all checkboxes are checked already
@@ -183,6 +263,14 @@ jQuery(document).ready(function($){
 	// Prevent address input from submitting form
 	$(".sp-address").keypress(function(event) {
 		return event.keyCode != 13;
+	});
+
+	// Dashboard countdown
+	$("#sportspress_dashboard_status .sp_status_list li.countdown").each(function() {
+		var $this = $(this), finalDate = $(this).data('countdown');
+		$this.countdown(finalDate, function(event) {
+			$this.find('strong').html(event.strftime("%D "+localized_strings.days+" %H:%M:%S"));
+		});
 	});
 
 });
