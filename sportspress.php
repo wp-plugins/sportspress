@@ -6,7 +6,7 @@
 Plugin Name: SportsPress
 Plugin URI: http://themeboy.com/sportspress
 Description: Manage your club and its players, staff, events, league tables, and player lists.
-Version: 0.4.1
+Version: 0.4.2
 Author: ThemeBoy
 Author URI: http://themeboy.com/
 License: GPLv3
@@ -18,7 +18,7 @@ if ( !function_exists( 'add_action' ) ):
 	exit;
 endif;
 
-define( 'SPORTSPRESS_VERSION', '0.4.1' );
+define( 'SPORTSPRESS_VERSION', '0.4.2' );
 define( 'SPORTSPRESS_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 define( 'SPORTSPRESS_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
 define( 'SPORTSPRESS_PLUGIN_FILE', __FILE__ );
@@ -50,8 +50,12 @@ require_once dirname( __FILE__ ) . '/admin/templates/player-metrics.php';
 require_once dirname( __FILE__ ) . '/admin/templates/player-statistics.php';
 require_once dirname( __FILE__ ) . '/admin/templates/team-columns.php';
 
-// Settings
-require_once dirname( __FILE__ ) . '/admin/settings/settings.php' ;
+// Options
+require_once dirname( __FILE__ ) . '/admin/settings/settings.php';
+require_once dirname( __FILE__ ) . '/admin/settings/options-general.php';
+require_once dirname( __FILE__ ) . '/admin/settings/options-event.php';
+require_once dirname( __FILE__ ) . '/admin/settings/options-table.php';
+require_once dirname( __FILE__ ) . '/admin/settings/options-player.php';
 
 // Custom post types
 require_once dirname( __FILE__ ) . '/admin/post-types/separator.php';
@@ -66,6 +70,7 @@ require_once dirname( __FILE__ ) . '/admin/post-types/table.php';
 require_once dirname( __FILE__ ) . '/admin/post-types/player.php';
 require_once dirname( __FILE__ ) . '/admin/post-types/list.php';
 require_once dirname( __FILE__ ) . '/admin/post-types/staff.php';
+//require_once dirname( __FILE__ ) . '/admin/post-types/sponsor.php';
 
 // Terms
 require_once dirname( __FILE__ ) . '/admin/terms/league.php';
@@ -87,6 +92,7 @@ require_once dirname( __FILE__ ) . '/admin/hooks/plugins-loaded.php';
 require_once dirname( __FILE__ ) . '/admin/hooks/after-setup-theme.php';
 require_once dirname( __FILE__ ) . '/admin/hooks/wp-enqueue-scripts.php';
 require_once dirname( __FILE__ ) . '/admin/hooks/loop-start.php';
+require_once dirname( __FILE__ ) . '/admin/hooks/the-title.php';
 
 // Admin request actions
 require_once dirname( __FILE__ ) . '/admin/hooks/admin-init.php';

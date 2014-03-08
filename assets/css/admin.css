@@ -25,9 +25,6 @@
 	-moz-osx-font-smoothing: grayscale;
 }
 
-.icon-megaphone:before {
-	content: "\f155";
-}
 .icon-calendar:before {
 	content: "\f145";
 }
@@ -37,11 +34,17 @@
 .icon-calendar:before {
 	content: "\f469";
 }
-
+.icon-tshirt:before {
+	content: "\f307";
+}
+.icon-megaphone:before {
+	content: "\f155";
+}
 
 #adminmenu #toplevel_page_sportspress .menu-icon-generic div.wp-menu-image:before,
 #adminmenu #menu-posts-sp_event .menu-icon-sp_event div.wp-menu-image:before,
 #adminmenu #menu-posts-sp_team .menu-icon-sp_team div.wp-menu-image:before,
+#adminmenu #menu-posts-sp_player .menu-icon-sp_player div.wp-menu-image:before,
 #adminmenu #menu-posts-sp_sponsor .menu-icon-sp_sponsor div.wp-menu-image:before {
 	font-family: sportspress, dashicons !important;
 }
@@ -178,24 +181,6 @@
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=70)";
 }
 
-.widget[id*="sp_countdown-"] .widget-title h4:before,
-.widget[id*="sp_events_calendar-"] .widget-title h4:before,
-.widget[id*="sp_player_list-"] .widget-title h4:before,
-.widget[id*="sp_league_table-"] .widget-title h4:before {
-	font-family: 'themeboy';
-	speak: none;
-	font-style: normal;
-	font-weight: normal;
-	font-variant: normal;
-	text-transform: none;
-	line-height: 1;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
-	content: "\e600";
-	margin-right: 0.5em;
-	text-shadow: 0 0 0 #00c7ff;
-}
-
 .postbox .inside .sp-data-table-container {
 	overflow: auto;
 }
@@ -266,9 +251,26 @@ table.widefat.sp-data-table tr:hover a.sp-edit-name {
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
 }
 
+table.widefat.sp-league-table th input[type=checkbox] {
+	margin: -4px 1px 0;
+	vertical-align: middle;
+}
+
 .sp-admin-config-table th,
 .sp-admin-config-table td {
-	width: 20%;
+	padding: 8px 10px;
+}
+
+.sp-admin-config-table th.radio,
+.sp-admin-config-table td.radio {
+	width: 1%;
+	text-align: center;
+}
+
+.sp-admin-config-table th.radio input[type=radio],
+.sp-admin-config-table td.radio input[type=radio] {
+	margin: 0;
+	vertical-align: middle;
 }
 
 table.widefat th.column-sp_icon,

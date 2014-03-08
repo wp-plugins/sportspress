@@ -1,9 +1,10 @@
 <?php
 function sportspress_player_post_init() {
 	$labels = array(
-		'name' => __( 'Players', 'sportspress' ),
+		'name' => __( 'Roster', 'sportspress' ),
 		'singular_name' => __( 'Player', 'sportspress' ),
-		'add_new_item' => __( 'Add New', 'sportspress' ),
+		'all_items' => __( 'Players', 'sportspress' ),
+		'add_new_item' => __( 'Add New Player', 'sportspress' ),
 		'edit_item' => __( 'Edit', 'sportspress' ),
 		'new_item' => __( 'New', 'sportspress' ),
 		'view_item' => __( 'View', 'sportspress' ),
@@ -17,7 +18,7 @@ function sportspress_player_post_init() {
 		'public' => true,
 		'has_archive' => false,
 		'hierarchical' => false,
-		'supports' => array( 'title', 'author', 'thumbnail', 'excerpt', 'page-attributes' ),
+		'supports' => array( 'title', 'editor', 'author', 'thumbnail', 'excerpt', 'page-attributes' ),
 		'register_meta_box_cb' => 'sportspress_player_meta_init',
 		'rewrite' => array( 'slug' => get_option( 'sp_player_slug', 'players' ) ),
 		'menu_icon' => 'dashicons-groups',
@@ -46,22 +47,16 @@ function sportspress_player_meta_init( $post ) {
 	$leagues = get_the_terms( $post->ID, 'sp_league' );
 	$seasons = (array)get_the_terms( $post->ID, 'sp_season' );
 
-	remove_meta_box( 'submitdiv', 'sp_player', 'side' );
 	remove_meta_box( 'sp_seasondiv', 'sp_player', 'side' );
 	remove_meta_box( 'sp_leaguediv', 'sp_player', 'side' );
 	remove_meta_box( 'sp_positiondiv', 'sp_player', 'side' );
-	remove_meta_box( 'postimagediv', 'sp_player', 'side' );
 
-	add_meta_box( 'submitdiv', __( 'Publish', 'sportspress' ), 'post_submit_meta_box', 'sp_player', 'side', 'high' );
-	add_meta_box( 'sp_detailsdiv', __( 'Details', 'sportspress' ), 'sportspress_player_details_meta', 'sp_player', 'side', 'high' );
-	add_meta_box( 'sp_metricsdiv', __( 'Metrics', 'sportspress' ), 'sportspress_player_metrics_meta', 'sp_player', 'side', 'high' );
-	add_meta_box( 'postimagediv', __( 'Photo', 'sportspress' ), 'post_thumbnail_meta_box', 'sp_player', 'side', 'low' );
+	add_meta_box( 'sp_detailsdiv', __( 'Details', 'sportspress' ), 'sportspress_player_details_meta', 'sp_player', 'side', 'default' );
+	add_meta_box( 'sp_metricsdiv', __( 'Metrics', 'sportspress' ), 'sportspress_player_metrics_meta', 'sp_player', 'side', 'default' );
 
 	if ( $leagues && ! empty( $leagues ) && $seasons && ! empty( $seasons ) ):
 		add_meta_box( 'sp_statsdiv', __( 'Statistics', 'sportspress' ), 'sportspress_player_stats_meta', 'sp_player', 'normal', 'high' );
 	endif;
-
-	add_meta_box( 'sp_profilediv', __( 'Profile', 'sportspress' ), 'sportspress_player_profile_meta', 'sp_player', 'normal', 'high' );
 }
 
 function sportspress_player_details_meta( $post ) {
@@ -259,8 +254,4 @@ function sportspress_player_stats_meta( $post ) {
 		sportspress_edit_player_statistics_table( $post->ID, $league->term_id, $columns, $data, $placeholders, $merged, $seasons_teams, ! current_user_can( 'edit_sp_teams' ) );
 
 	endforeach;
-}
-
-function sportspress_player_profile_meta( $post ) {
-	wp_editor( $post->post_content, 'content' );
 }

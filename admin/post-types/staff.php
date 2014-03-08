@@ -3,7 +3,7 @@ function sportspress_staff_post_init() {
 	$labels = array(
 		'name' => __( 'Staff', 'sportspress' ),
 		'singular_name' => __( 'Staff', 'sportspress' ),
-		'add_new_item' => __( 'Add New', 'sportspress' ),
+		'add_new_item' => __( 'Add New Staff', 'sportspress' ),
 		'edit_item' => __( 'Edit', 'sportspress' ),
 		'new_item' => __( 'New', 'sportspress' ),
 		'view_item' => __( 'View', 'sportspress' ),
@@ -20,6 +20,7 @@ function sportspress_staff_post_init() {
 		'supports' => array( 'title', 'author', 'thumbnail' ),
 		'register_meta_box_cb' => 'sportspress_staff_meta_init',
 		'rewrite' => array( 'slug' => get_option( 'sp_staff_slug', 'staff' ) ),
+		'show_in_menu' => 'edit.php?post_type=sp_player',
 		'menu_icon' => 'dashicons-businessman',
 		'capability_type' => 'sp_staff'
 	);
@@ -28,11 +29,7 @@ function sportspress_staff_post_init() {
 add_action( 'init', 'sportspress_staff_post_init' );
 
 function sportspress_staff_meta_init() {
-	remove_meta_box( 'submitdiv', 'sp_staff', 'side' );
-	add_meta_box( 'submitdiv', __( 'Publish', 'sportspress' ), 'post_submit_meta_box', 'sp_staff', 'side', 'high' );
-	remove_meta_box( 'postimagediv', 'sp_staff', 'side' );
-	add_meta_box( 'postimagediv', __( 'Photo', 'sportspress' ), 'post_thumbnail_meta_box', 'sp_staff', 'side', 'low' );
-	add_meta_box( 'sp_teamdiv', __( 'Teams', 'sportspress' ), 'sportspress_staff_team_meta', 'sp_staff', 'side', 'high' );
+	add_meta_box( 'sp_teamdiv', __( 'Teams', 'sportspress' ), 'sportspress_staff_team_meta', 'sp_staff', 'side', 'default' );
 	add_meta_box( 'sp_profilediv', __( 'Profile', 'sportspress' ), 'sportspress_staff_profile_meta', 'sp_staff', 'normal', 'high' );
 }
 function sportspress_staff_team_meta( $post ) {
