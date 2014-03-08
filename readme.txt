@@ -43,9 +43,7 @@ League table columns, player statistics, and match results can be customized to 
 
 = Get involved =
 
-Developers can contribute via the [SportsPress GitHub Repository](https://github.com/ThemeBoy/SportsPress/blob/master/CONTRIBUTING.md).
-
-Translators can contribute new languages to SportsPress through [Transifex](https://www.transifex.com/projects/p/sportspress/).
+Developers and translators can contribute via the [SportsPress GitHub Repository](https://github.com/ThemeBoy/SportsPress/blob/master/CONTRIBUTING.md).
 
 == Installation ==
 
