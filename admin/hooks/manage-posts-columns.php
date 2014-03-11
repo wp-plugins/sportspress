@@ -11,6 +11,8 @@ function sportspress_manage_posts_custom_column( $column, $post_id ) {
 	switch ( $column ):
 		case 'sp_icon':
 			edit_post_link( get_the_post_thumbnail( $post_id, 'sportspress-fit-icon' ), '', '', $post_id );
+			break;
+		case 'sp_number':
 			echo '<strong>' . get_post_meta( $post_id, 'sp_number', true ) . '</strong>';
 			break;
 		case 'sp_views':
@@ -52,23 +54,7 @@ function sportspress_manage_posts_custom_column( $column, $post_id ) {
 					endif;
 
 					if ( $team_result != null ):
-						echo ' &mdash; ' . $team_result;
-					endif;
-
-					$outcome_slug = sportspress_array_value( $team_results, 'outcome', null );
-					if ( $outcome_slug && $outcome_slug != '-1' ):
-						$args=array(
-							'name' => $outcome_slug,
-							'post_type' => 'sp_outcome',
-							'post_status' => 'publish',
-							'posts_per_page' => 1
-						);
-						$outcomes = get_posts( $args );
-
-						if ( sizeof( $outcomes ) ):
-							$outcome = reset( $outcomes );
-							echo ' (' . $outcome->post_title . ')';
-						endif;
+						echo ' <strong>' . $team_result . '</strong>';
 					endif;
 
 					echo '<br>';
@@ -80,7 +66,7 @@ function sportspress_manage_posts_custom_column( $column, $post_id ) {
 					$team = get_post( $team_id );
 					echo $team->post_title;
 					if ( $team_id == $current_team ):
-						echo ' (' . __( 'Current Team', 'sportspress' ) . ')';
+						echo '<span class="dashicons dashicons-yes" title="' . __( 'Current Team', 'sportspress' ) . '"></span>';
 					endif;
 					echo '<br>';
 				endforeach;

@@ -772,8 +772,9 @@ if ( !function_exists( 'sportspress_get_var_calculates' ) ) {
 }
 
 if ( !function_exists( 'sportspress_edit_league_table' ) ) {
-	function sportspress_edit_league_table( $columns = array(), $usecolumns = array(), $data = array(), $placeholders = array() ) {
-		$usecolumns = array_filter( $usecolumns );
+	function sportspress_edit_league_table( $columns = array(), $usecolumns = null, $data = array(), $placeholders = array() ) {
+		if ( is_array( $usecolumns ) )
+			$usecolumns = array_filter( $usecolumns );
 		?>
 		<div class="sp-data-table-container">
 			<table class="widefat sp-data-table sp-league-table">
@@ -782,7 +783,7 @@ if ( !function_exists( 'sportspress_edit_league_table' ) ) {
 						<th><?php _e( 'Team', 'sportspress' ); ?></th>
 						<?php foreach ( $columns as $key => $label ): ?>
 							<th><label for="sp_columns_<?php echo $key; ?>">
-								<input type="checkbox" name="sp_columns[]" value="<?php echo $key; ?>" id="sp_columns_<?php echo $key; ?>" <?php checked( ! $usecolumns || empty( $usecolumns ) || in_array( $key, $usecolumns ) ); ?>>
+								<input type="checkbox" name="sp_columns[]" value="<?php echo $key; ?>" id="sp_columns_<?php echo $key; ?>" <?php checked( ! is_array( $usecolumns) || in_array( $key, $usecolumns ) ); ?>>
 								<?php echo $label; ?>
 							</label></th>
 						<?php endforeach; ?>
@@ -790,38 +791,48 @@ if ( !function_exists( 'sportspress_edit_league_table' ) ) {
 				</thead>
 				<tbody>
 					<?php
-					$i = 0;
-					foreach ( $data as $team_id => $team_stats ):
-						if ( !$team_id )
-							continue;
+					if ( is_array( $data ) && sizeof( $data ) > 0 ):
+						$i = 0;
+						foreach ( $data as $team_id => $team_stats ):
+							if ( !$team_id )
+								continue;
 
-						$div = get_term( $team_id, 'sp_season' );
-						$default_name = sportspress_array_value( $team_stats, 'name', '' );
-						if ( $default_name == null )
-							$default_name = get_the_title( $team_id );
-						?>
-						<tr class="sp-row sp-post<?php if ( $i % 2 == 0 ) echo ' alternate'; ?>">
-							<td>
-								<span class="sp-default-name">
-									<span class="sp-default-name-input"><?php echo $default_name; ?></span>
-									<a class="dashicons dashicons-edit sp-edit-name" title="<?php _e( 'Edit', 'sportspress' ); ?>"></a>
-								</span>
-								<span class="hidden sp-custom-name">
-									<input type="text" name="sp_teams[<?php echo $team_id; ?>][name]" class="name sp-custom-name-input" value="<?php echo sportspress_array_value( $team_stats, 'name', '' ); ?>" placeholder="<?php echo get_the_title( $team_id ); ?>">
-									<a class="button button-secondary sp-cancel"><?php _e( 'Cancel', 'sportspress' ); ?></a>
-									<a class="button button-primary sp-save"><?php _e( 'Save', 'sportspress' ); ?></a>
-								</span>
-							</td>
-							<?php foreach( $columns as $column => $label ):
-								$value = sportspress_array_value( $team_stats, $column, '' );
-								$placeholder = sportspress_array_value( sportspress_array_value( $placeholders, $team_id, array() ), $column, 0 );
-								?>
-								<td><input type="text" name="sp_teams[<?php echo $team_id; ?>][<?php echo $column; ?>]" value="<?php echo $value; ?>" placeholder="<?php echo $placeholder; ?>" /></td>
-							<?php endforeach; ?>
-						</tr>
-						<?php
-						$i++;
-					endforeach;
+							$div = get_term( $team_id, 'sp_season' );
+							$default_name = sportspress_array_value( $team_stats, 'name', '' );
+							if ( $default_name == null )
+								$default_name = get_the_title( $team_id );
+							?>
+							<tr class="sp-row sp-post<?php if ( $i % 2 == 0 ) echo ' alternate'; ?>">
+								<td>
+									<span class="sp-default-name">
+										<span class="sp-default-name-input"><?php echo $default_name; ?></span>
+										<a class="dashicons dashicons-edit sp-edit-name" title="<?php _e( 'Edit', 'sportspress' ); ?>"></a>
+									</span>
+									<span class="hidden sp-custom-name">
+										<input type="text" name="sp_teams[<?php echo $team_id; ?>][name]" class="name sp-custom-name-input" value="<?php echo sportspress_array_value( $team_stats, 'name', '' ); ?>" placeholder="<?php echo get_the_title( $team_id ); ?>">
+										<a class="button button-secondary sp-cancel"><?php _e( 'Cancel', 'sportspress' ); ?></a>
+										<a class="button button-primary sp-save"><?php _e( 'Save', 'sportspress' ); ?></a>
+									</span>
+								</td>
+								<?php foreach( $columns as $column => $label ):
+									$value = sportspress_array_value( $team_stats, $column, '' );
+									$placeholder = sportspress_array_value( sportspress_array_value( $placeholders, $team_id, array() ), $column, 0 );
+									?>
+									<td><input type="text" name="sp_teams[<?php echo $team_id; ?>][<?php echo $column; ?>]" value="<?php echo $value; ?>" placeholder="<?php echo $placeholder; ?>" /></td>
+								<?php endforeach; ?>
+							</tr>
+							<?php
+							$i++;
+						endforeach;
+					else:
+					?>
+					<tr class="sp-row alternate">
+						<td colspan="<?php $colspan = sizeof( $columns ) + 1; echo $colspan; ?>">
+							<?php printf( __( 'Select %s', 'sportspress' ), __( 'Teams', 'sportspress' ) ); ?>
+						</td>
+					</tr>
+					<?php
+					endif;
 					?>
 				</tbody>
 			</table>
@@ -1035,15 +1046,20 @@ if ( !function_exists( 'sportspress_edit_event_results_table' ) ) {
 							<?php endforeach; ?>
 							<td>
 								<?php
-								$value = sportspress_array_value( $team_results, 'outcome', '' );
+								$values = sportspress_array_value( $team_results, 'outcome', '' );
+								if ( ! is_array( $values ) )
+									$values = array( $values );
+
 								$args = array(
 									'post_type' => 'sp_outcome',
-									'name' => 'sp_results[' . $team_id . '][outcome]',
-									'show_option_none' => __( '-- Not set --', 'sportspress' ),
+									'name' => 'sp_results[' . $team_id . '][outcome][]',
 									'option_none_value' => '',
 								    'sort_order'   => 'ASC',
 								    'sort_column'  => 'menu_order',
-									'selected' => $value
+									'selected' => $values,
+									'class' => 'sp-outcome',
+									'property' => 'multiple',
+									'chosen' => true,
 								);
 								sportspress_dropdown_pages( $args );
 								?>
@@ -1523,33 +1539,42 @@ if ( !function_exists( 'sportspress_get_team_columns_data' ) ) {
 						if ( $team_id == $post_id ):
 							if ( $key == 'outcome' ):
 
-								// Increment events played and outcome count
-								if ( array_key_exists( $value, $totals ) ):
-									$totals['eventsplayed']++;
-									$totals[ $value ]++;
+								// Convert to array
+								if ( ! is_array( $value ) ):
+									$value = array( $value );
 								endif;
 
-								if ( $value && $value != '-1' ):
+								foreach( $value as $outcome ):
 
-									// Add to streak counter
-									if ( $streak['fire'] && ( $streak['name'] == '' || $streak['name'] == $value ) ):
-										$streak['name'] = $value;
-										$streak['count'] ++;
-									else:
-										$streak['fire'] = 0;
+									// Increment events played and outcome count
+									if ( array_key_exists( $outcome, $totals ) ):
+										$totals['eventsplayed']++;
+										$totals[ $outcome ]++;
 									endif;
 
-									// Add to last 5 counter if sum is less than 5
-									if ( array_key_exists( $value, $last5 ) && array_sum( $last5 ) < 5 ):
-										$last5[ $value ] ++;
+									if ( $outcome && $outcome != '-1' ):
+
+										// Add to streak counter
+										if ( $streak['fire'] && ( $streak['name'] == '' || $streak['name'] == $outcome ) ):
+											$streak['name'] = $outcome;
+											$streak['count'] ++;
+										else:
+											$streak['fire'] = 0;
+										endif;
+
+										// Add to last 5 counter if sum is less than 5
+										if ( array_key_exists( $outcome, $last5 ) && array_sum( $last5 ) < 5 ):
+											$last5[ $outcome ] ++;
+										endif;
+
+										// Add to last 10 counter if sum is less than 10
+										if ( array_key_exists( $outcome, $last10 ) && array_sum( $last10 ) < 10 ):
+											$last10[ $outcome ] ++;
+										endif;
+
 									endif;
 
-									// Add to last 10 counter if sum is less than 10
-									if ( array_key_exists( $value, $last10 ) && array_sum( $last10 ) < 10 ):
-										$last10[ $value ] ++;
-									endif;
-
-								endif;
+								endforeach;
 
 							else:
 								if ( array_key_exists( $key . 'for', $totals ) ):
@@ -1736,33 +1761,41 @@ if ( !function_exists( 'sportspress_get_league_table_data' ) ) {
 
 					if ( $key == 'outcome' ):
 
-						// Increment events played and outcome count
-						if ( array_key_exists( $team_id, $totals ) && is_array( $totals[ $team_id ] ) && array_key_exists( $value, $totals[ $team_id ] ) ):
-							$totals[ $team_id ]['eventsplayed']++;
-							$totals[ $team_id ][ $value ]++;
+						if ( ! is_array( $value ) ):
+							$value = array( $value );
 						endif;
 
-						if ( $value && $value != '-1' ):
+						foreach ( $value as $outcome ):
 
-							// Add to streak counter
-							if ( $streaks[ $team_id ]['fire'] && ( $streaks[ $team_id ]['name'] == '' || $streaks[ $team_id ]['name'] == $value ) ):
-								$streaks[ $team_id ]['name'] = $value;
-								$streaks[ $team_id ]['count'] ++;
-							else:
-								$streaks[ $team_id ]['fire'] = 0;
+							// Increment events played and outcome count
+							if ( array_key_exists( $team_id, $totals ) && is_array( $totals[ $team_id ] ) && array_key_exists( $outcome, $totals[ $team_id ] ) ):
+								$totals[ $team_id ]['eventsplayed']++;
+								$totals[ $team_id ][ $outcome ]++;
 							endif;
 
-							// Add to last 5 counter if sum is less than 5
-							if ( array_key_exists( $team_id, $last5s ) && array_key_exists( $value, $last5s[ $team_id ] ) && array_sum( $last5s[ $team_id ] ) < 5 ):
-								$last5s[ $team_id ][ $value ] ++;
+							if ( $outcome && $outcome != '-1' ):
+
+								// Add to streak counter
+								if ( $streaks[ $team_id ]['fire'] && ( $streaks[ $team_id ]['name'] == '' || $streaks[ $team_id ]['name'] == $outcome ) ):
+									$streaks[ $team_id ]['name'] = $outcome;
+									$streaks[ $team_id ]['count'] ++;
+								else:
+									$streaks[ $team_id ]['fire'] = 0;
+								endif;
+
+								// Add to last 5 counter if sum is less than 5
+								if ( array_key_exists( $team_id, $last5s ) && array_key_exists( $outcome, $last5s[ $team_id ] ) && array_sum( $last5s[ $team_id ] ) < 5 ):
+									$last5s[ $team_id ][ $outcome ] ++;
+								endif;
+
+								// Add to last 10 counter if sum is less than 10
+								if ( array_key_exists( $team_id, $last10s ) && array_key_exists( $outcome, $last10s[ $team_id ] ) && array_sum( $last10s[ $team_id ] ) < 10 ):
+									$last10s[ $team_id ][ $outcome ] ++;
+								endif;
+
 							endif;
 
-							// Add to last 10 counter if sum is less than 10
-							if ( array_key_exists( $team_id, $last10s ) && array_key_exists( $value, $last10s[ $team_id ] ) && array_sum( $last10s[ $team_id ] ) < 10 ):
-								$last10s[ $team_id ][ $value ] ++;
-							endif;
-
-						endif;
+						endforeach;
 
 					else:
 						if ( array_key_exists( $team_id, $totals ) && is_array( $totals[ $team_id ] ) && array_key_exists( $key . 'for', $totals[ $team_id ] ) ):
@@ -1897,7 +1930,9 @@ if ( !function_exists( 'sportspress_get_league_table_data' ) ) {
 		if ( $breakdown ):
 			return array( $columns, $usecolumns, $data, $placeholders, $merged );
 		else:
-			foreach( $columns as $key => $label ):
+			if ( ! is_array( $usecolumns ) )
+				$usecolumns = array();
+			foreach ( $columns as $key => $label ):
 				if ( ! in_array( $key, $usecolumns ) ):
 					unset( $columns[ $key ] );
 				endif;
