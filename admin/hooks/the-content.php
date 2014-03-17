@@ -13,16 +13,42 @@ function sportspress_default_event_content( $content ) {
         $results = sportspress_event_results();
         $players = sportspress_event_players();
         $staff = sportspress_event_staff();
+        $id = get_the_ID();
+        $video_url = get_post_meta( $id, 'sp_video', true );
+        if ( $video_url ):
+            global $wp_embed;
+            $video = $wp_embed->autoembed( $video_url );
+        else:
+            $video = '';
+        endif;
         if ( $results ):
-            $content = $results . $details . $players . $staff . $content;
+            $content = $video . $results . $details . $players . $staff . $content;
         else:
             $venue = sportspress_event_venue();
-            $content = $details . $venue . $players . $staff . $content;
+            $content = $video . $details . $venue . $players . $staff . $content;
         endif;
     endif;
     return $content;
 }
-add_filter( 'the_content', 'sportspress_default_event_content' );
+add_filter( 'the_content', 'sportspress_default_event_content', 7 );
+
+function sportspress_default_calendar_content( $content ) {
+    if ( is_singular( 'sp_calendar' ) && in_the_loop() ):
+        $id = get_the_ID();
+        $format = get_post_meta( $id, 'sp_format', true );
+        switch ( $format ):
+            case 'list':
+                $calendar = sportspress_events_list( $id );
+                break;
+            default:
+                $calendar = sportspress_events_calendar( $id, false, array( 'caption_tag' => 'h4' ) );
+                break;
+            endswitch;
+        $content = $calendar . $content;
+    endif;
+    return $content;
+}
+add_filter( 'the_content', 'sportspress_default_calendar_content' );
 
 function sportspress_default_team_content( $content ) {
     if ( is_singular( 'sp_team' ) && in_the_loop() ):
@@ -70,7 +96,16 @@ add_filter( 'the_content', 'sportspress_default_player_content' );
 
 function sportspress_default_list_content( $content ) {
     if ( is_singular( 'sp_list' ) && in_the_loop() ):
-        $list = sportspress_player_list( get_the_ID() );
+        $id = get_the_ID();
+        $format = get_post_meta( $id, 'sp_format', true );
+        switch ( $format ):
+            case 'gallery':
+                $list = sportspress_player_gallery( $id );
+                break;
+            default:
+                $list = sportspress_player_list( $id );
+                break;
+            endswitch;
         $content = $list . $content;
     endif;
     return $content;

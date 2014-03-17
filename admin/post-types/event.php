@@ -5,7 +5,7 @@ function sportspress_event_post_init() {
 		'singular_name' => __( 'Event', 'sportspress' ),
 		'all_items' => __( 'Events', 'sportspress' ),
 		'add_new_item' => __( 'Add New Event', 'sportspress' ),
-		'edit_item' => __( 'Edit', 'sportspress' ),
+		'edit_item' => __( 'Edit Event', 'sportspress' ),
 		'new_item' => __( 'New', 'sportspress' ),
 		'view_item' => __( 'View', 'sportspress' ),
 		'search_items' => __( 'Search', 'sportspress' ),
@@ -28,6 +28,23 @@ function sportspress_event_post_init() {
 }
 add_action( 'init', 'sportspress_event_post_init' );
 
+function sportspress_event_edit_columns() {
+	$columns = array(
+		'cb' => '<input type="checkbox" />',
+		'sp_format' => '<span class="dashicons sp-icon-calendar tips" title="' . __( 'Format', 'sportspress' ) . '"></span>',
+		'title' => __( 'Event', 'sportspress' ),
+		'date' => __( 'Date', 'sportspress' ),
+		'sp_time' => __( 'Time', 'sportspress' ),
+		'sp_team' => __( 'Teams', 'sportspress' ),
+		'sp_league' => __( 'League', 'sportspress' ),
+		'sp_season' => __( 'Season', 'sportspress' ),
+		'sp_venue' => __( 'Venue', 'sportspress' ),
+		'sp_views' => __( 'Views', 'sportspress' ),
+	);
+	return $columns;
+}
+add_filter( 'manage_edit-sp_event_columns', 'sportspress_event_edit_columns' );
+
 function sportspress_event_display_scheduled( $posts ) {
 	global $wp_query, $wpdb;
 	if ( is_single() && $wp_query->post_count == 0 && isset( $wp_query->query_vars['sp_event'] )) {
@@ -47,8 +64,10 @@ function sportspress_event_meta_init( $post ) {
 	remove_meta_box( 'sp_seasondiv', 'sp_event', 'side' );
 
 	add_meta_box( 'submitdiv', __( 'Event', 'sportspress' ), 'post_submit_meta_box', 'sp_event', 'side', 'high' );
+	add_meta_box( 'sp_formatdiv', __( 'Format', 'sportspress' ), 'sportspress_event_format_meta', 'sp_event', 'side', 'high' );
 	add_meta_box( 'sp_detailsdiv', __( 'Details', 'sportspress' ), 'sportspress_event_details_meta', 'sp_event', 'side', 'high' );
 	add_meta_box( 'sp_teamdiv', __( 'Teams', 'sportspress' ), 'sportspress_event_team_meta', 'sp_event', 'side', 'default' );
+	add_meta_box( 'sp_videodiv', __( 'Video', 'sportspress' ), 'sportspress_event_video_meta', 'sp_event', 'side', 'low' );
 	if ( sizeof( $teams ) > 0 )
 		add_meta_box( 'sp_resultsdiv', __( 'Results', 'sportspress' ), 'sportspress_event_results_meta', 'sp_event', 'normal', 'high' );
 
@@ -59,42 +78,57 @@ function sportspress_event_meta_init( $post ) {
 	add_meta_box( 'sp_articlediv', __( 'Article', 'sportspress' ), 'sportspress_event_article_meta', 'sp_event', 'normal', 'high' );
 }
 
+function sportspress_event_format_meta( $post ) {
+	global $sportspress_formats;
+	$the_format = get_post_meta( $post->ID, 'sp_format', true );
+	?>
+	<div id="post-formats-select">
+		<?php foreach ( $sportspress_formats['event'] as $key => $format ): ?>
+			<input type="radio" name="sp_format" class="post-format" id="post-format-<?php echo $key; ?>" value="<?php echo $key; ?>" <?php checked( true, ( $key == 'league' && ! $the_format ) || $the_format == $key ); ?>> <label for="post-format-<?php echo $key; ?>" class="post-format-icon post-format-<?php echo $key; ?>"><?php echo $format; ?></label><br>
+		<?php endforeach; ?>
+	</div>
+	<?php
+}
+
 function sportspress_event_details_meta( $post ) {
+	$type = sportspress_get_the_term_id( $post->ID, 'sp_type', null );
 	$league_id = sportspress_get_the_term_id( $post->ID, 'sp_league', 0 );
 	$season_id = sportspress_get_the_term_id( $post->ID, 'sp_season', 0 );
 	$venue_id = sportspress_get_the_term_id( $post->ID, 'sp_venue', 0 );
 	?>
 	<div>
-		<p><strong><?php _e( 'League', 'sportspress' ); ?></strong></p>
-		<p>
-			<?php
-			$args = array(
-				'taxonomy' => 'sp_league',
-				'name' => 'sp_league',
-				'selected' => $league_id,
-				'values' => 'term_id',
-				'show_option_none' => __( '-- Not set --', 'sportspress' ),
-			);
-			if ( ! sportspress_dropdown_taxonomies( $args ) ):
-				sportspress_taxonomy_adder( 'sp_league', 'sp_team', __( 'Add New', 'sportspress' ) );
-			endif;
-			?>
-		</p>
-		<p><strong><?php _e( 'Season', 'sportspress' ); ?></strong></p>
-		<p>
-			<?php
-			$args = array(
-				'taxonomy' => 'sp_season',
-				'name' => 'sp_season',
-				'selected' => $season_id,
-				'values' => 'term_id',
-				'show_option_none' => __( '-- Not set --', 'sportspress' ),
-			);
-			if ( ! sportspress_dropdown_taxonomies( $args ) ):
-				sportspress_taxonomy_adder( 'sp_season', 'sp_team', __( 'Add New', 'sportspress' )  );
-			endif;
-			?>
-		</p>
+		<fieldset class="sp-event-format-field sp-league-event-field sp-friendly-event-field">
+			<p><strong><?php _e( 'League', 'sportspress' ); ?></strong></p>
+			<p>
+				<?php
+				$args = array(
+					'taxonomy' => 'sp_league',
+					'name' => 'sp_league',
+					'selected' => $league_id,
+					'values' => 'term_id',
+					'show_option_none' => __( '-- Not set --', 'sportspress' ),
+				);
+				if ( ! sportspress_dropdown_taxonomies( $args ) ):
+					sportspress_taxonomy_adder( 'sp_league', 'sp_team', __( 'Add New', 'sportspress' ) );
+				endif;
+				?>
+			</p>
+			<p><strong><?php _e( 'Season', 'sportspress' ); ?></strong></p>
+			<p>
+				<?php
+				$args = array(
+					'taxonomy' => 'sp_season',
+					'name' => 'sp_season',
+					'selected' => $season_id,
+					'values' => 'term_id',
+					'show_option_none' => __( '-- Not set --', 'sportspress' ),
+				);
+				if ( ! sportspress_dropdown_taxonomies( $args ) ):
+					sportspress_taxonomy_adder( 'sp_season', 'sp_team', __( 'Add New', 'sportspress' )  );
+				endif;
+				?>
+			</p>
+		</fieldset>
 		<p><strong><?php _e( 'Venue', 'sportspress' ); ?></strong></p>
 		<p>
 			<?php
@@ -160,6 +194,26 @@ function sportspress_event_team_meta( $post ) {
 	sportspress_nonce();
 }
 
+function sportspress_event_video_meta( $post ) {
+	$video = get_post_meta( $post->ID, 'sp_video', true );
+	if ( $video ):
+	?>
+	<fieldset class="sp-video-embed">
+		<?php echo apply_filters( 'the_content', '[embed width="254"]' . $video . '[/embed]' ); ?>
+		<p><a href="#" class="sp-remove-video"><?php _e( 'Remove video', 'sportspress' ); ?></a></p>
+	</fieldset>
+	<?php endif; ?>
+	<fieldset class="sp-video-field hidden">
+		<p><strong><?php _e( 'URL', 'sportspress' ); ?></strong></p>
+		<p><input class="widefat" type="text" name="sp_video" id="sp_video" value="<?php echo $video; ?>"></p>
+		<p><a href="#" class="sp-remove-video"><?php _e( 'Cancel', 'sportspress' ); ?></a></p>
+	</fieldset>
+	<fieldset class="sp-video-adder<?php if ( $video ): ?> hidden<?php endif; ?>">
+		<p><a href="#" class="sp-add-video"><?php _e( 'Add video', 'sportspress' ); ?></a></p>
+	</fieldset>
+	<?php
+}
+
 function sportspress_event_statistics_meta( $post ) {
 	$teams = (array)get_post_meta( $post->ID, 'sp_team', false );
 	$stats = (array)get_post_meta( $post->ID, 'sp_players', true );
@@ -205,24 +259,3 @@ function sportspress_event_results_meta( $post ) {
 function sportspress_event_article_meta( $post ) {
 	wp_editor( $post->post_content, 'content' );
 }
-
-function sportspress_event_edit_columns() {
-	$columns = array(
-		'cb' => '<input type="checkbox" />',
-		'title' => __( 'Event', 'sportspress' ),
-		'sp_team' => __( 'Teams', 'sportspress' ),
-		'sp_league' => __( 'League', 'sportspress' ),
-		'sp_season' => __( 'Season', 'sportspress' ),
-		'sp_venue' => __( 'Venue', 'sportspress' ),
-		'sp_datetime' => '<span class="dashicons dashicons-calendar" title="' . __( 'Date/Time', 'sportspress' ) . '"></span>',
-		'sp_views' => __( 'Views', 'sportspress' ),
-	);
-	return $columns;
-}
-add_filter( 'manage_edit-sp_event_columns', 'sportspress_event_edit_columns' );
-
-function sportspress_event_edit_sortable_columns( $columns ) {
-	$columns['sp_datetime'] = 'sp_datetime';
-	return $columns;
-}
-add_filter( 'manage_edit-sp_event_sortable_columns', 'sportspress_event_edit_sortable_columns' );
