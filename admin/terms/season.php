@@ -4,7 +4,7 @@ function sportspress_season_term_init() {
 		'name' => __( 'Seasons', 'sportspress' ),
 		'singular_name' => __( 'Season', 'sportspress' ),
 		'all_items' => __( 'All', 'sportspress' ),
-		'edit_item' => __( 'Edit', 'sportspress' ),
+		'edit_item' => __( 'Edit Season', 'sportspress' ),
 		'view_item' => __( 'View', 'sportspress' ),
 		'update_item' => __( 'Update', 'sportspress' ),
 		'add_new_item' => __( 'Add New', 'sportspress' ),
@@ -23,7 +23,7 @@ function sportspress_season_term_init() {
 		'hierarchical' => true,
 		'rewrite' => array( 'slug' => 'season' ),
 	);
-	$object_types = array( 'sp_event', 'sp_team', 'sp_table', 'sp_player', 'sp_list', 'sp_staff' );
+	$object_types = array( 'sp_event', 'sp_calendar', 'sp_team', 'sp_table', 'sp_player', 'sp_list', 'sp_staff' );
 	register_taxonomy( 'sp_season', $object_types, $args );
 	foreach ( $object_types as $object_type ):
 		register_taxonomy_for_object_type( 'sp_league', $object_type );

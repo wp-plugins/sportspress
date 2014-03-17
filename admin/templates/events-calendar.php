@@ -1,12 +1,32 @@
 <?php
 if ( !function_exists( 'sportspress_events_calendar' ) ) {
-	function sportspress_events_calendar( $initial = true ) {
+	function sportspress_events_calendar( $id = null, $initial = true, $args = array() ) {
 	
 		global $wpdb, $m, $monthnum, $year, $wp_locale, $posts;
 
 		// Quick check. If we have no posts at all, abort!
-		if ( !$posts )
+		if ( ! $posts )
 			return;
+
+		$defaults = array(
+			'caption_tag' => 'caption',
+			'show_all_events_link' => false,
+		);
+
+		$r = wp_parse_args( $args, $defaults );
+
+		if ( $id ):
+			$events = sportspress_get_calendar_data( $id );
+			$event_ids = array();
+			foreach ( $events as $event ):
+				$event_ids[] = $event->ID;
+			endforeach;
+			$in = 'AND ID IN (' . implode( ', ', $event_ids ) . ')';
+		else:
+			$in = '';
+		endif;
+
+		$caption_tag = $r['caption_tag'];
 
 		// week_begins = 0 stands for Sunday
 		$week_begins = intval(get_option('start_of_week'));
@@ -43,20 +63,22 @@ if ( !function_exists( 'sportspress_events_calendar' ) ) {
 			FROM $wpdb->posts
 			WHERE post_date < '$thisyear-$thismonth-01'
 			AND post_type = 'sp_event' AND ( post_status = 'publish' OR post_status = 'future' )
+			$in
 				ORDER BY post_date DESC
 				LIMIT 1");
 		$next = $wpdb->get_row("SELECT MONTH(post_date) AS month, YEAR(post_date) AS year
 			FROM $wpdb->posts
 			WHERE post_date > '$thisyear-$thismonth-{$last_day} 23:59:59'
 			AND post_type = 'sp_event' AND ( post_status = 'publish' OR post_status = 'future' )
+			$in
 				ORDER BY post_date ASC
 				LIMIT 1");
 
 		/* translators: Calendar caption: 1: month name, 2: 4-digit year */
 		$calendar_caption = _x('%1$s %2$s', 'calendar caption', 'sportspress');
 		$calendar_output = '
-		<table id="wp-calendar">
-		<caption>' . sprintf($calendar_caption, $wp_locale->get_month($thismonth), date('Y', $unixmonth)) . '</caption>
+		<table id="wp-calendar" class="sp-calendar sp-events-calendar">
+		<' . $caption_tag . ' class="sp-table-caption">' . sprintf($calendar_caption, $wp_locale->get_month($thismonth), date('Y', $unixmonth)) . '</' . $caption_tag . '>
 		<thead>
 		<tr>';
 
@@ -104,6 +126,7 @@ if ( !function_exists( 'sportspress_events_calendar' ) ) {
 		$dayswithposts = $wpdb->get_results("SELECT DAYOFMONTH(post_date), ID
 			FROM $wpdb->posts WHERE post_date >= '{$thisyear}-{$thismonth}-01 00:00:00'
 			AND post_type = 'sp_event' AND ( post_status = 'publish' OR post_status = 'future' )
+			$in
 			AND post_date <= '{$thisyear}-{$thismonth}-{$last_day} 23:59:59'", ARRAY_N);
 		if ( $dayswithposts ) {
 			foreach ( (array) $dayswithposts as $daywith ) {
@@ -123,7 +146,8 @@ if ( !function_exists( 'sportspress_events_calendar' ) ) {
 			."FROM $wpdb->posts "
 			."WHERE post_date >= '{$thisyear}-{$thismonth}-01 00:00:00' "
 			."AND post_date <= '{$thisyear}-{$thismonth}-{$last_day} 23:59:59' "
-			."AND post_type = 'sp_event' AND ( post_status = 'publish' OR post_status = 'future' )"
+			."AND post_type = 'sp_event' AND ( post_status = 'publish' OR post_status = 'future' ) "
+			."$in"
 		);
 		if ( $ak_post_titles ) {
 			foreach ( (array) $ak_post_titles as $ak_post_title ) {
@@ -171,6 +195,9 @@ if ( !function_exists( 'sportspress_events_calendar' ) ) {
 			$calendar_output .= "\n\t\t".'<td class="pad" colspan="'. esc_attr($pad) .'">&nbsp;</td>';
 
 		$calendar_output .= "\n\t</tr>\n\t</tbody>\n\t</table>";
+
+		if ( $id && $r['show_all_events_link'] )
+			$calendar_output .= '<a class="sp-calendar-link" href="' . get_permalink( $id ) . '">' . __( 'View all events', 'sportspress' ) . '</a>';
 
 		return apply_filters( 'sportspress_events_calendar',  $calendar_output );
 

@@ -6,7 +6,7 @@ function sportspress_player_post_init() {
 		'menu_name' => __( 'Roster', 'sportspress' ),
 		'all_items' => __( 'Players', 'sportspress' ),
 		'add_new_item' => __( 'Add New Player', 'sportspress' ),
-		'edit_item' => __( 'Edit', 'sportspress' ),
+		'edit_item' => __( 'Edit Player', 'sportspress' ),
 		'new_item' => __( 'New', 'sportspress' ),
 		'view_item' => __( 'View', 'sportspress' ),
 		'search_items' => __( 'Search', 'sportspress' ),
@@ -32,7 +32,7 @@ add_action( 'init', 'sportspress_player_post_init' );
 function sportspress_player_edit_columns() {
 	$columns = array(
 		'cb' => '<input type="checkbox" />',
-		'sp_number' => '<span class="sp-icon-tshirt" title="' . __( 'Number', 'sportspress' ) . '"></span>',
+		'sp_number' => '<span class="dashicons sp-icon-tshirt tips" title="' . __( 'Number', 'sportspress' ) . '"></span>',
 		'title' => __( 'Player', 'sportspress' ),
 		'sp_position' => __( 'Positions', 'sportspress' ),
 		'sp_team' => __( 'Teams', 'sportspress' ),

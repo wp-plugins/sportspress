@@ -32,6 +32,25 @@
 	width: auto;
 }
 
+/* Events Calendar */
+.sp-events-calendar tbody td, .sp-events-calendar thead th {
+	text-align: center;
+}
+.sp-events-calendar #next {
+	text-align: right;
+}
+.sp-events-calendar #prev {
+	text-align: left;
+}
+/* Events List */
+.sp-events-list .column-article {
+	white-space: nowrap;
+}
+.sp-events-list .column-article a .dashicons {
+	padding-right: 3px;
+	text-decoration: none;
+}
+
 /* Google Maps */
 .sp-google-map {
 	height: 320px;

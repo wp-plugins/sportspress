@@ -1,10 +1,10 @@
 <?php
-function sportspress_list_post_init() {
+function sportspress_directory_post_init() {
 	$labels = array(
-		'name' => __( 'Player Lists', 'sportspress' ),
-		'singular_name' => __( 'Player List', 'sportspress' ),
-		'add_new_item' => __( 'Add New Player List', 'sportspress' ),
-		'edit_item' => __( 'Edit Player List', 'sportspress' ),
+		'name' => __( 'Directories', 'sportspress' ),
+		'singular_name' => __( 'Directory', 'sportspress' ),
+		'add_new_item' => __( 'Add New Directory', 'sportspress' ),
+		'edit_item' => __( 'Edit Directory', 'sportspress' ),
 		'new_item' => __( 'New', 'sportspress' ),
 		'view_item' => __( 'View', 'sportspress' ),
 		'search_items' => __( 'Search', 'sportspress' ),
@@ -12,27 +12,27 @@ function sportspress_list_post_init() {
 		'not_found_in_trash' => __( 'No results found.', 'sportspress' ),
 	);
 	$args = array(
-		'label' => __( 'Player Lists', 'sportspress' ),
+		'label' => __( 'Directories', 'sportspress' ),
 		'labels' => $labels,
 		'public' => true,
 		'has_archive' => false,
 		'hierarchical' => false,
 		'supports' => array( 'title', 'author', 'thumbnail' ),
-		'register_meta_box_cb' => 'sportspress_list_meta_init',
-		'rewrite' => array( 'slug' => get_option( 'sp_list_slug', 'list' ) ),
+		'register_meta_box_cb' => 'sportspress_directory_meta_init',
+		'rewrite' => array( 'slug' => get_option( 'sp_directory_slug', 'list' ) ),
 		'show_in_menu' => 'edit.php?post_type=sp_player',
 		'show_in_admin_bar' => true,
-		'capability_type' => 'sp_list'
+		'capability_type' => 'sp_directory'
 	);
-	register_post_type( 'sp_list', $args );
+	register_post_type( 'sp_directory', $args );
 }
-add_action( 'init', 'sportspress_list_post_init' );
+add_action( 'init', 'sportspress_directory_post_init' );
 
-function sportspress_list_edit_columns() {
+function sportspress_directory_edit_columns() {
 	$columns = array(
 		'cb' => '<input type="checkbox" />',
 		'title' => __( 'Title', 'sportspress' ),
-		'sp_player' => __( 'Players', 'sportspress' ),
+		'sp_staff' => __( 'Staff', 'sportspress' ),
 		'sp_league' => __( 'League', 'sportspress' ),
 		'sp_season' => __( 'Season', 'sportspress' ),
 		'sp_team' => __( 'Team', 'sportspress' ),
@@ -40,20 +40,20 @@ function sportspress_list_edit_columns() {
 	);
 	return $columns;
 }
-add_filter( 'manage_edit-sp_list_columns', 'sportspress_list_edit_columns' );
+add_filter( 'manage_edit-sp_directory_columns', 'sportspress_directory_edit_columns' );
 
-function sportspress_list_meta_init( $post ) {
-	$players = (array)get_post_meta( $post->ID, 'sp_player', false );
+function sportspress_directory_meta_init( $post ) {
+	$players = (array)get_post_meta( $post->ID, 'sp_staff', false );
 
-	remove_meta_box( 'sp_seasondiv', 'sp_list', 'side' );
-	remove_meta_box( 'sp_leaguediv', 'sp_list', 'side' );
-	add_meta_box( 'sp_formatdiv', __( 'Format', 'sportspress' ), 'sportspress_list_format_meta', 'sp_list', 'side', 'high' );
-	add_meta_box( 'sp_detailsdiv', __( 'Details', 'sportspress' ), 'sportspress_list_details_meta', 'sp_list', 'side', 'high' );
-	add_meta_box( 'sp_statsdiv', __( 'Player List', 'sportspress' ), 'sportspress_list_stats_meta', 'sp_list', 'normal', 'high' );
-	add_meta_box( 'sp_descriptiondiv', __( 'Description', 'sportspress' ), 'sportspress_list_description_meta', 'sp_list', 'normal', 'high' );
+	remove_meta_box( 'sp_seasondiv', 'sp_directory', 'side' );
+	remove_meta_box( 'sp_leaguediv', 'sp_directory', 'side' );
+	add_meta_box( 'sp_formatdiv', __( 'Format', 'sportspress' ), 'sportspress_directory_format_meta', 'sp_directory', 'side', 'high' );
+	add_meta_box( 'sp_detailsdiv', __( 'Details', 'sportspress' ), 'sportspress_directory_details_meta', 'sp_directory', 'side', 'high' );
+	//add_meta_box( 'sp_columnsdiv', __( 'Staff List', 'sportspress' ), 'sportspress_directory_columns_meta', 'sp_directory', 'normal', 'high' );
+	add_meta_box( 'sp_descriptiondiv', __( 'Description', 'sportspress' ), 'sportspress_directory_description_meta', 'sp_directory', 'normal', 'high' );
 }
 
-function sportspress_list_format_meta( $post ) {
+function sportspress_directory_format_meta( $post ) {
 	global $sportspress_formats;
 	$the_format = get_post_meta( $post->ID, 'sp_format', true );
 	?>
@@ -65,7 +65,7 @@ function sportspress_list_format_meta( $post ) {
 	<?php
 }
 
-function sportspress_list_details_meta( $post ) {
+function sportspress_directory_details_meta( $post ) {
 	$league_id = sportspress_get_the_term_id( $post->ID, 'sp_league', 0 );
 	$season_id = sportspress_get_the_term_id( $post->ID, 'sp_season', 0 );
 	$team_id = get_post_meta( $post->ID, 'sp_team', true );
@@ -131,7 +131,7 @@ function sportspress_list_details_meta( $post ) {
 			'values' => 'slug',
 		);
 		if ( ! sportspress_dropdown_pages( $args ) ):
-			sportspress_post_adder( 'sp_list', __( 'Add New', 'sportspress' ) );
+			sportspress_post_adder( 'sp_directory', __( 'Add New', 'sportspress' ) );
 		endif;
 		?>
 		</p>
@@ -142,17 +142,17 @@ function sportspress_list_details_meta( $post ) {
 				<option value="DESC" <?php selected( 'DESC', $order ); ?>><?php _e( 'Descending', 'sportspress' ); ?></option>
 			</select>
 		</p>
-		<p><strong><?php _e( 'Players', 'sportspress' ); ?></strong></p>
+		<p><strong><?php _e( 'Staff', 'sportspress' ); ?></strong></p>
 		<?php
-		sportspress_post_checklist( $post->ID, 'sp_player', 'block', 'sp_team' );
-		sportspress_post_adder( 'sp_player', __( 'Add New', 'sportspress' ) );
+		sportspress_post_checklist( $post->ID, 'sp_staff', 'block', 'sp_team' );
+		sportspress_post_adder( 'sp_staff', __( 'Add New', 'sportspress' ) );
 		?>
 	</div>
 	<?php
 	sportspress_nonce();
 }
 
-function sportspress_list_stats_meta( $post ) {
+function sportspress_directory_columns_meta( $post ) {
 
 	list( $columns, $usecolumns, $data, $placeholders, $merged ) = sportspress_get_player_list_data( $post->ID, true );
 
@@ -160,6 +160,6 @@ function sportspress_list_stats_meta( $post ) {
 	sportspress_nonce();
 }
 
-function sportspress_list_description_meta( $post ) {
+function sportspress_directory_description_meta( $post ) {
 	wp_editor( $post->post_content, 'content' );
 }

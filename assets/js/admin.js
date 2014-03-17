@@ -9,6 +9,13 @@ jQuery(document).ready(function($){
 			$target.hide();
 	});
 
+	// Tiptip
+	$(".tips").tipTip({
+		delay: 200,
+		fadeIn: 100,
+		fadeOut: 100
+	});
+
 	// Chosen select
 	$(".chosen-select").chosen({
 		allow_single_deselect: true,
@@ -29,6 +36,15 @@ jQuery(document).ready(function($){
 		$(this).closest(".widget-content").find(".sp-select-order").prop("disabled", $(this).val() == "default");
 	});
 
+	// Calendar affects view all link checkbox in widget options
+	$("body.widgets-php").on("change", ".sp-events-calendar-select", function() {
+		$el = $(this).closest(".widget-content").find(".sp-events-calendar-show-all-toggle");
+		if($(this).val() == 0)
+			$el.hide();
+		else
+			$el.show();
+	});
+
 	// Tab switcher
 	$(".sp-tab-panel").siblings(".sp-tab-bar").find("a").click(function() {
 		$(this).closest("li").removeClass("wp-tab").addClass("wp-tab-active").siblings().removeClass("wp-tab-active").addClass("wp-tab").closest(".wp-tab-bar").siblings($(this).attr("href")).show().siblings(".wp-tab-panel").hide();
@@ -45,12 +61,20 @@ jQuery(document).ready(function($){
 				filter += ".sp-filter-"+$(this).find("select").val();
 			});
 		}
-		$(this).closest(".sp-tab-select").siblings(".sp-tab-panel").find(".sp-post").hide(0, function() {
+		$panel = $(this).closest(".sp-tab-select").siblings(".sp-tab-panel")
+		$panel.find(".sp-post").hide(0, function() {
 			$(this).find("input").prop("disabled", true);
 			$(this).filter(filter).show(0, function() {
 				$(this).find("input").prop("disabled", false);
 			});
 		});
+		if($panel.find(".sp-post:visible").length > 0) {
+			$panel.find(".sp-select-all-container").show();
+			$panel.find(".sp-not-found-container").hide();
+		} else {
+			$panel.find(".sp-select-all-container").hide();
+			$panel.find(".sp-not-found-container").show();
+		}
 	});
 
 	// Trigger tab filter
@@ -160,7 +184,7 @@ jQuery(document).ready(function($){
 				sum += parseInt(val, 10);
 			}
 		});
-		$(this).val(sum);
+		$(this).attr("placeholder", sum);
 	});
 
 	// Activate total stats calculator
@@ -169,6 +193,9 @@ jQuery(document).ready(function($){
 			$(this).closest(".sp-data-table").find(".sp-total td").eq($(this).parent().index()).find("input").trigger("updateTotal");
 		});
 	}
+
+	// Trigger total stats calculator
+	$(".sp-data-table .sp-total input").trigger("updateTotal");
 
 	// Select all checkboxes
 	$(".sp-select-all").change(function() {
@@ -193,6 +220,18 @@ jQuery(document).ready(function($){
 
 	// Trigger check check
 	$(".sp-data-table").trigger("checkCheck");
+
+	// Video embed
+	$(".sp-add-video").click(function() {
+		$(this).closest("fieldset").hide().siblings(".sp-video-field").show();
+		return false;
+	});
+
+	// Removing video embed
+	$(".sp-remove-video").click(function() {
+		$(this).closest("fieldset").hide().siblings(".sp-video-adder").show().siblings(".sp-video-field").find("input").val(null);
+		return false;
+	});
 
 	// Equation selector
 	$(".sp-equation-selector select:last").change(function() {

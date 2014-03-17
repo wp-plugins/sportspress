@@ -4,7 +4,7 @@ function sportspress_staff_post_init() {
 		'name' => __( 'Staff', 'sportspress' ),
 		'singular_name' => __( 'Staff', 'sportspress' ),
 		'add_new_item' => __( 'Add New Staff', 'sportspress' ),
-		'edit_item' => __( 'Edit', 'sportspress' ),
+		'edit_item' => __( 'Edit Staff', 'sportspress' ),
 		'new_item' => __( 'New', 'sportspress' ),
 		'view_item' => __( 'View', 'sportspress' ),
 		'search_items' => __( 'Search', 'sportspress' ),
@@ -21,7 +21,6 @@ function sportspress_staff_post_init() {
 		'register_meta_box_cb' => 'sportspress_staff_meta_init',
 		'rewrite' => array( 'slug' => get_option( 'sp_staff_slug', 'staff' ) ),
 		'show_in_menu' => 'edit.php?post_type=sp_player',
-		'menu_icon' => 'dashicons-businessman',
 		'capability_type' => 'sp_staff'
 	);
 	register_post_type( 'sp_staff', $args );
@@ -45,7 +44,6 @@ function sportspress_staff_profile_meta( $post ) {
 function sportspress_staff_edit_columns() {
 	$columns = array(
 		'cb' => '<input type="checkbox" />',
-		'sp_icon' => '<span class="dashicons dashicons-businessman" title="' . __( 'Staff', 'sportspress' ) . '"></span>',
 		'title' => __( 'Name', 'sportspress' ),
 		'sp_position' => __( 'Positions', 'sportspress' ),
 		'sp_team' => __( 'Teams', 'sportspress' ),
