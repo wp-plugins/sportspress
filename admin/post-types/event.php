@@ -20,7 +20,7 @@ function sportspress_event_post_init() {
 		'hierarchical' => false,
 		'supports' => array( 'title', 'author', 'thumbnail', 'comments' ),
 		'register_meta_box_cb' => 'sportspress_event_meta_init',
-		'rewrite' => array( 'slug' => get_option( 'sp_event_slug', 'events' ) ),
+		'rewrite' => array( 'slug' => get_option( 'sportspress_events_slug', 'events' ) ),
 		'menu_icon' => 'dashicons-calendar',
 		'capability_type' => 'sp_event'
 	);
@@ -63,9 +63,9 @@ function sportspress_event_meta_init( $post ) {
 	remove_meta_box( 'sp_leaguediv', 'sp_event', 'side' );
 	remove_meta_box( 'sp_seasondiv', 'sp_event', 'side' );
 
-	add_meta_box( 'submitdiv', __( 'Event', 'sportspress' ), 'post_submit_meta_box', 'sp_event', 'side', 'high' );
-	add_meta_box( 'sp_formatdiv', __( 'Format', 'sportspress' ), 'sportspress_event_format_meta', 'sp_event', 'side', 'high' );
-	add_meta_box( 'sp_detailsdiv', __( 'Details', 'sportspress' ), 'sportspress_event_details_meta', 'sp_event', 'side', 'high' );
+	add_meta_box( 'submitdiv', __( 'Event', 'sportspress' ), 'post_submit_meta_box', 'sp_event', 'side', 'default' );
+	add_meta_box( 'sp_formatdiv', __( 'Format', 'sportspress' ), 'sportspress_event_format_meta', 'sp_event', 'side', 'default' );
+	add_meta_box( 'sp_detailsdiv', __( 'Details', 'sportspress' ), 'sportspress_event_details_meta', 'sp_event', 'side', 'default' );
 	add_meta_box( 'sp_teamdiv', __( 'Teams', 'sportspress' ), 'sportspress_event_team_meta', 'sp_event', 'side', 'default' );
 	add_meta_box( 'sp_videodiv', __( 'Video', 'sportspress' ), 'sportspress_event_video_meta', 'sp_event', 'side', 'low' );
 	if ( sizeof( $teams ) > 0 )

@@ -7,35 +7,37 @@ function sportspress_options() {
 	<div class="wrap">
 
 		<h2 class="nav-tab-wrapper">
-			<a href="<?php echo remove_query_arg( 'tab' ); ?>" class="nav-tab<?php echo $active_tab == 'general' ? ' nav-tab-active' : ''; ?>"><?php _e( 'General', 'sportspress' ); ?></a>
-			<a href="<?php echo add_query_arg( 'tab', 'events' ); ?>" class="nav-tab<?php echo $active_tab == 'events' ? ' nav-tab-active' : ''; ?>"><?php _e( 'Events', 'sportspress' ); ?></a>
-			<a href="<?php echo add_query_arg( 'tab', 'tables' ); ?>" class="nav-tab<?php echo $active_tab == 'tables' ? ' nav-tab-active' : ''; ?>"><?php _e( 'League Tables', 'sportspress' ); ?></a>
-			<a href="<?php echo add_query_arg( 'tab', 'players' ); ?>" class="nav-tab<?php echo $active_tab == 'players' ? ' nav-tab-active' : ''; ?>"><?php _e( 'Players', 'sportspress' ); ?></a>
+			<a href="<?php echo remove_query_arg( 'tab' ); ?>" class="nav-tab<?php echo $active_tab == 'general' ? ' nav-tab-active' : ''; ?>"><?php _e( 'SportsPress', 'sportspress' ); ?></a>
+			<a href="<?php echo add_query_arg( 'tab', 'events' ); ?>" class="nav-tab<?php echo $active_tab == 'events' ? ' nav-tab-active' : ''; ?>"><?php _e( 'Schedule', 'sportspress' ); ?></a>
+			<a href="<?php echo add_query_arg( 'tab', 'teams' ); ?>" class="nav-tab<?php echo $active_tab == 'teams' ? ' nav-tab-active' : ''; ?>"><?php _e( 'Teams', 'sportspress' ); ?></a>
+			<a href="<?php echo add_query_arg( 'tab', 'players' ); ?>" class="nav-tab<?php echo $active_tab == 'players' ? ' nav-tab-active' : ''; ?>"><?php _e( 'Roster', 'sportspress' ); ?></a>
+			<a href="<?php echo add_query_arg( 'tab', 'text' ); ?>" class="nav-tab<?php echo $active_tab == 'text' ? ' nav-tab-active' : ''; ?>"><?php _e( 'Text', 'sportspress' ); ?></a>
 		</h2>
 
 		<form method="post" action="options.php">
 			<?php
 				switch ( $active_tab ):
 					case 'events':
-						?><h3 class="title"><?php _e( 'Event Options', 'sportspress' ); ?></h3><?php
 						settings_fields( 'sportspress_events' );
 						do_settings_sections( 'sportspress_events' );
 						submit_button();
 						break;
-					case 'tables':
-						?><h3 class="title"><?php _e( 'League Table Options', 'sportspress' ); ?></h3><?php
-						settings_fields( 'sportspress_tables' );
-						do_settings_sections( 'sportspress_tables' );
+					case 'teams':
+						settings_fields( 'sportspress_teams' );
+						do_settings_sections( 'sportspress_teams' );
 						submit_button();
 						break;
 					case 'players':
-						?><h3 class="title"><?php _e( 'Player Options', 'sportspress' ); ?></h3><?php
 						settings_fields( 'sportspress_players' );
 						do_settings_sections( 'sportspress_players' );
 						submit_button();
 						break;
+					case 'text':
+						settings_fields( 'sportspress_text' );
+						do_settings_sections( 'sportspress_text' );
+						submit_button();
+						break;
 					default:
-						?><h3 class="title"><?php _e( 'General Options', 'sportspress' ); ?></h3><?php
 						settings_fields( 'sportspress_general' );
 						do_settings_sections( 'sportspress_general' );
 						submit_button();
@@ -50,7 +52,7 @@ function sportspress_options() {
 
 function sportspress_options_validate( $input ) {
 	
-	$options = (array)get_option( 'sportspress' );
+	$options = (array)get_option( 'sportspress', array() );
 
 	if ( isset( $input['sport'] ) && sportspress_array_value( $options, 'sport', null ) != sportspress_array_value( $input, 'sport', null ) ):
 
@@ -148,6 +150,8 @@ function sportspress_options_validate( $input ) {
 
 		endforeach;
 
+	elseif ( isset( $input['text'] ) ):
+		$input['text'] = array_filter( $input['text'] );
 	endif;
 
 	if ( ! is_array( $input ) )

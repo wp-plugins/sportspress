@@ -40,14 +40,15 @@ function sportspress_manage_posts_custom_column( $column, $post_id ) {
 			break;
 		case 'sp_team':
 			$post_type = get_post_type( $post );
-			$teams = get_post_meta( $post_id, 'sp_team', false );
+			$teams = (array)get_post_meta( $post_id, 'sp_team', false );
+			$teams = array_filter( $teams );
 			if ( empty( $teams ) ):
 				echo '&mdash;';
 				break;
 			elseif ( $post_type == 'sp_event' ):
 				$results = get_post_meta( $post_id, 'sp_results', true );
-				$options = get_option( 'sportspress' );
-				$main_result = sportspress_array_value( $options, 'main_result', null );
+				global $sportspress_options;
+				$main_result = sportspress_array_value( $sportspress_options, 'main_result', null );
 				foreach( $teams as $team_id ):
 					if ( ! $team_id ) continue;
 					$team = get_post( $team_id );
@@ -88,6 +89,8 @@ function sportspress_manage_posts_custom_column( $column, $post_id ) {
 						echo '<br>';
 					endif;
 				endforeach;
+			elseif ( $post_type == 'sp_table' ):
+				echo sportspress_posts( $post_id, 'sp_team' );
 			else:
 				foreach( $teams as $team_id ):
 					if ( ! $team_id ) continue;
