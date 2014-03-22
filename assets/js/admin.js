@@ -303,6 +303,28 @@ jQuery(document).ready(function($){
 	// Trigger status selector
 	$(".sp-status-selector select:first-child").change();
 
+	// Preset field modifier
+	$(".sp-custom-input-wrapper .preset").click(function() {
+		val = $(this).val();
+		if(val == "\\c\\u\\s\\t\\o\\m") return true;
+		example = $(this).attr("data-example");
+		$(this).closest(".sp-custom-input-wrapper").find(".value").val(val).siblings(".example").html(example);
+	});
+
+	// Select custom preset when field is brought to focus
+	$(".sp-custom-input-wrapper .value").focus(function() {
+		$(this).siblings("label").find(".preset").prop("checked", true);
+	});
+
+	// Adjust example field when custom preset is entered
+	$(".sp-custom-input-wrapper .value").on("keyup", function() {
+		val = $(this).val();
+		if ( val === undefined ) return true;
+		format = $(this).attr("data-example-format");
+		example = format.replace("__val__", val);
+		$(this).siblings(".example").html(example);
+	});
+
 	// Remove slug editor in quick edit for slug-sensitive post types
 	$(".inline-edit-sp_result, .inline-edit-sp_outcome, .inline-edit-sp_column, .inline-edit-sp_statistic").find("input[name=post_name]").closest("label").remove();
 
