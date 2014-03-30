@@ -32,29 +32,72 @@
 	width: auto;
 }
 
-/* Events Calendar */
-.sp-events-calendar tbody td, .sp-events-calendar thead th {
-	text-align: center;
+/* Pagination */
+.sp-paginated-table {
+	margin-bottom: 0 !important;
 }
-.sp-events-calendar #next {
+.sp-pagination {
+	margin-top: 0 !important;
+}
+.sp-pagination tfoot tr td {
+	text-align: center;
+	cursor: pointer;
+}
+.sp-pagination tfoot tr td.prev {
+	text-align: left;
+}
+.sp-pagination tfoot tr td.next {
 	text-align: right;
 }
-.sp-events-calendar #prev {
+.sp-pagination tfoot tr td a {
+	cursor: inherit;
+}
+.sp-pagination tfoot tr td.active {
+	opacity: 0.5;
+	cursor: default;
+}
+.sp-pagination tfoot tr td.disabled {
+	opacity: 0;
+	cursor: default;
+}
+.widget .sp-pagination tfoot tr td.prev,
+.widget .sp-pagination tfoot tr td.next {
+	text-align: center;
+}
+
+/* Events Calendar */
+.sp-event-calendar tbody td, .sp-event-calendar thead th {
+	text-align: center;
+}
+.sp-event-calendar #next {
+	text-align: right;
+}
+.sp-event-calendar #prev {
 	text-align: left;
 }
 /* Events List */
-.sp-events-list .column-article {
+.sp-event-list .column-article {
 	white-space: nowrap;
 }
-.sp-events-list .column-article a .dashicons {
+.sp-event-list .column-article a .dashicons {
 	padding-right: 3px;
-	text-decoration: none;
 }
 
 /* Google Maps */
 .sp-google-map {
 	height: 320px;
-	margin-bottom: 32px;
+}
+.sp-google-map img {
+	max-width: none !important;
+}
+.sp-venue-map {
+	margin-bottom: 4em;
+}
+
+/* Templates */
+.sp-view-all-link {
+	display: block;
+	margin-top: 0.5em;
 }
 
 @media only screen and (max-width: 40em) {
@@ -106,6 +149,7 @@
 	.sp-responsive-table .data-number,
 	.sp-responsive-table .data-name,
 	.sp-responsive-table .data-rank,
+	.sp-responsive-table .data-date,
 	.sp-responsive-.sp-pinned-table td {
 		display: none;
 	}
