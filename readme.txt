@@ -1,10 +1,10 @@
 === SportsPress - flexible league management ===
 Contributors: ThemeBoy
-Tags: sports, sports journalism, teams, team management, fixtures, results, standings, league tables, leagues, reporting, themeboy, wordpress sports, configurable
+Tags: sports, press, sports journalism, teams, team management, fixtures, results, standings, league tables, leagues, reporting, themeboy, wordpress sports, configurable
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=support@themeboy.com&item_name=Donation+for+SportsPress
 Requires at least: 3.8
 Tested up to: 3.8.1
-Stable tag: 0.6.1
+Stable tag: 0.7.1
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -14,7 +14,7 @@ SportsPress is a fully configurable sports plugin that seamlessly automates leag
 
 Created by the developers at [ThemeBoy](http://themeboy.com/) and featured on Softpedia as [Script of the Day](http://news.softpedia.com/news/Script-of-the-Day-SportsPress-409247.shtml), SportsPress is the ultimate all-in-one plugin for transforming your WordPress blog into a fully configurable league website.
 
-Add schedules, results, league tables, player profiles and statistics to your team or league site with SportsPress. It uses core WordPress markup syntax and is designed to work with virtually every theme. Custom shortcodes, CSV importers, and several language translations are included.
+Add schedules, results, league tables, player profiles and statistics to your team or league site with SportsPress. It uses core WordPress markup syntax and will integrate seamlessly with most themes. Custom shortcodes, CSV importers, and several language translations are included.
 
 = Features =
 * Team Profiles
@@ -35,6 +35,7 @@ League table columns, player statistics, and match results can be customized to 
 
 = Available Languages =
 * English (en_US)
+* Arabic (ar)
 * Czech - Čeština (cs_CZ)
 * German - Deutsch (de_DE)
 * Spanish - Español (es_ES)
@@ -78,15 +79,26 @@ Automatic updates should work like a charm; as always though, ensure you backup 
 
 If on the off-chance you do encounter issues with the event/team/player/staff pages after an update you simply need to flush the permalinks by going to WordPress > Settings > Permalinks and hitting 'save'. That should return things to normal.
 
-= General Settings =
+== Screenshots ==
+
+1. League Table in Twenty Fourteen theme.
+2. Events List in Twenty Fourteen theme.
+3. Events Calendar in Twenty Fourteen theme.
+4. Player List in Twenty Fourteen theme.
+5. League Table column configuration.
+6. General Options page.
+7. Player List widget settings.
+8. SportsPress Status dashboard widget.
+
+== Other Notes ==
+
+= Sport Presets =
 
 SportsPress comes with settings for some sports that you can apply by going to WordPress > Settings > SportsPress. By selecting a sport, presets will be applied to Events, League Tables, and Players.
 
-= Event Settings =
+= Results =
 
-Manage the results and outcomes you would like to track for each event.
-
-Main Result is the default result that will be displayed in the admin list.
+Main Result is the default result that will be displayed in the admin list when an event has been played.
 
 Results are the values that you want to keep track of and display on your event pages. In Association Football, for example, typical results are "1st half", "2nd half", and "Goals". For Baseball, you would have 9+ "Innings", "Hits", "Runs", and "Errors".
 
@@ -94,7 +106,11 @@ To add a new result, go to Settings > SportsPress > Results > Add New. Enter a n
 
 The "Key" is the variable name used in league table calculations and will be automatically generated when you create a new result, but you can also change this. The Order Attribute is the order that your result will be displayed among your other results.
 
-= League Table Settings =
+= Outcomes =
+
+Outcomes are very similar to results but you can only have one outcome per team per event. An outcome determines the ultimate result (win, draw, loss, etc.) of an event. Examples of outcomes are: W, D, L, and OT.
+
+= Columns =
 
 Manage the columns you would like to calculate and display in league tables.
 
@@ -113,15 +129,13 @@ Sort Order is for the way you want to sort your League Table. You can create and
 
 As an example, in Association Football, Pts would be 1 descending, and GD would be 2 descending. This means that the leading team is the team with the most points, then the highest goal difference (GD).
 
-Outcomes are very similar to results but you can only have one outcome per team per event. An outcome determines the ultimate result (win, draw, loss, etc.) of an event. Examples of outcomes are: W, D, L, and OT.
+= Metrics =
 
-= Player Settings =
+Metrics are static values associated with players, and are useful for variables like height, weight, hobbies, etc. that will be displayed on player profile pages. When you create a new metric, remember to select the position(s) that the metric applies to or it will not show up in player profiles. Metrics are independent of leagues, seasons, and teams.
 
-Manage the metrics and statistics you would like to track for each player.
+= Performance =
 
-Metrics are useful for variables like their height, weight, hobbies, etc. that will be displayed on player profile pages. When you create a new metric, remember to select the position(s) that the metric applies to or it will not show up in player profiles. Metrics are independent of leagues, seasons, and teams.
-
-Statistics are for keeping track of the performance variables like goals, assists, yellow cards, and red cards. They are displayed on player profile pages, event pages, and player lists. Each player will have their own set of statistics for each event and league per season. You can choose whether to calculate the total or average of each variable by selecting from the “Calculate” dropdown menu. Be sure to select the position(s) that each statistic applies to so it shows up on the appropriate players' profile pages.
+Performance is for keeping track of the performance variables like goals, assists, yellow cards, and red cards. They are displayed on player profile pages, event pages, and player lists. Each player will have their own set of statistics for each event and league per season. You can choose whether to calculate the total or average of each variable by selecting from the “Calculate” dropdown menu. Be sure to select the position(s) that each statistic applies to so it shows up on the appropriate players' profile pages.
 
 == Frequently Asked Questions ==
 
@@ -141,18 +155,44 @@ Bugs can be reported either in our support forum or preferably on the [SportsPre
 
 SportsPress is currently in beta and is undergoing testing. We are still actively making adjustments to the code, so we do not recommend using it until we officially leave the beta phase.
 
-== Screenshots ==
+= Can I import teams/players/events from a CSV file? =
 
-1. Events admin.
-2. Teams admin.
-3. Players admin.
-4. SportsPress Settings panel.
-5. League Table widget settings.
-6. Player List widget settings.
-7. Events Calendar widget settings.
-8. SportsPress Status dashboard widget.
+Yes, CSV importers are included with the plugin. Go to Tools > Import and choose from one of the SportsPress CSV importers. When importing events, be sure to use the date format yyyy/mm/dd.
 
 == Changelog ==
+
+= 0.7.1 =
+* Fix - Activation error preventing new installation.
+
+= 0.7 =
+* Feature - Welcome page to display on activation.
+* Feature - Frontend color scheme selection.
+* Feature - Custom CSS option.
+* Feature - Add venue column to event list.
+* Feature - Manual point adjustments added to league tables.
+* Feature - Enable table pagination.
+* Feature - Enable live countdown setting.
+* Refactor - Only load required classes to improve performance.
+* Refactor - Change statistic to performance.
+* Refactor - Soft deprecate sportspress prefixed functions in favor of sp prefix.
+* Tweak - Filter players in events by current team.
+* Tweak - Separate admin styles to improve load times.
+* Tweak - Add margin above view all link in widgets.
+* Tweak - Group text options by context.
+* Tweak - Display event details in standard table markup for style consistency.
+* Tweak - Display venue as a table for style consistency.
+* Tweak - Hide individual player performance when players not selected.
+* Fix - Responsive league table glitch.
+* Fix - Warning messages when adding new team, player, or event.
+* Fix - Countdown widget when event is selected.
+* Fix - Multiple select box height glitch in some browsers fixed.
+* Localization - Arabic translation by Abdulelah.
+* Localization - German translation by Bhelpful2.
+* Localization - Update Swedish translation by JensZ.
+
+= 0.6.2 =
+* Feature - Add options to make tables responsive and sortable.
+* Feature - Use consistent shortcode naming with backwards compatibility.
 
 = 0.6.1 =
 * Feature - Display full event results on hover over main team result in admin.
@@ -200,7 +240,7 @@ SportsPress is currently in beta and is undergoing testing. We are still activel
 * Fix - Check that selected columns are in array to avoid warning.
 * Localization - Add Czech translation.
 * Localization - Add Slovak translation.
-* Localization - Add Polish translation.
+* Localization - Add Polish translation by karimjarro.
 
 = 0.4.2 =
 * Feature - Enable selecting columns to display in single league table.
@@ -215,7 +255,7 @@ SportsPress is currently in beta and is undergoing testing. We are still activel
 = 0.4.1 =
 * Tweak - Activate checkbox when all players are added to player list.
 * Fix - Function date_diff added for PHP < 5.3.
-* Localization - Swedish translation by jenszackrisson.
+* Localization - Swedish translation by JensZ.
 
 = 0.4 =
 * Feature - SportsPress Status dashboard widget added to display number of events and countdown in admin.
