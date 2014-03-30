@@ -4,7 +4,7 @@ Tags: sports, press, sports journalism, teams, team management, fixtures, result
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=support@themeboy.com&item_name=Donation+for+SportsPress
 Requires at least: 3.8
 Tested up to: 3.8.1
-Stable tag: 0.7
+Stable tag: 0.7.1
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -160,6 +160,9 @@ SportsPress is currently in beta and is undergoing testing. We are still activel
 Yes, CSV importers are included with the plugin. Go to Tools > Import and choose from one of the SportsPress CSV importers. When importing events, be sure to use the date format yyyy/mm/dd.
 
 == Changelog ==
+
+= 0.7.1 =
+* Fix - Activation error preventing new installation.
 
 = 0.7 =
 * Feature - Welcome page to display on activation.
