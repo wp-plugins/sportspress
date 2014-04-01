@@ -157,6 +157,12 @@ Yes, CSV importers are included with the plugin. Go to Tools > Import and choose
 
 == Changelog ==
 
+= 0.7.4 =
+* Feature - Shortcode added to display single event content.
+* Tweak - Display default shortcode format when editing a calendar or player list.
+* Tweak - Add backwards compatibility for shortcodes prior to version 0.7.
+* Fix - Template hook to change display strings in admin.
+
 = 0.7.3 =
 * Feature - Enable editing Key field in Metrics and Performance.
 * Tweak - Lighter default color scheme.
