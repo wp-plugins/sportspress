@@ -1,10 +1,10 @@
-=== SportsPress - flexible league management ===
+=== SportsPress - sports league management ===
 Contributors: ThemeBoy
 Tags: sports, press, sports journalism, teams, team management, fixtures, results, standings, league tables, leagues, reporting, themeboy, wordpress sports, configurable
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=support@themeboy.com&item_name=Donation+for+SportsPress
 Requires at least: 3.8
 Tested up to: 3.8.1
-Stable tag: 0.7.3
+Stable tag: 0.7.4
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -128,10 +128,10 @@ Performance is for keeping track of the performance variables like goals, assist
 
 1. SportsPress style settings, configuration, and responsive layout example.
 2. League Table in Twenty Fourteen theme with default color scheme.
-3. Events List in Twenty Fourteen theme with custom color scheme.
-4. Events Calendar in Twenty Fourteen theme with custom color scheme.
-5. Player List in Twenty Fourteen theme with custom color scheme.
-6. Player Gallery in Twenty Fourteen theme with custom color scheme.
+3. Events List in Twenty Fourteen theme with default color scheme.
+4. Events Calendar in Twenty Fourteen theme with default color scheme.
+5. Player List in Twenty Fourteen theme with default color scheme.
+6. Player Gallery in Twenty Fourteen theme with default color scheme.
 
 == Frequently Asked Questions ==
 
