@@ -19,6 +19,10 @@
 	content: "\f163";
 }
 
+.post-state-format.post-format-blocks:before, .post-format-icon.post-format-blocks:before, a.post-state-format.format-blocks:before {
+	content: "\f164";
+}
+
 #sp_videodiv .inside > fieldset > p:last-child {
 	margin-bottom: 1px !important;
 }
@@ -75,18 +79,23 @@
 .sportspress table.form-table, .sportspress table.form-table .forminp-radio ul {
 	margin: 0;
 }
+
 .sportspress table.form-table fieldset {
 	margin-top: 4px;
 }
+
 .sportspress table.form-table fieldset:first-child {
 	margin-top: 0;
 }
+
 .sportspress table.form-table fieldset p.description {
 	margin-bottom: 8px;
 }
+
 .sp-admin-config-table .edit {
 	text-align: right;
 }
+
 .sportspress table.form-table .sp-color-box {
 	border: 1px solid #ccc;
 	box-shadow: 1px 1px 3px rgba(0,0,0,.2);
@@ -98,8 +107,9 @@
 	padding: 4px 6px;
 	float: left;
 	width: 90px;
-	margin: 0 10px 0 0;
+	margin: 0 10px 10px 0;
 }
+
 .sportspress table.form-table .sp-color-box strong {
 	text-align: left;
 	display: block;
@@ -107,6 +117,7 @@
 	font-size: .92em;
 	word-wrap: break-word;
 }
+
 .sportspress table.form-table .sp-color-box input.colorpick {
 	width: 100%;
 	margin: 0;
@@ -115,6 +126,7 @@
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 }
+
 .sportspress table.form-table .sp-color-box .iris-picker {
 	z-index: 100;
 	position: absolute;
@@ -129,32 +141,13 @@
 	margin: 15px 0 0 -7px;
 }
 
-.wp-media-buttons .button.sp-insert {
-	padding-left: 5px;
+.sportspress table.form-table #sportspress_custom_css {
+	font-family: monospace;
 }
 
-.wp-media-buttons .sp-insert span.sp-buttons-icon {
-	display: inline-block;
-	width: 18px;
-	height: 18px;
-	vertical-align: text-top;
-	margin: 0 2px;
-}
-
-.wp-media-buttons .sp-insert span.sp-buttons-icon:before {
-	font: 400 18px/1 dashicons;
-	speak: none;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
-	color: #888;
-}
-
-.wp-media-buttons .sp-insert span.sp-map-buttons-icon:before {
-	content: '\f231';
-}
-
-.wp-media-buttons .sp-insert span.sp-table-buttons-icon:before {
-	content: '\f185';
+.sp-data-table-container {
+	clear: both;
+	overflow: auto;
 }
 
 table.widefat.sp-data-table img {
@@ -242,32 +235,6 @@ table.widefat select.sp-outcome {
 	height: 320px;
 }
 
-.sp-prefs .button {
-	margin: 0 3px 4px 0;
-	padding: 0 7px 1px 5px;
-}
-
-.sp-prefs .button input[type=checkbox] {
-	background: transparent;
-	border: none;
-	-webkit-box-shadow: none;
-	box-shadow: none;
-}
-
-.sp-prefs .button input[type=checkbox]:not(:checked):before {
-	float: left;
-	display: inline-block;
-	vertical-align: middle;
-	width: 16px;
-	font: 400 21px/1 dashicons;
-	speak: none;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
-	content: '\f335';
-	margin: -3px 0 0 -4px;
-	color: #a00;
-}
-
 /* Chosen */
 .chosen-container-single .chosen-single {
 	-webkit-border-radius: 3px;
@@ -328,7 +295,6 @@ table.widefat select.sp-outcome {
 }
 
 /* TipTip */
-
 .tips {
 	cursor: help;
 }
@@ -422,6 +388,36 @@ table.widefat select.sp-outcome {
 	margin-top: -6px;
 	margin-left: -7px;
 	border-left-color: #464646;
+}
+
+#debug-report {
+	display: none;
+	margin: 10px 0;
+	padding: 0;
+	position: relative;
+}
+
+#debug-report textarea {
+	font-family: monospace;
+	width: 100%;
+	margin: 0;
+	height: 300px;
+	padding: 20px;
+	-moz-border-radius: 0;
+	-webkit-border-radius: 0;
+	border-radius: 0;
+	resize: none;
+	font-size: 12px;
+	line-height: 20px;
+	outline: 0;
+}
+
+table.sp_status_table td mark {
+	background: transparent none;
+}
+
+table.sp_status_table td mark.yes {
+	color: #7ad03a;
 }
 
 /* Media Queries */

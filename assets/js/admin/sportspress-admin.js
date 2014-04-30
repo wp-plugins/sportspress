@@ -1,7 +1,7 @@
 jQuery(document).ready(function($){
 
 	// Display custom sport name field as needed
-	$("body.settings_page_sportspress #sportspress_sport").change(function() {
+	$("body.toplevel_page_sportspress #sportspress_sport").change(function() {
 		$target = $("#sportspress_custom_sport_name");
 		if ( $(this).val() == "custom" )
 			$target.show();
@@ -20,31 +20,19 @@ jQuery(document).ready(function($){
 	$(".chosen-select").chosen({
 		allow_single_deselect: true,
 		single_backstroke_delete: false,
+		disable_search_threshold: 10,
 		placeholder_text_multiple: localized_strings.none
 	});
 
 	// Auto key placeholder
 	$("#poststuff #title").on("keyup", function() {
-		$("#sp_key").attr("placeholder", $(this).val().replace(/[^a-z]/gi,"").toLowerCase());
+		val = $(this).val().replace(/[^a-z]/gi,"").toLowerCase();
+		$("#sp_key").attr("placeholder", val);
+		$("#sp_default_key").val(val);
 	});
 
 	// Activate auto key placeholder
 	$("#poststuff #title").keyup();
-
-	// Orderby affects order select in widget options
-	$("body.widgets-php").on("change", ".sp-select-orderby", function() {
-		$(this).closest(".widget-content").find(".sp-select-order").prop("disabled", $(this).val() == "default");
-	});
-
-	// Calendar affects view all link checkbox in widget options
-	$("body.widgets-php").on("change", ".sp-event-calendar-select", function() {
-		$el = $(this).closest(".widget-content").find(".sp-event-calendar-show-all-toggle");
-		if($(this).val() == 0)
-			$el.hide();
-		else
-			$el.show();
-	});
-
 	// Table switcher
 	$(".sp-table-panel").siblings(".sp-table-bar").find("a").click(function() {
 		$(this).closest("li").find("a").addClass("current").closest("li").siblings().find("a").removeClass("current").closest(".sp-table-bar").siblings($(this).attr("href")).show().siblings(".sp-table-panel").hide();
@@ -154,12 +142,15 @@ jQuery(document).ready(function($){
 	$(".sp-table-adjustments input").change(function() {
 		matrix = $(this).attr("data-matrix");
 		$el = $(this).closest(".sp-table-adjustments").siblings(".sp-table-values").find("input[data-matrix="+matrix+"]");
-		placeholder = parseFloat($el.attr("data-placeholder"));
+		placeholder = $el.attr("data-placeholder");
 		current_adjustment = parseFloat($el.attr("data-adjustment"));
 		adjustment = parseFloat($(this).val());
-		if(isNaN(current_adjustment)) current_adjustment = 0;
-		if(isNaN(adjustment)) adjustment = 0;
-		placeholder += adjustment - current_adjustment;
+		if(! isNaN(adjustment) && adjustment != 0) {
+			placeholder = parseFloat(placeholder);
+			if(isNaN(placeholder)) placeholder = 0;
+			if(isNaN(current_adjustment)) current_adjustment = 0;
+			placeholder += adjustment - current_adjustment;
+		}
 		$el.attr("placeholder", placeholder);
 	});
 
@@ -351,9 +342,6 @@ jQuery(document).ready(function($){
 		example = format.replace("__val__", val);
 		$(this).siblings(".example").html(example);
 	});
-
-	// Remove slug editor in quick edit for slug-sensitive post types
-	$(".inline-edit-sp_result, .inline-edit-sp_outcome, .inline-edit-sp_column, .inline-edit-sp_performance").find("input[name=post_name]").closest("label").remove();
 
 	// Prevent address input from submitting form
 	$(".sp-address").keypress(function(event) {

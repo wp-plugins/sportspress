@@ -4,15 +4,15 @@ Tags: sports, press, sports journalism, teams, team management, fixtures, result
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=support@themeboy.com&item_name=Donation+for+SportsPress
 Requires at least: 3.8
 Tested up to: 3.9
-Stable tag: 0.7.4
+Stable tag: 0.8
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
-SportsPress is a fully configurable sports plugin that seamlessly automates league, team, and player statistics. Currently in beta.
+SportsPress is a league management plugin that helps you create a team website using WordPress. Currently in beta.
 
 == Description ==
 
-Created by the developers at [ThemeBoy](http://themeboy.com/) and featured on Softpedia as [Script of the Day](http://news.softpedia.com/news/Script-of-the-Day-SportsPress-409247.shtml), SportsPress is the ultimate all-in-one plugin for transforming your WordPress blog into a fully configurable league website.
+Created by the developers at [ThemeBoy](http://themeboy.com/) and featured on Softpedia as [Script of the Day](http://news.softpedia.com/news/Script-of-the-Day-SportsPress-409247.shtml), SportsPress is the ultimate all-in-one plugin for transforming your WordPress blog into a fully automated, configurable team website.
 
 Add schedules, results, league tables, player profiles and statistics to your team or league site with SportsPress. It uses core WordPress markup syntax and will integrate seamlessly with most themes. Custom shortcodes, CSV importers, and several language translations are included.
 
@@ -34,17 +34,24 @@ Add schedules, results, league tables, player profiles and statistics to your te
 League table columns, player statistics, and match results can be customized to fit any sport. Presets are available for some of the most popular sports including soccer, rugby, American football, Australian Rules football, baseball, basketball, cricket, and hockey.
 
 = Available Languages =
-* English (en_US)
-* Arabic (ar)
-* Czech - Čeština (cs_CZ)
-* German - Deutsch (de_DE)
-* Spanish - Español (es_ES)
-* French - Français (fr_FR)
-* Italian - Italiano (it_IT)
-* Japanese - 日本語 (ja)
-* Polish - Polski (pl_PL)
-* Slovak – Slovenčina (sk_SK)
-* Swedish - Svenska (sv_SE)
+* English – English ( en_US )
+* Arabic – العربية ( ar )
+* Croatian – Hrvatski ( hr )
+* Czech – Čeština ( cs_CZ )
+* French – Français ( fr_FR )
+* German – Deutsch ( de_DE )
+* Greek – Ελληνικά ( el_GR )
+* Italian – Italiano ( it_IT )
+* Japanese – 日本語 ( ja )
+* Polish – Polski ( pl_PL )
+* Portuguese (Brazil) – Português do Brasil ( pt_BR )
+* Russian - Русский ( ru_RU )
+* Slovak – Slovenčina ( sk_SK )
+* Slovenian – Slovenija ( sl_SI )
+* Spanish – Español ( es_ES )
+* Swedish – Svenska ( sv_SE )
+
+Some language files are incomplete as they are still being translated by the community. Help us translate SportsPress by contributing to our [Transifex project](https://www.transifex.com/projects/p/sportspress/)!
 
 = Get involved =
 
@@ -156,6 +163,43 @@ SportsPress is currently in beta and is undergoing testing. We are still activel
 Yes, CSV importers are included with the plugin. Go to Tools > Import and choose from one of the SportsPress CSV importers. When importing events, be sure to use the date format yyyy/mm/dd.
 
 == Changelog ==
+
+= 0.8 =
+* Feature - New shortcode event_results.
+* Feature - New shortcode event_details.
+* Feature - New shortcode event_performance.
+* Feature - New blocks layout to display calendars in fixtures/results style.
+* Feature - New player statistics calculate values using performance and metrics.
+* Feature - New staff profiles.
+* Feature - New System Status screen in admin.
+* Feature - Add status selector to calendars and event widgets.
+* Feature - Add ability to display statistics and metrics in player lists.
+* Feature - Add time/results column to event list.
+* Feature - Link WP user roles with players and staff.
+* Feature - Display player substitutions in event page.
+* Feature - Option to group player lists by position.
+* Feature - Option to display outcomes in event results.
+* Refactor - Player profiles now use statistics and performance.
+* Refactor - Split admin CSS files for better performance.
+* Tweak - Display player numbers in admin.
+* Tweak - Move SportsPress settings to top-level page.
+* Tweak - Link date to event page in event list.
+* Tweak - Load Google Maps script only when needed.
+* Tweak - Add descriptions to configure screen for clarity.
+* Tweak - Create dedicated settings tab for text settings.
+* Tweak - Remove redundant border from pagination table.
+* Tweak - Display players and teams as total count in admin.
+* Fix - Display player number when 0 or 00.
+* Fix - Enable changing variable name or key from quick edit.
+* Fix - Team data saving issue.
+* Fix - Display all future events in venue archive.
+* Fix - Display all metrics instead of filtering by position.
+* Localization - Croatian translation by i__k.
+* Localization - Greek translation by Spirossmil.
+* Localization - Portuguese (Brazil) translation by rochester.
+* Localization - Russian translation by Selskei.
+* Localization - Slovenian translation by BOCo.
+* Localization - Update translations.
 
 = 0.7.4 =
 * Feature - Shortcode added to display single event content.

@@ -1,4 +1,14 @@
 <?php
+/**
+ * League Table
+ *
+ * @author 		ThemeBoy
+ * @package 	SportsPress/Templates
+ * @version     0.8
+ */
+
+if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+
 $defaults = array(
 	'id' => get_the_ID(),
 	'number' => -1,
@@ -17,7 +27,9 @@ extract( $defaults, EXTR_SKIP );
 $output = '<div class="sp-table-wrapper">' .
 	'<table class="sp-league-table sp-data-table' . ( $responsive ? ' sp-responsive-table' : '' ) . ( $sortable ? ' sp-sortable-table' : '' ) . ( $paginated ? ' sp-paginated-table' : '' ) . '" data-sp-rows="' . $rows . '">' . '<thead>' . '<tr>';
 
-$data = sp_get_league_table_data( $id );
+$table = new SP_League_Table( $id );
+
+$data = $table->data();
 
 // The first row should be column labels
 $labels = $data[0];
@@ -31,7 +43,7 @@ if ( ! $columns )
 if ( ! is_array( $columns ) )
 	$columns = explode( ',', $columns );
 
-$output .= '<th class="data-rank">' . SP()->text->string('Pos', 'team') . '</th>';
+$output .= '<th class="data-rank">' . SP()->text->string('Pos') . '</th>';
 
 foreach( $labels as $key => $label ):
 	if ( ! is_array( $columns ) || $key == 'name' || in_array( $key, $columns ) )
@@ -83,7 +95,7 @@ endforeach;
 $output .= '</tbody>' . '</table>';
 
 if ( $show_full_table_link )
-	$output .= '<a class="sp-league-table-link sp-view-all-link" href="' . get_permalink( $id ) . '">' . SP()->text->string('View full table', 'team') . '</a>';
+	$output .= '<a class="sp-league-table-link sp-view-all-link" href="' . get_permalink( $id ) . '">' . SP()->text->string('View full table') . '</a>';
 
 $output .= '</div>';
 

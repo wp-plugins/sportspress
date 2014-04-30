@@ -26,11 +26,6 @@
 	content: "\f140";
 	position: absolute;
 }
-.sp-data-table .team-logo {
-	vertical-align: middle;
-	height: 2.5em;
-	width: auto;
-}
 
 /* Pagination */
 .sp-paginated-table {
@@ -38,6 +33,7 @@
 }
 .sp-pagination {
 	margin-top: 0 !important;
+	border-top: 0 !important;
 }
 .sp-pagination tfoot tr td {
 	text-align: center;
@@ -52,11 +48,11 @@
 .sp-pagination tfoot tr td a {
 	cursor: inherit;
 }
-.sp-pagination tfoot tr td.active {
+.sp-pagination tfoot tr td.active a {
 	opacity: 0.5;
 	cursor: default;
 }
-.sp-pagination tfoot tr td.disabled {
+.sp-pagination tfoot tr td.disabled a {
 	opacity: 0;
 	cursor: default;
 }
@@ -65,7 +61,30 @@
 	text-align: center;
 }
 
-/* Events Calendar */
+/* League Table */
+.sp-league-table .team-logo {
+	vertical-align: middle;
+	height: 2.5em;
+	width: auto;
+}
+
+/* Event Performance */
+.sp-event-performance .sub-in,
+.sp-event-performance .sub-out {
+	cursor: default;
+}
+.sp-event-performance .sub-in:before,
+.sp-event-performance .sub-out:before {
+	font-family: dashicons;
+}
+.sp-event-performance .sub-in:before {
+	content: "\f140";
+}
+.sp-event-performance .sub-out:before {
+	content: "\f142";
+}
+
+/* Event Calendar */
 .sp-event-calendar tbody td, .sp-event-calendar thead th {
 	text-align: center;
 }
@@ -75,12 +94,43 @@
 .sp-event-calendar #prev {
 	text-align: left;
 }
-/* Events List */
+
+/* Event List */
 .sp-event-list .column-article {
 	white-space: nowrap;
 }
 .sp-event-list .column-article a .dashicons {
 	padding-right: 3px;
+}
+
+/* Event Blocks */
+.sp-event-blocks thead {
+	display: none;
+}
+.sp-event-blocks .event-date,
+.sp-event-blocks .event-time,
+.sp-event-blocks .event-results,
+.sp-event-blocks .event-title {
+	text-align: center;
+	display: block;
+	margin: 10px 20%;
+	padding: 0 20px;
+	clear: none;
+}
+.sp-event-blocks .team-logo {
+	width: 20%;
+	height: auto;
+	margin: 10px;
+}
+.sp-event-blocks .logo-odd {
+	float: left;
+}
+.sp-event-blocks .logo-even {
+	float: right;
+}
+.widget .sp-event-blocks .event-title {
+	margin: 10px;
+	padding: 0;
 }
 
 /* Google Maps */

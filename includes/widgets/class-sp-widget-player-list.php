@@ -2,7 +2,7 @@
 class SP_Widget_Player_list extends WP_Widget {
 
 	function __construct() {
-		$widget_ops = array('classname' => 'widget_calendar widget_player_list widget_sp_player_list', 'description' => __( 'Display a list of players.', 'sportspress' ) );
+		$widget_ops = array('classname' => 'widget_player_list widget_sp_player_list', 'description' => __( 'Display a list of players.', 'sportspress' ) );
 		parent::__construct('sp_player_list', __( 'SportsPress Player List', 'sportspress' ), $widget_ops);
 	}
 
@@ -19,7 +19,7 @@ class SP_Widget_Player_list extends WP_Widget {
 		if ( $title )
 			echo $before_title . $title . $after_title;
 		echo '<div id="sp_player_list_wrap">';
-		sp_get_template( 'player-list.php', array( 'id' => $id, 'number' => $number, 'performance' => $performance, 'orderby' => $orderby , 'order' => $order, 'show_all_players_link' => $show_all_players_link ) );
+		sp_get_template( 'player-list.php', array( 'id' => $id, 'number' => $number, 'performance' => $performance, 'orderby' => $orderby, 'order' => $order, 'show_all_players_link' => $show_all_players_link ) );
 		echo '</div>';
 		echo $after_widget;
 	}

@@ -5,7 +5,7 @@
  * @author 		ThemeBoy
  * @category 	Admin
  * @package 	SportsPress/Admin/Meta Boxes
- * @version     0.7
+ * @version     0.8
  */
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
@@ -19,6 +19,7 @@ class SP_Meta_Box_Team_Columns {
 	 * Output the metabox
 	 */
 	public static function output( $post ) {
+		wp_nonce_field( 'sportspress_save_data', 'sportspress_meta_nonce' );
 		$leagues = get_the_terms( $post->ID, 'sp_league' );
 		$league_num = sizeof( $leagues );
 
@@ -33,9 +34,11 @@ class SP_Meta_Box_Team_Columns {
 				<?php
 			endif;
 
-			list( $columns, $data, $placeholders, $merged, $leagues_seasons ) = sp_get_team_columns_data( $post->ID, $league_id, true );
+			$team = new SP_Team( $post );
 
-			sp_edit_team_columns_table( $league_id, $columns, $data, $placeholders, $merged, $leagues_seasons, ! current_user_can( 'edit_sp_tables' ) );
+			list( $columns, $data, $placeholders, $merged, $leagues_seasons ) = $team->data( $league_id, true );
+
+			self::table( $league_id, $columns, $data, $placeholders, $merged, $leagues_seasons, ! current_user_can( 'edit_sp_team_columns' ) );
 
 		endforeach; else:
 
@@ -48,8 +51,61 @@ class SP_Meta_Box_Team_Columns {
 	 * Save meta box data
 	 */
 	public static function save( $post_id, $post ) {
-		update_post_meta( $post_id, 'sp_leagues_seasons', sp_array_value( $_POST, 'sp_leagues_seasons', array() ) );
-		if ( current_user_can( 'edit_sp_tables' ) )
+		update_post_meta( $post_id, 'sp_leagues', sp_array_value( $_POST, 'sp_leagues', array() ) );
+		if ( current_user_can( 'edit_sp_team_columns' ) )
 			update_post_meta( $post_id, 'sp_columns', sp_array_value( $_POST, 'sp_columns', array() ) );
+	}
+
+	/**
+	 * Admin edit table
+	 */
+	public static function table( $league_id, $columns = array(), $data = array(), $placeholders = array(), $merged = array(), $seasons = array(), $readonly = true ) {
+		?>
+		<div class="sp-data-table-container">
+			<table class="widefat sp-data-table sp-select-all-range">
+				<thead>
+					<tr>
+						<th class="check-column"><input class="sp-select-all" type="checkbox"></th>
+						<th><?php _e( 'Season', 'sportspress' ); ?></th>
+						<?php foreach ( $columns as $label ): ?>
+							<th><?php echo $label; ?></th>
+						<?php endforeach; ?>
+					</tr>
+				</thead>
+				<tbody>
+					<?php
+					$i = 0;
+					foreach ( $data as $div_id => $div_stats ):
+						if ( !$div_id ) continue;
+						$div = get_term( $div_id, 'sp_season' );
+						?>
+						<tr class="sp-row sp-post<?php if ( $i % 2 == 0 ) echo ' alternate'; ?>">
+							<td>
+								<input type="checkbox" name="sp_leagues[<?php echo $league_id; ?>][<?php echo $div_id; ?>]" id="sp_leagues_<?php echo $league_id; ?>_<?php echo $div_id; ?>" value="1" <?php checked( sp_array_value( $seasons, $div_id, 0 ), 1 ); ?>>
+							</td>
+							<td>
+								<label for="sp_leagues_<?php echo $league_id; ?>_<?php echo $div_id; ?>"><?php echo $div->name; ?></label>
+							</td>
+							<?php foreach( $columns as $column => $label ):
+								$value = sp_array_value( sp_array_value( $data, $div_id, array() ), $column, 0 );
+								?>
+								<td><?php
+									$value = sp_array_value( sp_array_value( $data, $div_id, array() ), $column, null );
+									$placeholder = sp_array_value( sp_array_value( $placeholders, $div_id, array() ), $column, 0 );
+									if ( $readonly )
+										echo $value ? $value : $placeholder;
+									else
+										echo '<input type="text" name="sp_columns[' . $league_id . '][' . $div_id . '][' . $column . ']" value="' . $value . '" placeholder="' . $placeholder . '"' . ( $readonly ? ' disabled="disabled"' : '' ) . ' />';
+								?></td>
+							<?php endforeach; ?>
+						</tr>
+						<?php
+						$i++;
+					endforeach;
+					?>
+				</tbody>
+			</table>
+		</div>
+		<?php
 	}
 }

@@ -3,7 +3,7 @@
  * Plugin Name: SportsPress
  * Plugin URI: http://wordpress.org/plugins/sportspress
  * Description: Manage your club and its players, staff, events, league tables, and player lists.
- * Version: 0.7.4
+ * Version: 0.8
  * Author: ThemeBoy
  * Author URI: http://themeboy.com
  * Requires at least: 3.8
@@ -26,14 +26,14 @@ if ( ! class_exists( 'SportsPress' ) ) :
  * Main SportsPress Class
  *
  * @class SportsPress
- * @version	0.7.4
+ * @version	0.8
  */
 final class SportsPress {
 
 	/**
 	 * @var string
 	 */
-	public $version = '0.7.4';
+	public $version = '0.8';
 
 	/**
 	 * @var SporsPress The single instance of the class
@@ -119,6 +119,7 @@ final class SportsPress {
 		add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), array( $this, 'action_links' ) );
 		add_action( 'widgets_init', array( $this, 'include_widgets' ) );
 		add_action( 'init', array( $this, 'init' ), 0 );
+		add_action( 'init', array( $this, 'include_template_functions' ) );
 		add_action( 'init', array( 'SP_Shortcodes', 'init' ) );
 		add_action( 'after_setup_theme', array( $this, 'setup_environment' ) );
 
@@ -134,7 +135,7 @@ final class SportsPress {
 	 */
 	public function action_links( $links ) {
 		return array_merge( array(
-			'<a href="' . admin_url( 'options-general.php?page=sportspress' ) . '">' . __( 'Settings', 'sportspress' ) . '</a>',
+			'<a href="' . admin_url( 'admin.php?page=sportspress' ) . '">' . __( 'Settings', 'sportspress' ) . '</a>',
 		), $links );
 	}
 
@@ -207,6 +208,9 @@ final class SportsPress {
 		// Post types
 		include_once( 'includes/class-sp-post-types.php' );						// Registers post types
 
+		// Include abstract classes
+		include_once( 'includes/abstracts/abstract-sp-custom-post.php' );		// Custom posts
+
 		// Classes (used on all pages)
 		include_once( 'includes/class-sp-countries.php' );						// Defines continents and countries
 		include_once( 'includes/class-sp-formats.php' );						// Defines custom post type formats
@@ -220,6 +224,7 @@ final class SportsPress {
 	 * Include required frontend files.
 	 */
 	public function frontend_includes() {
+		include_once( 'includes/class-sp-template-loader.php' );		// Template Loader
 		include_once( 'includes/class-sp-frontend-scripts.php' );		// Frontend Scripts
 		include_once( 'includes/class-sp-shortcodes.php' );				// Shortcodes class
 	}
@@ -238,6 +243,7 @@ final class SportsPress {
 		include_once( 'includes/widgets/class-sp-widget-countdown.php' );
 		include_once( 'includes/widgets/class-sp-widget-event-calendar.php' );
 		include_once( 'includes/widgets/class-sp-widget-event-list.php' );
+		include_once( 'includes/widgets/class-sp-widget-event-blocks.php' );
 		include_once( 'includes/widgets/class-sp-widget-league-table.php' );
 		include_once( 'includes/widgets/class-sp-widget-player-list.php' );
 		include_once( 'includes/widgets/class-sp-widget-player-gallery.php' );
@@ -298,7 +304,8 @@ final class SportsPress {
 		// Fit (Proportional)
 		add_image_size( 'sportspress-fit',  637, 637, false );
 		add_image_size( 'sportspress-fit-thumbnail',  303, 303, false );
-		add_image_size( 'sportspress-fit-icon',  32, 32, false );
+		add_image_size( 'sportspress-fit-icon',  128, 128, false );
+		add_image_size( 'sportspress-fit-mini',  32, 32, false );
 	}
 
 	/** Helper functions ******************************************************/

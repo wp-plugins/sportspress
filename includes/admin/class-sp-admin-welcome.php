@@ -9,7 +9,7 @@
  * @author 		ThemeBoy
  * @category 	Admin
  * @package 	SportsPress/Admin
- * @version     0.7
+ * @version     0.7.5
 */
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
@@ -153,14 +153,14 @@ class SP_Admin_Welcome {
 				else
 					$message = __( 'Thanks for installing!', 'sportspress' );
 
-				printf( __( '%s SportsPress %s is more powerful, stable, and secure than ever before. We hope you enjoy it.', 'sportspress' ), $message, $major_version );
+				printf( __( '%s SportsPress %s has lots of refinements we think you&#8217;ll love.', 'sportspress' ), $message, $major_version );
 			?>
 		</div>
 
 		<div class="sp-badge"><?php printf( __( 'Version %s', 'sportspress' ), SP()->version ); ?></div>
 
 		<p class="sportspress-actions">
-			<?php if ( false ): ?><a href="<?php echo admin_url( add_query_arg( array( 'page' => 'sportspress' ), 'options-general.php' ) ); ?>" class="button button-primary"><?php _e( 'Settings', 'sportspress' ); ?></a><?php endif; ?>
+			<?php if ( false ): ?><a href="<?php echo admin_url( add_query_arg( array( 'page' => 'sportspress' ), 'admin.php' ) ); ?>" class="button button-primary"><?php _e( 'Settings', 'sportspress' ); ?></a><?php endif; ?>
 			<a href="https://twitter.com/share" class="twitter-share-button" data-url="http://ow.ly/vaGUv" data-text="An open-source (free) #WordPress plugin that helps you build professional league websites." data-via="ThemeBoy" data-size="large" data-hashtags="SportsPress">Tweet</a>
 <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
 		</p>
@@ -220,7 +220,7 @@ class SP_Admin_Welcome {
 					        		<?php SP()->countries->country_dropdown_options( $selected ); ?>
 					        	</select>
 					        </p>
-							<h4><?php printf( __( 'Select %s', 'sportspress' ), __( 'Sport', 'sportspress' ) ); ?></h4>
+							<h4><?php _e( 'Sport', 'sportspress' ); ?></h4>
 							<?php
 							$sport_options = sp_get_sport_options();
 							$class = 'chosen-select' . ( is_rtl() ? ' chosen-rtl' : '' );
@@ -252,7 +252,7 @@ class SP_Admin_Welcome {
 						<h4><?php _e( 'Translators', 'sportspress' ); ?></h4>
 						<p><?php _e( 'SportsPress has been kindly translated into several other languages thanks to our translation team. Want to see your name? <a href="https://www.transifex.com/projects/p/sportspress/">Translate SportsPress</a>.', 'sportspress' ); ?></p>
 						<?php
-						$translator_handles = array( 'Abdulelah', 'aylaview', 'Bhelpful2', 'JensZ', 'karimjarro', 'Spirossmil', 'ThemeBoy' );
+						$translator_handles = array( 'Abdulelah', 'albertone', 'aylaview', 'Bhelpful2', 'bizover', 'BOCo', 'i__k', 'JensZ', 'karimjarro', 'rochester', 'Selskei', 'Spirossmil', 'ThemeBoy' );
 						$translator_links = array();
 						foreach ( $translator_handles as $handle ):
 							$translator_links[] = '<a href="https://www.transifex.com/accounts/profile/' . $handle . '">' . $handle . '</a>';
@@ -266,7 +266,7 @@ class SP_Admin_Welcome {
 			</div>
 
 			<div class="return-to-dashboard">
-				<a href="<?php echo esc_url( admin_url( add_query_arg( array( 'page' => 'sportspress' ), 'options-general.php' ) ) ); ?>"><?php _e( 'Go to SportsPress Settings', 'sportspress' ); ?></a>
+				<a href="<?php echo esc_url( admin_url( add_query_arg( array( 'page' => 'sportspress' ), 'admin.php' ) ) ); ?>"><?php _e( 'Go to SportsPress Settings', 'sportspress' ); ?></a>
 			</div>
 		</div>
 		<?php

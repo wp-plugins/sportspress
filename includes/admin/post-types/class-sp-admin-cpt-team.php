@@ -5,7 +5,7 @@
  * @author 		ThemeBoy
  * @category 	Admin
  * @package 	SportsPress/Admin/Post Types
- * @version     0.7
+ * @version     0.8
  */
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
@@ -62,6 +62,7 @@ class SP_Admin_CPT_Team extends SP_Admin_CPT {
 			'cb' => '<input type="checkbox" />',
 			'sp_icon' => '<span class="dashicons sp-icon-shield tips" title="' . __( 'Logo', 'sportspress' ) . '"></span>',
 			'title' => __( 'Team', 'sportspress' ),
+			'sp_abbreviation' => __( 'Abbreviation', 'sportspress' ),
 			'sp_league' => __( 'Leagues', 'sportspress' ),
 			'sp_season' => __( 'Seasons', 'sportspress' ),
 			'sp_views' => __( 'Views', 'sportspress' ),
@@ -75,6 +76,13 @@ class SP_Admin_CPT_Team extends SP_Admin_CPT {
 	 */
 	public function custom_columns( $column, $post_id ) {
 		switch ( $column ):
+			case 'sp_icon':
+				echo has_post_thumbnail( $post_id ) ? edit_post_link( get_the_post_thumbnail( $post_id, 'sportspress-fit-mini' ), '', '', $post_id ) : '';
+			break;
+			case 'sp_abbreviation':
+				$abbreviation = get_post_meta ( $post_id, 'sp_abbreviation', true );
+				echo $abbreviation ? $abbreviation : '&mdash;';
+			break;
 			case 'sp_league':
 				echo get_the_terms ( $post_id, 'sp_league' ) ? the_terms( $post_id, 'sp_league' ) : '&mdash;';
 			break;
@@ -111,8 +119,6 @@ class SP_Admin_CPT_Team extends SP_Admin_CPT {
 
 	    if ( $typenow != 'sp_team' )
 	    	return;
-
-		sp_highlight_admin_menu();
 
 		$selected = isset( $_REQUEST['sp_league'] ) ? $_REQUEST['sp_league'] : null;
 		$args = array(

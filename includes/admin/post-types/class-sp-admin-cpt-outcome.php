@@ -41,7 +41,7 @@ class SP_Admin_CPT_Outcome extends SP_Admin_CPT {
 		$columns = array(
 			'cb' => '<input type="checkbox" />',
 			'title' => __( 'Label', 'sportspress' ),
-			'sp_key' => __( 'Key', 'sportspress' ),
+			'sp_key' => __( 'Variable', 'sportspress' ),
 		);
 		return $columns;
 	}

@@ -24,6 +24,9 @@
 	-moz-osx-font-smoothing: grayscale;
 }
 
+.sp-icon-sportspress:before {
+	content: "\f111";
+}
 .sp-icon-calendar:before {
 	content: "\f145";
 }
@@ -37,7 +40,7 @@
 	content: "\f307";
 }
 .sp-icon-megaphone:before {
-	content: "\f322";
+	content: "\f488";
 }
 .sp-icon-crown:before {
 	content: "\f313";
@@ -47,6 +50,9 @@
 }
 .sp-icon-list:before {
 	content: "\f163"
+}
+.sp-icon-blocks:before {
+	content: "\f164"
 }
 .sp-icon-smile:before {
 	content: "\f328";

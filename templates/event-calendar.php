@@ -1,4 +1,14 @@
 <?php
+/**
+ * Event Calendar
+ *
+ * @author 		ThemeBoy
+ * @package 	SportsPress/Templates
+ * @version     0.8
+ */
+
+if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+
 global $wpdb, $m, $monthnum, $year, $wp_locale, $posts;
 
 // Quick check. If we have no posts at all, abort!
@@ -7,6 +17,7 @@ if ( ! $posts )
 
 $defaults = array(
 	'id' => null,
+	'status' => 'default',
 	'initial' => true,
 	'caption_tag' => 'h4',
 	'show_all_events_link' => false,
@@ -15,7 +26,10 @@ $defaults = array(
 extract( $defaults, EXTR_SKIP );
 
 if ( isset( $id ) ):
-	$events = sp_get_calendar_data( $id );
+	$calendar = new SP_Calendar( $id );
+	if ( $status != 'default' )
+		$calendar->status = $status;
+	$events = $calendar->data();
 	$event_ids = array();
 	foreach ( $events as $event ):
 		$event_ids[] = $event->ID;
@@ -195,6 +209,6 @@ if ( $pad != 0 && $pad != 7 )
 $calendar_output .= "\n\t</tr>\n\t</tbody>\n\t</table>\n\t</div>";
 
 if ( $id && $show_all_events_link )
-	$calendar_output .= '<a class="sp-calendar-link sp-view-all-link" href="' . get_permalink( $id ) . '">' . SP()->text->string('View all events', 'event') . '</a>';
+	$calendar_output .= '<a class="sp-calendar-link sp-view-all-link" href="' . get_permalink( $id ) . '">' . SP()->text->string('View all events') . '</a>';
 
 echo apply_filters( 'sportspress_event_calendar',  $calendar_output );

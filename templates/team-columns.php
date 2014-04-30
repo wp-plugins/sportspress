@@ -1,4 +1,14 @@
 <?php
+/**
+ * Team Columns
+ *
+ * @author 		ThemeBoy
+ * @package 	SportsPress/Templates
+ * @version     0.8
+ */
+
+if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+
 if ( ! isset( $id ) )
 	$id = get_the_ID();
 
@@ -12,7 +22,8 @@ $output = '';
 // Loop through data for each league
 foreach ( $leagues as $league ):
 
-	$data = sp_get_team_columns_data( $id, $league->term_id );
+	$team = new SP_Team( $id );
+	$data = $team->data( $league->term_id );
 
 	if ( sizeof( $data ) <= 1 )
 		continue;

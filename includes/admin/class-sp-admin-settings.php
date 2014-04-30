@@ -34,6 +34,7 @@ class SP_Admin_Settings {
 			$settings[] = include( 'settings/class-sp-settings-events.php' );
 			$settings[] = include( 'settings/class-sp-settings-teams.php' );
 			$settings[] = include( 'settings/class-sp-settings-players.php' );
+			$settings[] = include( 'settings/class-sp-settings-text.php' );
 			$settings[] = include( 'settings/class-sp-settings-config.php' );
 
 			self::$settings = apply_filters( 'sportspress_get_settings_pages', $settings );
@@ -336,7 +337,7 @@ class SP_Admin_Settings {
 	                    		name="<?php echo esc_attr( $value['id'] ); ?><?php if ( $value['type'] == 'multiselect' ) echo '[]'; ?>"
 	                    		id="<?php echo esc_attr( $value['id'] ); ?>"
 	                    		style="<?php echo esc_attr( $value['css'] ); ?>"
-	                    		class="<?php echo esc_attr( $value['class'] ); ?>"
+	                    		class="chosen-select<?php if ( is_rtl() ): ?> chosen-rtl<?php endif; ?> <?php echo esc_attr( $value['class'] ); ?>"
 	                    		<?php echo implode( ' ', $custom_attributes ); ?>
 	                    		<?php if ( $value['type'] == 'multiselect' ) echo 'multiple="multiple"'; ?>
 	                    		>

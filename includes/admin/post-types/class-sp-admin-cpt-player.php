@@ -78,6 +78,9 @@ class SP_Admin_CPT_Player extends SP_Admin_CPT {
 	 */
 	public function custom_columns( $column, $post_id ) {
 		switch ( $column ):
+			case 'sp_number':
+				echo get_post_meta ( $post_id, 'sp_number', true );
+			break;
 			case 'sp_position':
 				echo get_the_terms( $post_id, 'sp_position' ) ? the_terms( $post_id, 'sp_position' ) : '&mdash;';
 			break;
@@ -159,8 +162,6 @@ class SP_Admin_CPT_Player extends SP_Admin_CPT {
 
 	    if ( $typenow != 'sp_player' )
 	    	return;
-
-		sp_highlight_admin_menu();
 
 		$selected = isset( $_REQUEST['team'] ) ? $_REQUEST['team'] : null;
 		$args = array(

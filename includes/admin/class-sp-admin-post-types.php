@@ -35,7 +35,7 @@ class SP_Admin_Post_Types {
 		include( 'post-types/class-sp-admin-cpt-performance.php' );
 		include( 'post-types/class-sp-admin-cpt-column.php' );
 		include( 'post-types/class-sp-admin-cpt-metric.php' );
-		//include( 'post-types/class-sp-admin-cpt-statistic.php' );
+		include( 'post-types/class-sp-admin-cpt-statistic.php' );
 		include( 'post-types/class-sp-admin-cpt-event.php' );
 		include( 'post-types/class-sp-admin-cpt-calendar.php' );
 		include( 'post-types/class-sp-admin-cpt-team.php' );
@@ -54,7 +54,7 @@ class SP_Admin_Post_Types {
 	public function post_updated_messages( $messages ) {
 		global $typenow, $post;
 
-		if ( in_array( $typenow, array( 'sp_result', 'sp_outcome', 'sp_column', 'sp_metric', 'sp_performance' ) ) ):
+		if ( is_sp_config_type( $typenow ) ):
 			$obj = get_post_type_object( $typenow );
 
 			for ( $i = 0; $i <= 10; $i++ ):

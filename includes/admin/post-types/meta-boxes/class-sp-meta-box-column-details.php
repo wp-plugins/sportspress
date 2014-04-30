@@ -5,15 +5,18 @@
  * @author 		ThemeBoy
  * @category 	Admin
  * @package 	SportsPress/Admin/Meta Boxes
- * @version     0.7
+ * @version     0.8
  */
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
+if ( ! class_exists( 'SP_Meta_Box_Config' ) )
+	include( 'class-sp-meta-box-config.php' );
+
 /**
  * SP_Meta_Box_Column_Details
  */
-class SP_Meta_Box_Column_Details {
+class SP_Meta_Box_Column_Details extends SP_Meta_Box_Config {
 
 	/**
 	 * Output the metabox
@@ -30,13 +33,14 @@ class SP_Meta_Box_Column_Details {
 		?>
 		<p><strong><?php _e( 'Key', 'sportspress' ); ?></strong></p>
 		<p>
+			<input name="sp_default_key" type="hidden" id="sp_default_key" value="<?php echo $post->post_name; ?>">
 			<input name="sp_key" type="text" id="sp_key" value="<?php echo $post->post_name; ?>">
 		</p>
 		<p><strong><?php _e( 'Equation', 'sportspress' ); ?></strong></p>
 		<p class="sp-equation-selector">
 			<?php
 			foreach ( $equation as $piece ):
-				sp_equation_selector( $post->ID, $piece, array( 'team_event', 'result', 'outcome' ) );
+				self::select( $post->ID, $piece, array( 'team_event', 'outcome', 'result' ) );
 			endforeach;
 			?>
 		</p>
@@ -74,7 +78,7 @@ class SP_Meta_Box_Column_Details {
 	 * Save meta box data
 	 */
 	public static function save( $post_id, $post ) {
-		sp_delete_duplicate_post( $_POST );
+		self::delete_duplicate( $_POST );
 		update_post_meta( $post_id, 'sp_equation', implode( ' ', sp_array_value( $_POST, 'sp_equation', array() ) ) );
 		update_post_meta( $post_id, 'sp_precision', (int) sp_array_value( $_POST, 'sp_precision', 1 ) );
 		update_post_meta( $post_id, 'sp_priority', sp_array_value( $_POST, 'sp_priority', '0' ) );

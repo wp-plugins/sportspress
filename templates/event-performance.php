@@ -1,6 +1,18 @@
 <?php
+/**
+ * Event Performance
+ *
+ * @author 		ThemeBoy
+ * @package 	SportsPress/Templates
+ * @version     0.8
+ */
+
+if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+
 if ( ! isset( $id ) )
 	$id = get_the_ID();
+
+$event = new SP_Event( $id );
 
 $teams = (array)get_post_meta( $id, 'sp_team', false );
 $staff = (array)get_post_meta( $id, 'sp_staff', false );
@@ -28,7 +40,7 @@ foreach( $teams as $key => $team_id ):
 				<tr>
 					<?php if ( $has_players ): ?>
 						<th class="data-number">#</th>
-						<th class="data-name"><?php echo SP()->text->string('Player', 'event'); ?></th>
+						<th class="data-name"><?php echo SP()->text->string('Player'); ?></th>
 					<?php endif; foreach( $performance_labels as $key => $label ): ?>
 						<th class="data-<?php echo $key; ?>"><?php echo $label; ?></th>
 					<?php endforeach; ?>
@@ -37,6 +49,17 @@ foreach( $teams as $key => $team_id ):
 			<?php if ( $has_players ): ?>
 				<tbody>
 					<?php
+
+					$lineups = array_filter( $data, array( $event, 'lineup_filter' ) );
+					$subs = array_filter( $data, array( $event, 'sub_filter' ) );
+
+					$lineup_sub_relation = array();
+					foreach ( $subs as $sub_id => $sub ):
+						if ( ! $sub_id )
+							continue;
+						$lineup_sub_relation[ sp_array_value( $sub, 'sub', 0 ) ] = $sub_id;
+					endforeach;
+
 					$i = 0;
 					foreach( $data as $player_id => $row ):
 
@@ -58,6 +81,14 @@ foreach( $teams as $key => $team_id ):
 						if ( $link_posts ):
 							$permalink = get_post_permalink( $player_id );
 							$name =  '<a href="' . $permalink . '">' . $name . '</a>';
+							if ( isset( $row['status'] ) && $row['status'] == 'sub' ):
+								$name = '(' . $name . ')';
+							endif;
+							if ( array_key_exists( $player_id, $lineup_sub_relation ) ):
+								$name .= ' <span class="sub-in" title="' . get_the_title( $lineup_sub_relation[ $player_id ] ) . '">' . get_post_meta( $lineup_sub_relation[ $player_id ], 'sp_number', true ) . '</span>';
+							elseif ( isset( $row['sub'] ) && $row['sub'] ):
+								$name .= ' <span class="sub-out" title="' . get_the_title( $row[ 'sub' ] ) . '">' . get_post_meta( $row['sub'], 'sp_number', true ) . '</span>';
+							endif;
 						endif;
 
 						echo '<td class="data-name">' . $name . '</td>';
@@ -90,11 +121,9 @@ foreach( $teams as $key => $team_id ):
 				<<?php echo ( $has_players ? 'tfoot' : 'tbody' ); ?>>
 					<tr class="' . ( $i % 2 == 0 ? 'odd' : 'even' ) . '">
 						<?php
-						$number = get_post_meta( $player_id, 'sp_number', true );
-
 						if ( $has_players ):
 							echo '<td class="data-number">&nbsp;</td>';
-							echo '<td class="data-name">' . SP()->text->string('Total', 'event') . '</td>';
+							echo '<td class="data-name">' . SP()->text->string('Total') . '</td>';
 						endif;
 
 						$row = $data[0];

@@ -67,7 +67,7 @@ class SP_Admin_CPT_Table extends SP_Admin_CPT {
 				echo get_the_terms ( $post_id, 'sp_season' ) ? the_terms( $post_id, 'sp_season' ) : '&mdash;';
 			break;
 			case 'sp_team':
-				echo sp_posts( $post_id, 'sp_team' );
+				echo sizeof( array_filter( get_post_meta( $post_id, 'sp_team' ) ) );
 			break;
 			case 'sp_views':
 	        	echo sp_get_post_views( $post_id );
@@ -99,8 +99,6 @@ class SP_Admin_CPT_Table extends SP_Admin_CPT {
 
 	    if ( $typenow != 'sp_table' )
 	    	return;
-
-		sp_highlight_admin_menu();
 
 		$selected = isset( $_REQUEST['sp_league'] ) ? $_REQUEST['sp_league'] : null;
 		$args = array(

@@ -41,7 +41,7 @@ class SP_Admin_CPT_Result extends SP_Admin_CPT {
 		$columns = array(
 			'cb' => '<input type="checkbox" />',
 			'title' => __( 'Label', 'sportspress' ),
-			'sp_key' => __( 'Key', 'sportspress' ),
+			'sp_key' => __( 'Variable', 'sportspress' ),
 		);
 		return $columns;
 	}
@@ -54,7 +54,7 @@ class SP_Admin_CPT_Result extends SP_Admin_CPT {
 		switch ( $column ):
 			case 'sp_key':
 				global $post;
-				echo $post->post_name;
+				echo $post->post_name . 'for, ' . $post->post_name . 'against';
 			break;
 		endswitch;
 	}

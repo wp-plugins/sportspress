@@ -15,8 +15,22 @@ class SP_Frontend_Scripts {
 	 */
 	public function __construct () {
 		add_action( 'wp_enqueue_scripts', array( $this, 'load_scripts' ) );
-		add_action( 'wp_print_scripts', array( $this, 'check_jquery' ), 25 );;
-		add_action( 'wp_print_scripts', array( $this, 'custom_css' ), 30 );;
+		add_action( 'wp_print_scripts', array( $this, 'check_jquery' ), 25 );
+	}
+
+	/**
+	 * Get styles for the frontend
+	 * @return array
+	 */
+	public static function get_styles() {
+		return apply_filters( 'sportspress_enqueue_styles', array(
+			'sportspress-general' => array(
+				'src'     => str_replace( array( 'http:', 'https:' ), '', SP()->plugin_url() ) . '/assets/css/sportspress.css',
+				'deps'    => '',
+				'version' => SP_VERSION,
+				'media'   => 'all'
+			),
+		) );
 	}
 
 	/**
@@ -26,18 +40,30 @@ class SP_Frontend_Scripts {
 	 * @return void
 	 */
 	public function load_scripts() {
-		// Styles
-		wp_enqueue_style( 'sportspress', plugin_dir_url( SP_PLUGIN_FILE ) . 'assets/css/sportspress.css', array( 'dashicons' ), time() );
-
+		global $typenow;
 		// Scripts
 		wp_enqueue_script( 'jquery' );
-		wp_enqueue_script( 'google-maps', 'https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false', array(), '3.exp', true );
 		wp_enqueue_script( 'jquery-datatables', plugin_dir_url( SP_PLUGIN_FILE ) .'assets/js/jquery.dataTables.min.js', array( 'jquery' ), '1.9.4', true );
 		wp_enqueue_script( 'jquery-countdown', plugin_dir_url( SP_PLUGIN_FILE ) .'assets/js/jquery.countdown.min.js', array( 'jquery' ), '2.0.2', true );
 		wp_enqueue_script( 'sportspress', plugin_dir_url( SP_PLUGIN_FILE ) .'assets/js/sportspress.js', array( 'jquery' ), time(), true );
 
+		if ( is_singular( 'sp_event' ) || is_tax( 'sp_venue' ) ):
+			wp_enqueue_script( 'google-maps', 'https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false', array(), '3.exp', true );
+			wp_enqueue_script( 'sp-maps', plugin_dir_url( SP_PLUGIN_FILE ) .'assets/js/sp-maps.js', array( 'jquery', 'google-maps' ), time(), true );
+		endif;
+
 		// Localize scripts.
 		wp_localize_script( 'sportspress', 'localized_strings', array( 'days' => __( 'days', 'sportspress' ), 'hrs' => __( 'hrs', 'sportspress' ), 'mins' => __( 'mins', 'sportspress' ), 'secs' => __( 'secs', 'sportspress' ), 'previous' => __( 'Previous', 'sportspress' ), 'next' => __( 'Next', 'sportspress' ) ) );
+
+		// CSS Styles
+    	wp_enqueue_style( 'dashicons' );
+		$enqueue_styles = $this->get_styles();
+
+		if ( $enqueue_styles ):
+			add_action( 'wp_print_scripts', array( $this, 'custom_css' ), 30 );
+			foreach ( $enqueue_styles as $handle => $args )
+				wp_enqueue_style( $handle, $args['src'], $args['deps'], $args['version'], $args['media'] );
+		endif;
 	}
 
 	/**
