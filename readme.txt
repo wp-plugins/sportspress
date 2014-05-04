@@ -1,5 +1,6 @@
 === SportsPress ===
 Contributors: ThemeBoy
+Tags: sportspress
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=support@themeboy.com&item_name=Donation+for+SportsPress
 Requires at least: 3.8
 Tested up to: 3.9
