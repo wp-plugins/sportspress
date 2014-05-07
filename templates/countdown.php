@@ -4,7 +4,7 @@
  *
  * @author 		ThemeBoy
  * @package 	SportsPress/Templates
- * @version     0.8
+ * @version     0.8.4
  */
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
@@ -25,18 +25,28 @@ endif;
 
 extract( $defaults, EXTR_SKIP );
 
-$output = '';
-
-if ( isset( $post ) ):
-	$output .= '<div id="sp-countdown-wrapper">';
-	$output .= '<h3 class="event-name"><a href="' . get_permalink( $post->ID ) . '">' . $post->post_title . '</a></h3>';
+if ( ! isset( $post ) ) return;
+?>
+<div id="sp-countdown-wrapper">
+	<h3 class="event-name"><a href="<?php echo get_permalink( $post->ID ); ?>"><?php echo $post->post_title; ?></a></h3>
+	<?php
+	if ( isset( $show_venue ) && $show_venue ):
+		$venues = get_the_terms( $post->ID, 'sp_venue' );
+		if ( $venues ):
+			?>
+			<h5 class="event-venue"><?php the_terms( $post->ID, 'sp_venue' ); ?></h5>
+			<?php
+		endif;
+	endif;
 
 	if ( isset( $show_league ) && $show_league ):
 		$leagues = get_the_terms( $post->ID, 'sp_league' );
 		if ( $leagues ):
 			foreach( $leagues as $league ):
 				$term = get_term( $league->term_id, 'sp_league' );
-				$output .= '<h5 class="event-league">' . $term->name . '</h5>';
+				?>
+				<h5 class="event-league"><?php echo $term->name; ?></h5>
+				<?php
 			endforeach;
 		endif;
 	endif;
@@ -45,16 +55,15 @@ if ( isset( $post ) ):
 	$date = new DateTime( $post->post_date );
 	$interval = date_diff( $now, $date );
 
-	$output .= '<p class="countdown sp-countdown"><time datetime="' . $post->post_date . '"' . ( $live ? ' data-countdown="' . str_replace( '-', '/', $post->post_date ) . '"' : '' ) . '>' .
-		'<span>' . sprintf( '%02s', ( $interval->invert ? 0 : $interval->days ) ) . ' <small>' . __( 'days', 'sportspress' ) . '</small></span> ' .
-		'<span>' . sprintf( '%02s', ( $interval->invert ? 0 : $interval->h ) ) . ' <small>' . __( 'hrs', 'sportspress' ) . '</small></span> ' .
-		'<span>' . sprintf( '%02s', ( $interval->invert ? 0 : $interval->i ) ) . ' <small>' . __( 'mins', 'sportspress' ) . '</small></span> ' .
-		'<span>' . sprintf( '%02s', ( $interval->invert ? 0 : $interval->s ) ) . ' <small>' . __( 'secs', 'sportspress' ) . '</small></span>' .
-	'</time></p>';
-
-	$output .= '</div>';
-else:
-	return false;
-endif;
-
-echo apply_filters( 'sportspress_countdown', $output );
+	$days = $interval->invert ? 0 : $interval->days;
+	$h = $interval->invert ? 0 : $interval->h;
+	$i = $interval->invert ? 0 : $interval->i;
+	$s = $interval->invert ? 0 : $interval->s;
+	?>
+	<p class="countdown sp-countdown<?php if ( $days >= 10 ): ?> long-countdown<?php endif; ?>"><time datetime="<?php echo $post->post_date; ?>"<?php if ( $live ): ?> data-countdown="<?php echo str_replace( '-', '/', $post->post_date ); ?>"<?php endif; ?>>
+		<span><?php echo sprintf( '%02s', $days ); ?> <small><?php echo __( 'days', 'sportspress' ); ?></small></span>
+		<span><?php echo sprintf( '%02s', $h ); ?> <small><?php echo __( 'hrs', 'sportspress' ); ?></small></span>
+		<span><?php echo sprintf( '%02s', $i ); ?> <small><?php echo __( 'mins', 'sportspress' ); ?></small></span>
+		<span><?php echo sprintf( '%02s', $s ); ?> <small><?php echo __( 'secs', 'sportspress' ); ?></small></span>
+	</time></p>
+</div>

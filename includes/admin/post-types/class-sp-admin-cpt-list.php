@@ -5,7 +5,7 @@
  * @author 		ThemeBoy
  * @category 	Admin
  * @package 	SportsPress/Admin/Post Types
- * @version     0.7
+ * @version     0.8.4
  */
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
@@ -153,7 +153,7 @@ class SP_Admin_CPT_List extends SP_Admin_CPT {
 
 	    if ( $typenow == 'sp_list' ) {
 
-	    	if ( isset( $_GET['team'] ) ) {
+	    	if ( ! empty( $_GET['team'] ) ) {
 		    	$query->query_vars['meta_value'] 	= $_GET['team'];
 		        $query->query_vars['meta_key'] 		= 'sp_team';
 		    }
