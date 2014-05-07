@@ -7,7 +7,7 @@
  * @author 		ThemeBoy
  * @category 	Core
  * @package 	SportsPress/Functions
- * @version     0.8
+ * @version     0.8.4
  */
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
@@ -110,6 +110,12 @@ function sportspress_gettext( $translated_text, $untranslated_text, $domain ) {
 	if ( is_admin() ):
 		if ( is_sp_config_type( $typenow ) ):
 			switch ( $untranslated_text ):
+			case 'Excerpt':
+				$translated_text = __( 'Description', 'sportspress' );
+				break;
+			case 'Excerpts are optional hand-crafted summaries of your content that can be used in your theme. <a href="http://codex.wordpress.org/Excerpt" target="_blank">Learn more about manual excerpts.</a>':
+				$translated_text = __( 'The description is not prominent by default; however, some themes may show it.', 'sportspress' );
+				break;
 			case 'Slug':
 				$translated_text = ( in_array( $typenow, array( 'sp_column', 'sp_statistic' ) ) ) ? __( 'Key', 'sportspress' ) : __( 'Variable', 'sportspress' );
 				break;
@@ -120,6 +126,40 @@ function sportspress_gettext( $translated_text, $untranslated_text, $domain ) {
 			switch ( $untranslated_text ):
 			case 'Author':
 				$translated_text = __( 'User', 'sportspress' );
+				break;
+			endswitch;
+		endif;
+
+		if ( in_array( $typenow, array( 'sp_player', 'sp_staff' ) ) ):
+			switch ( $untranslated_text ):
+			case 'Featured Image':
+				$translated_text = __( 'Photo', 'sportspress' );
+				break;
+			case 'Set Featured Image':
+				$translated_text = __( 'Select Photo', 'sportspress' );
+				break;
+			case 'Set featured image':
+				$translated_text = __( 'Add photo', 'sportspress' );
+				break;
+			case 'Remove featured image':
+				$translated_text = __( 'Remove photo', 'sportspress' );
+				break;
+			endswitch;
+		endif;
+
+		if ( in_array( $typenow, array( 'sp_team' ) ) ):
+			switch ( $untranslated_text ):
+			case 'Featured Image':
+				$translated_text = __( 'Logo', 'sportspress' );
+				break;
+			case 'Set Featured Image':
+				$translated_text = __( 'Select Logo', 'sportspress' );
+				break;
+			case 'Set featured image':
+				$translated_text = __( 'Add logo', 'sportspress' );
+				break;
+			case 'Remove featured image':
+				$translated_text = __( 'Remove logo', 'sportspress' );
 				break;
 			endswitch;
 		endif;

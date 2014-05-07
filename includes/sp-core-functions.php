@@ -7,7 +7,7 @@
  * @author 		ThemeBoy
  * @category 	Core
  * @package 	SportsPress/Functions
- * @version     0.8
+ * @version     0.8.4
  */
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
@@ -294,7 +294,7 @@ if ( !function_exists( 'sp_get_post_views' ) ) {
 	        delete_post_meta( $post_id, $count_key );
 	        add_post_meta( $post_id, $count_key, '0' );
 	    endif;
-	    if ( isset( $views ) && $views == 1 )
+	    if ( $count == 1 )
 	    	return __( '1 view', 'sportspress' );
 	    else
 	    	return sprintf( __( '%s views', 'sportspress' ), $count );
@@ -2392,7 +2392,7 @@ function sp_get_sport_presets() {
 					),
 					array(
 						'post_title' => 'Yellow Cards',
-						'post_name'  => 'yellospards',
+						'post_name'  => 'yellowcards',
 					),
 					array(
 						'post_title' => 'Red Cards',
@@ -2405,15 +2405,6 @@ function sp_get_sport_presets() {
 			'name' => __( 'Custom', 'sportspress' ),
 		),
 	));
-}
-
-function sp_get_sport_options() {
-	$sports = sp_get_sport_presets();
-	$options = array();
-	foreach ( $sports as $slug => $data ):
-		$options[ $slug ] = $data['name'];
-	endforeach;
-	return $options;
 }
 
 /**
