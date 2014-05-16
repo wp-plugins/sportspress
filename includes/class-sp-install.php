@@ -127,10 +127,10 @@ class SP_Install {
 
 		// Default color scheme
 	    add_option( 'sportspress_frontend_css_primary', '#00a69c' );
+	    add_option( 'sportspress_frontend_css_background', '#f4f4f4' );
+	    add_option( 'sportspress_frontend_css_text', '#363f48' );
 	    add_option( 'sportspress_frontend_css_heading', '#ffffff' );
-	    add_option( 'sportspress_frontend_css_text', '#222222' );
-	    add_option( 'sportspress_frontend_css_background', '#f5f5f5' );
-	    add_option( 'sportspress_frontend_css_alternate', '#f0f0f0' );
+	    add_option( 'sportspress_frontend_css_link', '#ef6848' );
 
 		if ( ! get_option( 'sportspress_installed' ) ) {
 			// Configure default sport
@@ -327,7 +327,10 @@ class SP_Install {
 			'edit_sp_team_columns',
 		);
 
-		$capability_types = array( 'sp_config', 'sp_event', 'sp_calendar', 'sp_team', 'sp_table', 'sp_player', 'sp_list', 'sp_staff' );
+		$post_types = sp_post_types();
+		array_unshift( $post_types, 'sp_config' );
+
+		$capability_types = apply_filters( 'sportspress_post_types', $post_types );
 
 		foreach ( $capability_types as $capability_type ) {
 

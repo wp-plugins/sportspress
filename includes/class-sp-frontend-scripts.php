@@ -50,6 +50,7 @@ class SP_Frontend_Scripts {
 		if ( is_singular( 'sp_event' ) || is_tax( 'sp_venue' ) ):
 			wp_enqueue_script( 'google-maps', 'https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false', array(), '3.exp', true );
 			wp_enqueue_script( 'sp-maps', plugin_dir_url( SP_PLUGIN_FILE ) .'assets/js/sp-maps.js', array( 'jquery', 'google-maps' ), time(), true );
+			wp_localize_script( 'sp-maps', 'vars', array( 'map_type' => strtoupper( get_option( 'sportspress_map_type', 'ROADMAP' ) ) ) );
 		endif;
 
 		// Localize scripts.
@@ -86,6 +87,12 @@ class SP_Frontend_Scripts {
 		}
 	}
 
+	/**
+	 * Output custom CSS.
+	 *
+	 * @access public
+	 * @return void
+	 */
 	public function custom_css() {
 		$enabled = get_option( 'sportspress_enable_frontend_css', 'yes' );
 		$custom = get_option( 'sportspress_custom_css', null );
@@ -102,17 +109,17 @@ class SP_Frontend_Scripts {
 				if ( isset( $colors['primary'] ) )
 					echo '.sp-data-table th,.sp-calendar th,.sp-data-table tfoot,.sp-calendar tfoot{background:' . $colors['primary'] . ' !important}.sp-data-table tbody a,.sp-calendar tbody a{color:' . $colors['primary'] . ' !important}';
 
-				if ( isset( $colors['heading'] ) )
-					echo '.sp-data-table th,.sp-data-table th a,.sp-data-table tfoot,.sp-data-table tfoot a,.sp-calendar th,.sp-calendar th a,.sp-calendar tfoot,.sp-calendar tfoot a{color: ' . $colors['heading'] . ' !important}';
+				if ( isset( $colors['background'] ) )
+					echo '.sp-data-table tbody,.sp-calendar tbody{background: ' . $colors['background'] . ' !important}';
 
 				if ( isset( $colors['text'] ) )
 					echo '.sp-data-table tbody,.sp-calendar tbody{color: ' . $colors['text'] . ' !important}';
 
-				if ( isset( $colors['background'] ) )
-					echo '.sp-data-table tbody,.sp-calendar tbody{background: ' . $colors['background'] . ' !important}';
+				if ( isset( $colors['heading'] ) )
+					echo '.sp-data-table th,.sp-data-table th a,.sp-data-table tfoot,.sp-data-table tfoot a,.sp-calendar th,.sp-calendar th a,.sp-calendar tfoot,.sp-calendar tfoot a{color: ' . $colors['heading'] . ' !important}';
 
-				if ( isset( $colors['alternate'] ) )
-					echo '.sp-data-table tbody tr.odd,.sp-data-table tbody tr.alternate,.sp-calendar tbody td#today{background: ' . $colors['alternate'] . ' !important}';
+				if ( isset( $colors['link'] ) )
+					echo '.sp-data-table tbody a,.sp-data-table tbody a:hover,.sp-calendar tbody a:focus{color: ' . $colors['link'] . ' !important}';
 			}
 
 			if ( ! empty( $custom ) )

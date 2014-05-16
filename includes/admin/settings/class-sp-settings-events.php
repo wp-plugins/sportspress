@@ -57,6 +57,14 @@ class SP_Settings_Events extends SP_Settings_Page {
 			array( 'type' => 'delimiter' ),
 
 			array(
+				'title'     => __( 'Teams', 'sportspress' ),
+				'desc' 		=> __( 'Display logos', 'sportspress' ),
+				'id' 		=> 'sportspress_event_show_logos',
+				'default'	=> 'yes',
+				'type' 		=> 'checkbox',
+			),
+
+			array(
 				'title'     => __( 'Venue', 'sportspress' ),
 				'desc' 		=> __( 'Display maps', 'sportspress' ),
 				'id' 		=> 'sportspress_event_show_maps',
@@ -92,6 +100,14 @@ class SP_Settings_Events extends SP_Settings_Page {
 			array( 'type' => 'sectionend', 'id' => 'event_options' ),
 
 			array( 'title' => __( 'Calendars', 'sportspress' ), 'type' => 'title', 'id' => 'calendar_options' ),
+
+			array(
+				'title' 	=> __( 'Teams', 'sportspress' ),
+				'desc' 		=> __( 'Link teams', 'sportspress' ),
+				'id' 		=> 'sportspress_calendar_link_teams',
+				'default'	=> 'no',
+				'type' 		=> 'checkbox',
+			),
 
 			array(
 				'title'     => __( 'Pagination', 'sportspress' ),

@@ -28,9 +28,7 @@ class SP_Settings_General extends SP_Settings_Page {
 		add_action( 'sportspress_settings_' . $this->id, array( $this, 'output' ) );
 		add_action( 'sportspress_admin_field_country', array( $this, 'country_setting' ) );
 		add_action( 'sportspress_settings_save_' . $this->id, array( $this, 'save' ) );
-
-		if ( ( $styles = SP_Frontend_Scripts::get_styles() ) && array_key_exists( 'sportspress-general', $styles ) )
-			add_action( 'sportspress_admin_field_frontend_styles', array( $this, 'frontend_styles_setting' ) );
+		add_action( 'sportspress_admin_field_frontend_styles', array( $this, 'frontend_styles_setting' ) );
 	}
 
 	/**
@@ -54,6 +52,19 @@ class SP_Settings_General extends SP_Settings_Page {
 				'default'   => 'soccer',
 				'type'      => 'select',
 				'options'   => $presets,
+			),
+
+			array(
+				'title'     => __( 'Google Maps', 'sportspress' ),
+				'id'        => 'sportspress_map_type',
+				'default'   => 'ROADMAP',
+				'type'      => 'select',
+				'options'   => array(
+					'ROADMAP' => __( 'Default', 'sportspress' ),
+					'SATELLITE' => __( 'Satellite', 'sportspress' ),
+					'HYBRID' => __( 'Hybrid', 'sportspress' ),
+					'TERRAIN' => __( 'Terrain', 'sportspress' ),
+				),
 			),
 
 			array( 'type' => 'sectionend', 'id' => 'general_options' ),
@@ -124,17 +135,17 @@ class SP_Settings_General extends SP_Settings_Page {
 
 			// Save settings
 			$primary 		= ( ! empty( $_POST['sportspress_frontend_css_primary'] ) ) ? sp_format_hex( $_POST['sportspress_frontend_css_primary'] ) : '';
-			$heading 		= ( ! empty( $_POST['sportspress_frontend_css_heading'] ) ) ? sp_format_hex( $_POST['sportspress_frontend_css_heading'] ) : '';
-			$text 			= ( ! empty( $_POST['sportspress_frontend_css_text'] ) ) ? sp_format_hex( $_POST['sportspress_frontend_css_text'] ) : '';
 			$background 	= ( ! empty( $_POST['sportspress_frontend_css_background'] ) ) ? sp_format_hex( $_POST['sportspress_frontend_css_background'] ) : '';
-			$alternate 		= ( ! empty( $_POST['sportspress_frontend_css_alternate'] ) ) ? sp_format_hex( $_POST['sportspress_frontend_css_alternate'] ) : '';
+			$text 			= ( ! empty( $_POST['sportspress_frontend_css_text'] ) ) ? sp_format_hex( $_POST['sportspress_frontend_css_text'] ) : '';
+			$heading 		= ( ! empty( $_POST['sportspress_frontend_css_heading'] ) ) ? sp_format_hex( $_POST['sportspress_frontend_css_heading'] ) : '';
+			$link 			= ( ! empty( $_POST['sportspress_frontend_css_link'] ) ) ? sp_format_hex( $_POST['sportspress_frontend_css_link'] ) : '';
 
 			$colors = array(
 				'primary' 		=> $primary,
-				'heading' 		=> $heading,
-				'text' 			=> $text,
 				'background' 	=> $background,
-				'alternate' 	=> $alternate
+				'text' 			=> $text,
+				'heading' 		=> $heading,
+				'link' 			=> $link,
 			);
 
 			update_option( 'sportspress_frontend_css_colors', $colors );
@@ -183,23 +194,25 @@ class SP_Settings_General extends SP_Settings_Page {
 
 				// Defaults
 				if ( empty( $colors['primary'] ) ) $colors['primary'] = '#00a69c';
+				if ( empty( $colors['background'] ) ) $colors['background'] = '#f4f4f4';
+				if ( empty( $colors['text'] ) ) $colors['text'] = '#363f48';
 				if ( empty( $colors['heading'] ) ) $colors['heading'] = '#ffffff';
-				if ( empty( $colors['text'] ) ) $colors['text'] = '#222222';
-				if ( empty( $colors['background'] ) ) $colors['background'] = '#f5f5f5';
-	            if ( empty( $colors['alternate'] ) ) $colors['alternate'] = '#f0f0f0';
+	            if ( empty( $colors['link'] ) ) $colors['link'] = '#ef6848';
 
 				// Show inputs
 	    		$this->color_picker( __( 'Primary', 'sportspress' ), 'sportspress_frontend_css_primary', $colors['primary'] );
-	    		$this->color_picker( __( 'Heading', 'sportspress' ), 'sportspress_frontend_css_heading', $colors['heading'] );
-	    		$this->color_picker( __( 'Text', 'sportspress' ), 'sportspress_frontend_css_text', $colors['text'] );
 	    		$this->color_picker( __( 'Background', 'sportspress' ), 'sportspress_frontend_css_background', $colors['background'] );
-	    		$this->color_picker( __( 'Alternate', 'sportspress' ), 'sportspress_frontend_css_alternate', $colors['alternate'] );
+	    		$this->color_picker( __( 'Text', 'sportspress' ), 'sportspress_frontend_css_text', $colors['text'] );
+	    		$this->color_picker( __( 'Heading', 'sportspress' ), 'sportspress_frontend_css_heading', $colors['heading'] );
+	    		$this->color_picker( __( 'Link', 'sportspress' ), 'sportspress_frontend_css_link', $colors['link'] );
 
-		    ?><br>
-			    <label for="sportspress_enable_frontend_css">
-					<input name="sportspress_enable_frontend_css" id="sportspress_enable_frontend_css" type="checkbox" value="1" <?php checked( get_option( 'sportspress_enable_frontend_css', 'yes' ), 'yes' ); ?>>
-					<?php _e( 'Enable', 'sportspress' ); ?>
-				</label>
+				if ( ( $styles = SP_Frontend_Scripts::get_styles() ) && array_key_exists( 'sportspress-general', $styles ) ):
+				    ?><br>
+				    <label for="sportspress_enable_frontend_css">
+						<input name="sportspress_enable_frontend_css" id="sportspress_enable_frontend_css" type="checkbox" value="1" <?php checked( get_option( 'sportspress_enable_frontend_css', 'yes' ), 'yes' ); ?>>
+						<?php _e( 'Enable', 'sportspress' ); ?>
+					</label>
+				<?php endif; ?>
 			</td>
 		</tr><?php
 	}

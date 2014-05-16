@@ -23,6 +23,10 @@
 	content: "\f164";
 }
 
+#sp_videodiv .inside > fieldset > p:first-child {
+	margin-top: 7px !important;
+}
+
 #sp_videodiv .inside > fieldset > p:last-child {
 	margin-bottom: 1px !important;
 }
@@ -54,6 +58,10 @@
 .fixed .column-sp_number {
 	width: 2.3em;
 	text-align: center;
+}
+
+.fixed tbody .column-sp_icon {
+	padding-top: 12px;
 }
 
 .fixed .column-sp_time {
