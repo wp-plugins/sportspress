@@ -14,6 +14,7 @@ $primary_result = get_option( 'sportspress_primary_result', null );
 $defaults = array(
 	'status' => 'default',
 	'number' => -1,
+	'link_teams' => get_option( 'sportspress_calendar_link_teams', 'no' ) == 'yes' ? true : false,
 	'sortable' => get_option( 'sportspress_enable_sortable_tables', 'yes' ) == 'yes' ? true : false,
 	'responsive' => get_option( 'sportspress_enable_responsive_tables', 'yes' ) == 'yes' ? true : false,
 	'paginated' => get_option( 'sportspress_calendar_paginated', 'yes' ) == 'yes' ? true : false,
@@ -35,7 +36,7 @@ $usecolumns = $calendar->columns;
 if ( isset( $columns ) )
 	$usecolumns = $columns;
 ?>
-<div class="sp-table-wrapper">
+<div class="sp-table-wrapper sp-scrollable-table-wrapper">
 	<table class="sp-event-list sp-data-table<?php if ( $responsive ) { ?> sp-responsive-table<?php } if ( $paginated ) { ?> sp-paginated-table<?php } ?>" data-sp-rows="<?php echo $rows; ?>">
 		<thead>
 			<tr>
@@ -71,8 +72,45 @@ if ( isset( $columns ) )
 
 				$teams = get_post_meta( $event->ID, 'sp_team' );
 				$results = get_post_meta( $event->ID, 'sp_results', true );
-				$main_results = array();
 				$video = get_post_meta( $event->ID, 'sp_video', true );
+
+				$main_results = array();
+				$teams_output = '';
+
+				if ( $teams ):
+					foreach ( $teams as $team ):
+						$name = get_the_title( $team );
+						if ( $name ):
+							$team_results = sp_array_value( $results, $team, null );
+
+							if ( $primary_result ):
+								$team_result = sp_array_value( $team_results, $primary_result, null );
+							else:
+								if ( is_array( $team_results ) ):
+									end( $team_results );
+									$team_result = prev( $team_results );
+								else:
+									$team_result = null;
+								endif;
+							endif;
+
+							if ( $link_teams ):
+								$teams_output .= '<a href="' . get_post_permalink( $team ) . '">' . $name . '</a>';
+							else:
+								$teams_output .= $name;
+							endif;
+
+							if ( $team_result != null ):
+								$main_results[] = $team_result;
+								$teams_output .= ' (' . $team_result . ')';
+							endif;
+
+							$teams_output .= '<br>';
+						endif;
+					endforeach;
+				else:
+					$teams_output .= '&mdash;';
+				endif;
 
 				echo '<tr class="sp-row sp-post' . ( $i % 2 == 0 ? ' alternate' : '' ) . '">';
 
@@ -80,42 +118,10 @@ if ( isset( $columns ) )
 
 					if ( $usecolumns == null || in_array( 'event', $usecolumns ) )
 						echo '<td class="data-event">' . $event->post_title . '</td>';
-				
+
 					if ( $usecolumns == null || in_array( 'teams', $usecolumns ) ):
 						echo '<td class="data-teams">';
-
-							$teams = get_post_meta( $event->ID, 'sp_team', false );
-							if ( $teams ):
-								foreach ( $teams as $team ):
-									$name = get_the_title( $team );
-									if ( $name ):
-										$team_results = sp_array_value( $results, $team, null );
-
-										if ( $primary_result ):
-											$team_result = sp_array_value( $team_results, $primary_result, null );
-										else:
-											if ( is_array( $team_results ) ):
-												end( $team_results );
-												$team_result = prev( $team_results );
-											else:
-												$team_result = null;
-											endif;
-										endif;
-
-										echo $name;
-
-										if ( $team_result != null ):
-											$main_results[] = $team_result;
-											echo ' (' . $team_result . ')';
-										endif;
-
-										echo '<br>';
-									endif;
-								endforeach;
-							else:
-								echo '&mdash;';
-							endif;
-
+							echo $teams_output;
 						echo '</td>';
 					endif;
 
@@ -163,8 +169,8 @@ if ( isset( $columns ) )
 			?>
 		</tbody>
 	</table>
-	<?php
-	if ( $id && $show_all_events_link )
-		echo '<a class="sp-calendar-link sp-view-all-link" href="' . get_permalink( $id ) . '">' . SP()->text->string('View all events') . '</a>';
-	?>
 </div>
+<?php
+if ( $id && $show_all_events_link )
+	echo '<a class="sp-calendar-link sp-view-all-link" href="' . get_permalink( $id ) . '">' . SP()->text->string('View all events') . '</a>';
+?>

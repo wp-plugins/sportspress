@@ -15,7 +15,6 @@ $defaults = array(
 	'columns' => null,
 	'show_full_table_link' => false,
 	'show_team_logo' => get_option( 'sportspress_table_show_logos', 'yes' ) == 'yes' ? true : false,
-	'show_caption' => false,
 	'link_posts' => get_option( 'sportspress_table_link_teams', 'no' ) == 'yes' ? true : false,
 	'sortable' => get_option( 'sportspress_enable_sortable_tables', 'yes' ) == 'yes' ? true : false,
 	'responsive' => get_option( 'sportspress_enable_responsive_tables', 'yes' ) == 'yes' ? true : false,
@@ -25,11 +24,9 @@ $defaults = array(
 
 extract( $defaults, EXTR_SKIP );
 
-$output = '<div class="sp-table-wrapper">';
+$output = '<h4 class="sp-table-caption">' . get_the_title( $id ) . '</h4>';
 
-if ( $show_caption ):
-	$output .= '<h4 class="sp-table-caption"><a href="' . get_post_permalink( $id ) . '">' . get_the_title( $id ) . '</a></h4>';
-endif;
+$output .= '<div class="sp-table-wrapper sp-scrollable-table-wrapper">';
 
 $output .= '<table class="sp-league-table sp-data-table' . ( $responsive ? ' sp-responsive-table' : '' ) . ( $sortable ? ' sp-sortable-table' : '' ) . ( $paginated ? ' sp-paginated-table' : '' ) . '" data-sp-rows="' . $rows . '">' . '<thead>' . '<tr>';
 
@@ -102,9 +99,9 @@ endforeach;
 
 $output .= '</tbody>' . '</table>';
 
+$output .= '</div>';
+
 if ( $show_full_table_link )
 	$output .= '<a class="sp-league-table-link sp-view-all-link" href="' . get_permalink( $id ) . '">' . SP()->text->string('View full table') . '</a>';
-
-$output .= '</div>';
 
 echo $output;

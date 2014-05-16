@@ -12,7 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 $defaults = array(
 	'id' => get_the_ID(),
 	'number' => -1,
-	'performance' => null,
+	'columns' => null,
 	'grouping' => null,
 	'orderby' => 'default',
 	'order' => 'ASC',
@@ -26,7 +26,12 @@ $defaults = array(
 
 extract( $defaults, EXTR_SKIP );
 
+// Backward compatibility
+if ( isset( $performance ) )
+	$columns = $performance;
+
 $list = new SP_Player_List( $id );
+$list->columns = $columns;
 $data = $list->data();
 
 // The first row should be column labels
@@ -35,7 +40,7 @@ $labels = $data[0];
 // Remove the first row to leave us with the actual data
 unset( $data[0] );
 
-if ( ! $grouping || $grouping == 'default' ):
+if ( $grouping === null || $grouping === 'default' ):
 	$grouping = $list->grouping;
 endif;
 
@@ -52,7 +57,7 @@ else:
 	uasort( $data, array( $list, 'sort' ) );
 endif;
 
-if ( $grouping == 'position' ):
+if ( $grouping === 'position' ):
 	$groups = get_terms( 'sp_position' );
 else:
 	$group = new stdClass();
@@ -65,10 +70,12 @@ endif;
 $output = '';
 
 foreach ( $groups as $group ):
-	if ( ! empty( $group->name ) )
-		$output .= '<h3 class="sp-list-group-name">' . $group->name . '</h3>';
+	if ( ! empty( $group->name ) ):
+		$output .= '<a name="group-' . $group->slug . '" id="group-' . $group->slug . '"></a>';
+		$output .= '<h3 class="sp-table-caption player-group-name player-list-group-name">' . $group->name . '</h3>';
+	endif;
 
-	$output .= '<div class="sp-table-wrapper">' .
+	$output .= '<div class="sp-table-wrapper sp-scrollable-table-wrapper">' .
 		'<table class="sp-player-list sp-data-table' . ( $responsive ? ' sp-responsive-table' : '' ) . ( $sortable ? ' sp-sortable-table' : '' ) . ( $paginated ? ' sp-paginated-table' : '' ) . '" data-sp-rows="' . $rows . '">' . '<thead>' . '<tr>';
 
 	if ( in_array( $orderby, array( 'number', 'name' ) ) ):
@@ -78,7 +85,7 @@ foreach ( $groups as $group ):
 	endif;
 
 	foreach( $labels as $key => $label ):
-		if ( ! is_array( $performance ) || $key == 'name' || in_array( $key, $performance ) )
+		if ( ! is_array( $columns ) || $key == 'name' || in_array( $key, $columns ) )
 		$output .= '<th class="data-' . $key . '">'. $label . '</th>';
 	endforeach;
 
@@ -115,7 +122,7 @@ foreach ( $groups as $group ):
 		foreach( $labels as $key => $value ):
 			if ( $key == 'name' )
 				continue;
-			if ( ! is_array( $performance ) || in_array( $key, $performance ) )
+			if ( ! is_array( $columns ) || in_array( $key, $columns ) )
 			$output .= '<td class="data-' . $key . '">' . sp_array_value( $row, $key, '&mdash;' ) . '</td>';
 		endforeach;
 
