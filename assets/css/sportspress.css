@@ -1,13 +1,27 @@
 /* SportsPress */
 
-.sp-scrollable-table-wrapper {
-	overflow: auto;
+/* Header */
+.sp-header {
+	position: relative;
+	overflow: visible;
+}
+
+/* Title */
+.sp-event-teams {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
 }
 
 /* Data Tables */
+.sp-scrollable-table-wrapper {
+	overflow: auto;
+}
 .sp-data-table {
 	width: 100%;
 	position: relative;
+}
+.sp-scrollable-table-wrapper .sp-data-table {
+	margin-bottom: 0;
 }
 .sp-data-table thead th {
 	white-space: nowrap;
@@ -73,10 +87,21 @@
 }
 
 /* League Table */
-.sp-league-table .team-logo {
-	vertical-align: middle;
-	height: 2.5em;
+.sp-league-table td {
+	line-height: 2em;
+}
+.sp-league-table .data-name.has-logo {
+	padding-left: 2.5em;
+	position: relative;
+}
+
+.sp-league-table .data-name.has-logo .team-logo {
 	width: auto;
+	height: auto;
+	max-width: 2em;
+	max-height: 2em;
+	position: absolute;
+	left: 0.25em;
 }
 
 /* Event Performance */
@@ -130,7 +155,9 @@
 }
 .sp-event-blocks .team-logo {
 	width: 20%;
+	height: auto;
 	margin: 10px;
+	max-width: 6em;
 }
 .sp-event-blocks .logo-odd {
 	float: left;
