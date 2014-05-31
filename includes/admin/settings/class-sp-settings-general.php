@@ -107,6 +107,19 @@ class SP_Settings_General extends SP_Settings_Page {
 				'checkboxgroup'		=> 'end',
 				'desc_tip'	=> __( 'This will enable a script allowing the countdowns to be animated.', 'sportspress' ),
 			),
+			
+			array(
+				'title' 	=> __( 'Header Offset', 'sportspress' ),
+				'id' 		=> 'sportspress_header_offset',
+				'class' 	=> 'small-text',
+				'default'	=> null,
+				'placeholder' => __( 'Auto', 'sportspress' ),
+				'desc' 		=> 'px',
+				'type' 		=> 'number',
+				'custom_attributes' => array(
+					'step' 	=> 1
+				),
+			),
 
 			array( 'type' => 'sectionend', 'id' => 'script_styling_options' ),
 
@@ -167,7 +180,7 @@ class SP_Settings_General extends SP_Settings_Page {
 				<label for="sportspress_default_country"><?php _e( 'Base Location', 'sportspress' ); ?></label>
 			</th>
             <td class="forminp">
-				<legend class="screen-reader-text"><span><?php _e( 'Delimiter', 'sportspress' ); ?></span></legend>
+				<legend class="screen-reader-text"><span><?php _e( 'Base Location', 'sportspress' ); ?></span></legend>
 				<select name="sportspress_default_country" data-placeholder="<?php _e( 'Choose a country&hellip;', 'sportspress' ); ?>" title="Country" class="chosen-select<?php if ( is_rtl() ): ?> chosen-rtl<?php endif; ?>">
 	        		<?php SP()->countries->country_dropdown_options( $selected ); ?>
 	        	</select>
@@ -193,11 +206,11 @@ class SP_Settings_General extends SP_Settings_Page {
 				$colors = array_map( 'esc_attr', (array) get_option( 'sportspress_frontend_css_colors' ) );
 
 				// Defaults
-				if ( empty( $colors['primary'] ) ) $colors['primary'] = '#00a69c';
+				if ( empty( $colors['primary'] ) ) $colors['primary'] = '#364c74';
 				if ( empty( $colors['background'] ) ) $colors['background'] = '#f4f4f4';
 				if ( empty( $colors['text'] ) ) $colors['text'] = '#363f48';
 				if ( empty( $colors['heading'] ) ) $colors['heading'] = '#ffffff';
-	            if ( empty( $colors['link'] ) ) $colors['link'] = '#ef6848';
+	            if ( empty( $colors['link'] ) ) $colors['link'] = '#00a69c';
 
 				// Show inputs
 	    		$this->color_picker( __( 'Primary', 'sportspress' ), 'sportspress_frontend_css_primary', $colors['primary'] );

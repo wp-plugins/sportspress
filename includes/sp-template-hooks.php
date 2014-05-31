@@ -86,6 +86,12 @@ add_action( 'sportspress_single_staff_content', 'sportspress_output_staff_detail
  */
 add_action( 'loop_start', 'sportspress_output_venue_map' );
 
+/**
+ * Adjacent Team Links
+ */
+add_filter( 'previous_post_link', 'sportspress_hide_adjacent_post_links', 10, 4 );
+add_filter( 'next_post_link', 'sportspress_hide_adjacent_post_links', 10, 4 );
+
 function sportspress_the_title( $title, $id ) {
 	if ( ! is_admin() && ! current_theme_supports( 'sportspress' ) && in_the_loop() && $id == get_the_ID() ):
 		if ( is_singular( 'sp_player' ) ):
@@ -102,9 +108,12 @@ function sportspress_the_title( $title, $id ) {
 			$teams = get_post_meta( $id, 'sp_team' );
 			if ( $teams ):
 				$title .= '<div class="sp-event-teams">';
+				$delimiter = get_option( 'sportspress_event_teams_delimiter', 'vs' );
+				$team_logos = array();
 				foreach ( $teams as $team ):
-					$title .= get_the_post_thumbnail( $team, 'sportspress-fit-icon' ) . ' ';
+					$team_logos[] = get_the_post_thumbnail( $team, 'sportspress-fit-icon' );
 				endforeach;
+				$title .= implode( ' ' . $delimiter . ' ', $team_logos );
 				$title .= '</div>';
 			endif;
 		endif;
@@ -257,14 +266,6 @@ function sportspress_sanitize_title( $title ) {
 }
 add_filter( 'sanitize_title', 'sportspress_sanitize_title' );
 
-function sportspress_content_post_views( $content ) {
-    if ( is_single() || is_page() )
-        sp_set_post_views( get_the_ID() );
-    return $content;
-}
-add_filter( 'the_content', 'sportspress_content_post_views' );
-add_filter( 'get_the_content', 'sportspress_content_post_views' );
-
 function sportspress_widget_text( $content ) {
 	if ( ! preg_match( '/\[[\r\n\t ]*(countdown|events?(_|-)(results|details|performance|calendar|list|blocks)|team(_|-)columns|league(_|-)table|player(_|-)(metrics|performance|list|gallery))?[\r\n\t ].*?\]/', $content ) )
 		return $content;
@@ -318,6 +319,12 @@ function sportspress_post_updated_messages( $messages ) {
 	endif;
 
 	return $messages;
+}
+
+function sportspress_hide_adjacent_post_links( $output, $format, $link, $post ) {
+	if ( property_exists( $post, 'post_type' ) && in_array( $post->post_type, sp_post_types() ) )
+		return false;
+	return $output;
 }
 
 add_filter('post_updated_messages', 'sportspress_post_updated_messages');

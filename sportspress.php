@@ -3,11 +3,11 @@
  * Plugin Name: SportsPress
  * Plugin URI: http://wordpress.org/plugins/sportspress
  * Description: Manage your club and its players, staff, events, league tables, and player lists.
- * Version: 0.9.3
+ * Version: 1.0
  * Author: ThemeBoy
  * Author URI: http://themeboy.com
  * Requires at least: 3.8
- * Tested up to: 3.9
+ * Tested up to: 3.9.1
  *
  * Text Domain: sportspress
  * Domain Path: /languages/
@@ -26,14 +26,14 @@ if ( ! class_exists( 'SportsPress' ) ) :
  * Main SportsPress Class
  *
  * @class SportsPress
- * @version	0.9.3
+ * @version	1.0
  */
 final class SportsPress {
 
 	/**
 	 * @var string
 	 */
-	public $version = '0.9.3';
+	public $version = '1.0';
 
 	/**
 	 * @var SporsPress The single instance of the class
@@ -131,6 +131,8 @@ final class SportsPress {
 	public function action_links( $links ) {
 		return array_merge( array(
 			'<a href="' . admin_url( 'admin.php?page=sportspress' ) . '">' . __( 'Settings', 'sportspress' ) . '</a>',
+			'<a href="' . apply_filters( 'sportspress_themes_url', 'http://themeboy.com/themes/' ) . '">' . __( 'Themes', 'sportspress' ) . '</a>',
+			'<a href="' . apply_filters( 'sportspress_extensions_url', 'http://themeboy.com/plugins/' ) . '">' . __( 'Extensions', 'sportspress' ) . '</a>',
 		), $links );
 	}
 
@@ -242,6 +244,8 @@ final class SportsPress {
 		include_once( 'includes/widgets/class-sp-widget-league-table.php' );
 		include_once( 'includes/widgets/class-sp-widget-player-list.php' );
 		include_once( 'includes/widgets/class-sp-widget-player-gallery.php' );
+
+		do_action( 'sportspress_widgets' );
 	}
 
 	/**
@@ -283,21 +287,21 @@ final class SportsPress {
 		add_theme_support( 'post-thumbnails' );
 		
 		// Standard (3:2)
-		add_image_size( 'sportspress-standard', 637, 425, true );
-		add_image_size( 'sportspress-standard-thumbnail', 303, 202, true );
+		add_image_size( 'sportspress-standard', 640, 480, true );
+		add_image_size( 'sportspress-standard-thumbnail', 320, 240, true );
 
 		// Wide (16:9)
-		add_image_size( 'sportspress-wide-header', 1600, 900, true );
-		add_image_size( 'sportspress-wide', 637, 358, true );
-		add_image_size( 'sportspress-wide-thumbnail', 303, 170, true );
+		add_image_size( 'sportspress-wide-header', 1920, 1080, true );
+		add_image_size( 'sportspress-wide', 640, 360, true );
+		add_image_size( 'sportspress-wide-thumbnail', 320, 180, true );
 
 		// Square (1:1)
-		add_image_size( 'sportspress-square', 637, 637, true );
-		add_image_size( 'sportspress-square-thumbnail', 303, 303, true );
+		add_image_size( 'sportspress-square', 640, 640, true );
+		add_image_size( 'sportspress-square-thumbnail', 320, 320, true );
 
 		// Fit (Proportional)
-		add_image_size( 'sportspress-fit',  637, 637, false );
-		add_image_size( 'sportspress-fit-thumbnail',  303, 303, false );
+		add_image_size( 'sportspress-fit',  640, 640, false );
+		add_image_size( 'sportspress-fit-thumbnail',  320, 320, false );
 		add_image_size( 'sportspress-fit-icon',  128, 128, false );
 		add_image_size( 'sportspress-fit-mini',  32, 32, false );
 	}

@@ -285,37 +285,11 @@ if ( !function_exists( 'sp_get_the_term_id' ) ) {
 	}
 }
 
-if ( !function_exists( 'sp_get_post_views' ) ) {
-	function sp_get_post_views( $post_id ) {
-	    $count_key = 'sp_views';
-	    $count = get_post_meta( $post_id, $count_key, true );
-	    if ( $count == '' ):
-	    	$count = 0;
-	        delete_post_meta( $post_id, $count_key );
-	        add_post_meta( $post_id, $count_key, '0' );
-	    endif;
-	    if ( $count == 1 )
-	    	return __( '1 view', 'sportspress' );
-	    else
-	    	return sprintf( __( '%s views', 'sportspress' ), $count );
-	}
-}
-
-if ( !function_exists( 'sp_set_post_views' ) ) {
-	function sp_set_post_views( $post_id ) {
-		if ( is_preview() )
-			return;
-		
-	    $count_key = 'sp_views';
-	    $count = get_post_meta( $post_id, $count_key, true );
-	    if ( $count == '' ):
-	        $count = 0;
-	        delete_post_meta( $post_id, $count_key );
-	        add_post_meta( $post_id, $count_key, '0' );
-	    else:
-	        $count++;
-	        update_post_meta( $post_id, $count_key, $count );
-	    endif;
+if ( !function_exists( 'sp_get_url' ) ) {
+	function sp_get_url( $post_id ) {
+		$url = get_post_meta( $post_id, 'sp_url', true );
+		if ( ! $url ) return;
+		return ' <a class="sp-link" href="' . $url . '" target="_blank" title="' . __( 'Visit Site', 'sportspress' ) . '">' . $url . '</a>';
 	}
 }
 
@@ -896,8 +870,8 @@ if ( !function_exists( 'sp_solve' ) ) {
 
 			$eos = new eqEOS();
 
-			// Solve using EOS
-			return round( $eos->solveIF( str_replace( ' ', '', $equation ), $vars ), $precision );
+			// Solve using EOS;
+			return number_format( $eos->solveIF( str_replace( ' ', '', $equation ), $vars ), $precision );
 		else:
 			return 0;
 		endif;
@@ -2429,7 +2403,7 @@ function sp_get_text_options() {
 		'preview' => __( 'Preview', 'sportspress' ),
 		'rank' => __( 'Rank', 'sportspress' ),
 		'recap' => __( 'Recap', 'sportspress' ),
-		'results' => __( 'Team Results', 'sportspress' ),
+		'team_results' => __( 'Team Results', 'sportspress' ),
 		'season' => __( 'Season', 'sportspress' ),
 		'staff' => __( 'Staff', 'sportspress' ),
 		'substitutes' => __( 'Substitutes', 'sportspress' ),
