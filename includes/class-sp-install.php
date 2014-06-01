@@ -5,7 +5,7 @@
  * @author 		ThemeBoy
  * @category 	Admin
  * @package 	SportsPress/Classes
- * @version     0.7
+ * @version     1.0.1
  */
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
@@ -360,6 +360,7 @@ class SP_Install {
 	 * @return array
 	 */
 	public function get_core_capabilities() {
+		include_once( 'sp-conditional-functions.php' );
 		$capabilities = array();
 
 		$capabilities['core'] = array(
