@@ -5,7 +5,7 @@
  * @author 		ThemeBoy
  * @category 	Admin
  * @package 	SportsPress/Admin
- * @version     1.0
+ * @version     1.1
  */
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
@@ -90,11 +90,37 @@ class SP_Settings_Events extends SP_Settings_Page {
 			),
 
 			array(
-				'title'     => __( 'Player Performance', 'sportspress' ),
+				'title'     => __( 'Players', 'sportspress' ),
+				'desc' 		=> __( 'Display players', 'sportspress' ),
+				'id' 		=> 'sportspress_event_show_players',
+				'default'	=> 'yes',
+				'type' 		=> 'checkbox',
+				'checkboxgroup'	=> 'start',
+			),
+
+			array(
 				'desc' 		=> __( 'Link players', 'sportspress' ),
 				'id' 		=> 'sportspress_event_link_players',
 				'default'	=> 'yes',
 				'type' 		=> 'checkbox',
+				'checkboxgroup'		=> 'end',
+			),
+
+			array(
+				'title'     => __( 'Staff', 'sportspress' ),
+				'desc' 		=> __( 'Display staff', 'sportspress' ),
+				'id' 		=> 'sportspress_event_show_staff',
+				'default'	=> 'yes',
+				'type' 		=> 'checkbox',
+				'checkboxgroup'	=> 'start',
+			),
+
+			array(
+				'desc' 		=> __( 'Link staff', 'sportspress' ),
+				'id' 		=> 'sportspress_event_link_staff',
+				'default'	=> 'yes',
+				'type' 		=> 'checkbox',
+				'checkboxgroup'		=> 'end',
 			),
 
 			array( 'type' => 'sectionend', 'id' => 'event_options' ),

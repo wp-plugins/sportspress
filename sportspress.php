@@ -3,7 +3,7 @@
  * Plugin Name: SportsPress
  * Plugin URI: http://themeboy.com/sportspress/
  * Description: Manage your club and its players, staff, events, league tables, and player lists.
- * Version: 1.0.4
+ * Version: 1.1.1
  * Author: ThemeBoy
  * Author URI: http://themeboy.com/
  * Requires at least: 3.8
@@ -26,14 +26,14 @@ if ( ! class_exists( 'SportsPress' ) ) :
  * Main SportsPress Class
  *
  * @class SportsPress
- * @version	1.0.4
+ * @version	1.1.1
  */
 final class SportsPress {
 
 	/**
 	 * @var string
 	 */
-	public $version = '1.0.4';
+	public $version = '1.1.1';
 
 	/**
 	 * @var SporsPress The single instance of the class
@@ -52,9 +52,14 @@ final class SportsPress {
 	public $formats = null;
 
 	/**
-	 * @var SP_Text $text
+	 * @var array
 	 */
-	public $text = null;
+	public $text = array();
+
+	/**
+	 * @var string
+	 */
+	public $mode = 'team';
 
 	/**
 	 * Main SportsPress Instance
@@ -117,13 +122,14 @@ final class SportsPress {
 		add_action( 'init', array( $this, 'include_template_functions' ) );
 		add_action( 'init', array( 'SP_Shortcodes', 'init' ) );
 		add_action( 'after_setup_theme', array( $this, 'setup_environment' ) );
+		add_filter( 'gettext', array( $this, 'gettext' ), 20, 3 );
 
 		// Loaded action
 		do_action( 'sportspress_loaded' );
 	}
 
 	/**
-	 * Show action links on the plugin screen
+	 * Show action links on the plugin screen.
 	 *
 	 * @param mixed $links
 	 * @return array
@@ -172,7 +178,7 @@ final class SportsPress {
 	}
 
 	/**
-	 * Define SP Constants
+	 * Define SP Constants.
 	 */
 	private function define_constants() {
 		define( 'SP_PLUGIN_FILE', __FILE__ );
@@ -211,7 +217,6 @@ final class SportsPress {
 		// Classes (used on all pages)
 		include_once( 'includes/class-sp-countries.php' );						// Defines continents and countries
 		include_once( 'includes/class-sp-formats.php' );						// Defines custom post type formats
-		include_once( 'includes/class-sp-text.php' );							// Defines editable strings
 
 		// Include template hooks in time for themes to remove/modify them
 		include_once( 'includes/sp-template-hooks.php' );
@@ -261,7 +266,12 @@ final class SportsPress {
 		// Load class instances
 		$this->countries = new SP_Countries();	// Countries class
 		$this->formats = new SP_Formats();		// Formats class
-		$this->text = new SP_Text();			// Text class
+
+		// Load string options
+		$this->text = get_option( 'sportspress_text', array() );
+
+		// Get mode option
+		$this->mode = sp_get_option( 'sportspress_mode', 'team' );
 
 		// Init action
 		do_action( 'sportspress_init' );
@@ -281,7 +291,7 @@ final class SportsPress {
 	}
 
 	/**
-	 * Ensure theme and server variable compatibility and setup image sizes..
+	 * Ensure theme and server variable compatibility and setup image sizes.
 	 */
 	public function setup_environment() {
 		add_theme_support( 'post-thumbnails' );
@@ -304,6 +314,44 @@ final class SportsPress {
 		add_image_size( 'sportspress-fit-thumbnail',  320, 320, false );
 		add_image_size( 'sportspress-fit-icon',  128, 128, false );
 		add_image_size( 'sportspress-fit-mini',  32, 32, false );
+	}
+
+	/**
+	 * Replace team strings with player if individual mode.
+	 */
+	public function gettext( $translated_text, $untranslated_text, $domain = 'default' ) {
+		if ( SP()->mode == 'player' && $domain == 'sportspress' ):
+			switch ( $untranslated_text ):
+			case 'Teams':
+				return __( 'Players', 'sportspress' );
+			case 'Team':
+				return __( 'Player', 'sportspress' );
+			case 'teams':
+				return __( 'players', 'sportspress' );
+			case 'Add New Team':
+				return __( 'Add New Player', 'sportspress' );
+			case 'Edit Team':
+				return __( 'Edit Player', 'sportspress' );
+			case 'Team Options':
+				return __( 'Player Options', 'sportspress' );
+			case 'Team Results':
+				return __( 'Player Performance', 'sportspress' );
+			case 'Logo':
+				return __( 'Photo', 'sportspress' );
+			case 'Add logo':
+				return __( 'Add photo', 'sportspress' );
+			case 'Remove logo':
+				return __( 'Remove photo', 'sportspress' );
+			case 'Select Logo':
+				return __( 'Select Photo', 'sportspress' );
+			case 'Display logos':
+				return __( 'Display photos', 'sportspress' );
+			case 'Link teams':
+				return __( 'Link players', 'sportspress' );
+			endswitch;
+		endif;
+		
+		return $translated_text;
 	}
 
 	/** Helper functions ******************************************************/

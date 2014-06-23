@@ -5,7 +5,7 @@
  * @author 		ThemeBoy
  * @category 	Admin
  * @package 	SportsPress/Admin
- * @version     0.7
+ * @version     1.1
  */
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
@@ -63,7 +63,7 @@ class SP_Admin_Post_Types {
 					' <a href="' . esc_url( admin_url( 'edit.php?post_type=' . $typenow ) ) . '">' .
 					__( 'View All', 'sportspress' ) . '</a>';
 			endfor;
-		elseif ( in_array( $typenow, array( 'sp_event', 'sp_team', 'sp_table', 'sp_player', 'sp_list', 'sp_staff' ) ) ):
+		elseif ( is_sp_post_type( $typenow ) ):
 			$obj = get_post_type_object( $typenow );
 
 			$messages['post'][1] = __( 'Changes saved.', 'sportspress' ) .

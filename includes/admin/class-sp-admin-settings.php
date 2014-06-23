@@ -5,7 +5,7 @@
  * @author 		ThemeBoy
  * @category 	Admin
  * @package 	SportsPress/Admin
- * @version     0.7
+ * @version     1.1
  */
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
@@ -34,7 +34,11 @@ class SP_Admin_Settings {
 			$settings[] = include( 'settings/class-sp-settings-general.php' );
 			$settings[] = include( 'settings/class-sp-settings-events.php' );
 			$settings[] = include( 'settings/class-sp-settings-teams.php' );
-			$settings[] = include( 'settings/class-sp-settings-players.php' );
+			
+			if ( SP()->mode == 'team' ):
+				$settings[] = include( 'settings/class-sp-settings-players.php' );
+				$settings[] = include( 'settings/class-sp-settings-staff.php' );
+			endif;
 
 			$settings = apply_filters( 'sportspress_get_settings_pages', $settings );
 

@@ -5,7 +5,7 @@
  * @author 		ThemeBoy
  * @category 	Admin
  * @package 	SportsPress/Admin
- * @version     0.8
+ * @version     1.1
  */
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
@@ -27,8 +27,8 @@ class SP_Settings_General extends SP_Settings_Page {
 		add_filter( 'sportspress_settings_tabs_array', array( $this, 'add_settings_page' ), 20 );
 		add_action( 'sportspress_settings_' . $this->id, array( $this, 'output' ) );
 		add_action( 'sportspress_admin_field_country', array( $this, 'country_setting' ) );
-		add_action( 'sportspress_settings_save_' . $this->id, array( $this, 'save' ) );
 		add_action( 'sportspress_admin_field_frontend_styles', array( $this, 'frontend_styles_setting' ) );
+		add_action( 'sportspress_settings_save_' . $this->id, array( $this, 'save' ) );
 	}
 
 	/**
@@ -53,6 +53,16 @@ class SP_Settings_General extends SP_Settings_Page {
 				'type'      => 'select',
 				'options'   => $presets,
 			),
+			array(
+				'title'     => __( 'Mode', 'sportspress' ),
+				'id'        => 'sportspress_mode',
+				'default'   => 'team',
+				'type'      => 'select',
+				'options'   => array(
+					'team' => _x( 'Team', 'mode select', 'sportspress' ),
+					'player' => _x( 'Individual', 'mode select', 'sportspress' ),
+				),
+			),
 
 			array(
 				'title'     => __( 'Google Maps', 'sportspress' ),
@@ -72,6 +82,32 @@ class SP_Settings_General extends SP_Settings_Page {
 			array( 'title' => __( 'Styles and Scripts', 'sportspress' ), 'type' => 'title', 'desc' => '', 'id' => 'script_styling_options' ),
 
 			array( 'type' 		=> 'frontend_styles' ),
+
+			array(
+				'title' 	=> __( 'Align', 'sportspress' ),
+				'id' 		=> 'sportspress_table_text_align',
+				'default'	=> 'default',
+				'type' 		=> 'radio',
+				'options' => array(
+					'default'	=> __( 'Default', 'sportspress' ),
+					'left'		=> __( 'Left', 'sportspress' ),
+					'center'	=> __( 'Center', 'sportspress' ),
+					'right'		=> __( 'Right', 'sportspress' ),
+				),
+			),
+			
+			array(
+				'title' 	=> __( 'Padding', 'sportspress' ),
+				'id' 		=> 'sportspress_table_padding',
+				'class' 	=> 'small-text',
+				'default'	=> null,
+				'placeholder' => __( 'Auto', 'sportspress' ),
+				'desc' 		=> 'px',
+				'type' 		=> 'number',
+				'custom_attributes' => array(
+					'step' 	=> 1
+				),
+			),
 
 			array(
 				'title' 	=> __( 'Custom CSS', 'sportspress' ),
@@ -203,7 +239,7 @@ class SP_Settings_General extends SP_Settings_Page {
 		    <td class="forminp"><?php
 
 				// Get settings
-				$colors = array_map( 'esc_attr', (array) get_option( 'sportspress_frontend_css_colors' ) );
+				$colors = array_map( 'esc_attr', (array) get_option( 'sportspress_frontend_css_colors', array() ) );
 
 				// Defaults
 				if ( empty( $colors['primary'] ) ) $colors['primary'] = '#364c74';
@@ -237,10 +273,9 @@ class SP_Settings_General extends SP_Settings_Page {
 	 * @param mixed $name
 	 * @param mixed $id
 	 * @param mixed $value
-	 * @param string $desc (default: '')
 	 * @return void
 	 */
-	function color_picker( $name, $id, $value, $desc = '' ) {
+	function color_picker( $name, $id, $value ) {
 		echo '<div class="sp-color-box"><strong>' . esc_html( $name ) . '</strong>
 	   		<input name="' . esc_attr( $id ). '" id="' . esc_attr( $id ) . '" type="text" value="' . esc_attr( $value ) . '" class="colorpick" /> <div id="colorPickerDiv_' . esc_attr( $id ) . '" class="colorpickdiv"></div>
 	    </div>';

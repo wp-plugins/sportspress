@@ -1,20 +1,19 @@
 === SportsPress - All in One Sports Management ===
 Contributors: ThemeBoy
-Tags: sport, sports, sports journalism, teams, team management, fixtures, results, standings, league tables, leagues, reporting, themeboy, wordpress sports, configurable
+Tags: sport, sports, clubs, teams, team management, fixtures, results, standings, league tables, leagues, shortcodes, sports journalism, themeboy, wordpress sports, configurable
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_xclick&business=support@themeboy.com&item_name=Donation+for+SportsPress
 Requires at least: 3.8
 Tested up to: 3.9.1
-Stable tag: 1.0.4
+Stable tag: 1.1.1
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
-SportsPress is a feature rich, extendable league management plugin. Designed to be extremely flexible because every sport and team is unique.
+SportsPress is a feature rich, extendable sports plugin that gives your website instant league management capabilities and the ability to calculate statistics for any sport.
 
 == Description ==
 
-If you’re looking to create a professional sports website, you’ve come to the right place! Created by the developers at [ThemeBoy](http://themeboy.com/) and featured on Softpedia as [Script of the Day](http://news.softpedia.com/news/Script-of-the-Day-SportsPress-409247.shtml), SportsPress is the ultimate all-in-one plugin for transforming your WordPress blog into a fully automated, configurable team website.
-
-For serious teams and athletes, ThemeBoy offers a series of premium SportsPress themes and extensions to give you even more sports functionality for your website. 
+= Create a Professional Sports Website =
+SportsPress is the ultimate all-in-one plugin for transforming your WordPress blog into a fully automated, configurable team website.
 
 = Features =
 * Equation Builder
@@ -34,11 +33,13 @@ More details about each feature are available on the [ThemeBoy Website](http://t
 
 = Premium Extensions =
 
-Looking for more league functionality? ThemeBoy offers a range of [SportsPress extensions](http://themeboy.com/plugins/) to add more features to your sports website. 
+Looking for more advanced sports functionality? ThemeBoy offers a range of [SportsPress extensions](http://themeboy.com/plugins/) to add more features to your sports website. 
 
 = Available Languages =
 * English – English ( en_US )
 * Arabic – العربية ( ar )
+* Armenian – Հայերեն ( hy )
+* Bulgarian – Български ( bg_BG )
 * Chinese (China) - 中文 ( zh_CN )
 * Croatian – Hrvatski ( hr )
 * Czech – Čeština ( cs_CZ )
@@ -47,6 +48,7 @@ Looking for more league functionality? ThemeBoy offers a range of [SportsPress e
 * Finnish – Suomi ( fi )
 * German – Deutsch ( de_DE )
 * Greek – Ελληνικά ( el_GR )
+* Hungarian - Magyar ( hu_HU )
 * Italian – Italiano ( it_IT )
 * Japanese – 日本語 ( ja )
 * Norwegian Bokmål - Norsk bokmål ( nb_NO )
@@ -58,8 +60,9 @@ Looking for more league functionality? ThemeBoy offers a range of [SportsPress e
 * Slovenian – Slovenija ( sl_SI )
 * Spanish – Español ( es_ES )
 * Swedish – Svenska ( sv_SE )
+* Turkish - Türkçe ( tr_TR )
 
-= Get involved =
+= Get Involved =
 
 Feel free to share your suggestions with us so we can continue to develop awesome sports features for you guys!
 
@@ -67,14 +70,16 @@ Developers can contribute via the [SportsPress GitHub Repository](https://github
 
 Translators can contribute new languages to SportsPress through [Transifex](https://www.transifex.com/projects/p/sportspress/).
 
-Your feedback is much appreciated and makes all the difference in improving SportsPress. Please rate, vote, review, and share!
-
 = Stay Current =
 To keep up with the latest updates and new features, be sure to do the following:
 
 * Visit the [ThemeBoy homepage](http://themeboy.com/).
 * Subscribe to our [YouTube channel](https://www.youtube.com/user/themeboyteam).
 * Follow ThemeBoy on [Facebook](https://facebook.com/themeboy) & [Twitter](http://twitter.com/themeboy).
+
+
+= Please Rate, Vote, and Enjoy! =
+Your feedback is much appreciated and makes all the difference in improving SportsPress.
 
 == Installation ==
 
@@ -116,7 +121,7 @@ If on the off-chance you do encounter issues with the event/team/player/staff pa
 
 = Which sports does this plugin support? =
 
-The plugin will support most team sports with a scoring system. You can customize the table columns and player statistics by going to WordPress > Settings > SportsPress. We're currently adding presets for commonly requested sports, and you can also add your own.
+The plugin will support most team sports with a scoring system. You can customize the table columns and player statistics via SportsPress settings. We've included presets for commonly requested sports, and you can also add your own.
 
 = Will SportsPress work with my theme? =
 
@@ -126,15 +131,48 @@ Yes; SportsPress will work with any theme, but may require some styling to make 
 
 Bugs can be reported either in our support forum or preferably on the [SportsPress GitHub repository](https://github.com/ThemeBoy/SportsPress/issues).
 
-= Is this plugin ready for my site? =
-
-Yes! If you're using an older version of SportsPress, be sure to upgrade to at least version 1.0.
-
 = Can I import teams/players/events from a CSV file? =
 
 Yes, CSV importers are included with the plugin. Go to Tools > Import and choose from one of the SportsPress CSV importers. When importing events, be sure to use the date format yyyy/mm/dd.
 
 == Changelog ==
+
+= 1.1.1 =
+* Tweak - Check if equation is attempting to divide by zero to prevent errors.
+* Fix - Player statistics meta box message.
+* Preset - Make baseball preset appear in dropdown.
+
+= 1.1 =
+* Feature - Enable individual sport mode.
+* Feature - Enable displaying player lists on team pages.
+* Feature - Enable player performance reordering in events.
+* Feature - Enable changing player numbers and positions per event.
+* Feature - Add date selector to display today's events and this week's events in calendar.
+* Feature - Option to redirect team permalinks to official team website instead of team page.
+* Feature - Display staff in event performance section.
+* Feature - Add column selector to player profiles and player lists.
+* Feature - Add option to show or hide player performance section in events.
+* Feature - Add global padding option to SportsPress settings.
+* Tweak - Force decimals to display when precision is set.
+* Tweak - Add SportsPress post types to At a Glance section in dashboard.
+* Tweak - Filter checklists by league and season.
+* Tweak - Display layout type in admin.
+* Tweak - Improve roles and permissions.
+* Fix - Some select all checkboxes defaulted to being checked.
+* Refactor - Use gettext filter to alter frontend text.
+* Preset - Add American Football preset.
+* Preset - Add Australian Rules Football preset.
+* Preset - Add baseball preset.
+* Preset - Add cricket preset.
+* Preset - Add darts preset.
+* Preset - Add handball preset.
+* Preset - Add netball preset.
+* Preset - Add Rugby League preset.
+* Preset - Add squash preset.
+* Preset - Add tennis preset.
+* Preset - Update soccer preset.
+* Localization - Armenian translation by ArtakEVN.
+* Localization - Update translations.
 
 = 1.0.4 =
 * Fix - Shorthand php notation removed for better compatibility.

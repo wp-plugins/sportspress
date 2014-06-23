@@ -5,7 +5,7 @@
  * @author 		ThemeBoy
  * @category 	Admin
  * @package 	SportsPress/Classes
- * @version     1.0.1
+ * @version     1.1
  */
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
@@ -169,12 +169,21 @@ class SP_Install {
 
 		            'edit_sp_player'				=> true,
 		            'read_sp_player'				=> true,
-		            'delete_sp_player'				=> true,
 		            'edit_sp_players' 				=> true,
-		            'delete_sp_players' 			=> true,
 		            'edit_published_sp_players' 	=> true,
-
 					'assign_sp_player_terms' 		=> true,
+
+		            'edit_sp_event'					=> true,
+		            'read_sp_event'					=> true,
+		            'edit_sp_events' 				=> true,
+		            'edit_published_sp_events' 		=> true,
+					'assign_sp_event_terms' 		=> true,
+
+		            'edit_sp_team'					=> true,
+		            'read_sp_team'					=> true,
+		            'edit_sp_teams' 				=> true,
+		            'edit_published_sp_teams' 		=> true,
+					'assign_sp_team_terms' 			=> true,
 		        )
 		    );
 
@@ -190,17 +199,29 @@ class SP_Install {
 		            'edit_posts' 					=> true,
 		            'upload_files' 					=> true,
 
-		            'read_sp_player'				=> true,
-		            'edit_sp_players' 				=> true,
-
 		            'edit_sp_staff'					=> true,
 		            'read_sp_staff'					=> true,
-		            'delete_sp_staff'				=> true,
 		            'edit_sp_staffs' 				=> true,
-		            'delete_sp_staffs' 				=> true,
 		            'edit_published_sp_staffs' 		=> true,
-
 					'assign_sp_staff_terms' 		=> true,
+
+		            'edit_sp_event'					=> true,
+		            'read_sp_event'					=> true,
+		            'edit_sp_events' 				=> true,
+		            'edit_published_sp_events' 		=> true,
+					'assign_sp_event_terms' 		=> true,
+
+		            'edit_sp_team'					=> true,
+		            'read_sp_team'					=> true,
+		            'edit_sp_teams' 				=> true,
+		            'edit_published_sp_teams' 		=> true,
+					'assign_sp_team_terms' 			=> true,
+
+		            'edit_sp_player'				=> true,
+		            'read_sp_player'				=> true,
+		            'edit_sp_players' 				=> true,
+		            'edit_published_sp_players' 	=> true,
+					'assign_sp_player_terms' 		=> true,
 		        )
 		    );
 
@@ -225,8 +246,25 @@ class SP_Install {
 		            'delete_sp_events' 				=> true,
 		            'delete_published_sp_events' 	=> true,
 		            'edit_published_sp_events' 		=> true,
-
 					'assign_sp_event_terms' 		=> true,
+
+		            'edit_sp_team'					=> true,
+		            'read_sp_team'					=> true,
+		            'edit_sp_teams' 				=> true,
+		            'edit_published_sp_teams' 		=> true,
+					'assign_sp_team_terms' 			=> true,
+
+		            'edit_sp_player'				=> true,
+		            'read_sp_player'				=> true,
+		            'edit_sp_players' 				=> true,
+		            'edit_published_sp_players' 	=> true,
+					'assign_sp_player_terms' 		=> true,
+
+		            'edit_sp_staff'					=> true,
+		            'read_sp_staff'					=> true,
+		            'edit_sp_staffs' 				=> true,
+		            'edit_published_sp_staffs' 		=> true,
+					'assign_sp_staff_terms' 		=> true,
 		        )
 			);
 
@@ -250,48 +288,47 @@ class SP_Install {
 		            'read_sp_player'				=> true,
 		            'delete_sp_player'				=> true,
 		            'edit_sp_players' 				=> true,
-		            'edit_others_sp_players' 		=> true,
 		            'publish_sp_players' 			=> true,
 		            'delete_sp_players' 			=> true,
 		            'delete_published_sp_players' 	=> true,
 		            'edit_published_sp_players' 	=> true,
+					'assign_sp_player_terms' 		=> true,
 
 		            'edit_sp_staff'					=> true,
 		            'read_sp_staff'					=> true,
 		            'delete_sp_staff'				=> true,
 		            'edit_sp_staffs' 				=> true,
-		            'edit_others_sp_staffs' 		=> true,
+		            'publish_sp_staffs' 			=> true,
 		            'delete_sp_staffs' 				=> true,
 		            'delete_published_sp_staffs' 	=> true,
 		            'edit_published_sp_staffs' 		=> true,
-
-					'manage_sp_player_terms' 		=> true,
-					'edit_sp_player_terms' 			=> true,
-					'delete_sp_player_terms' 		=> true,
-					'assign_sp_player_terms' 		=> true,
-
-					'manage_sp_staff_terms' 		=> true,
-					'edit_sp_staff_terms' 			=> true,
-					'delete_sp_staff_terms' 		=> true,
 					'assign_sp_staff_terms' 		=> true,
 
 		            'edit_sp_event'					=> true,
 		            'read_sp_event'					=> true,
 		            'delete_sp_event'				=> true,
 		            'edit_sp_events' 				=> true,
-		            'edit_others_sp_events' 		=> true,
+		            'publish_sp_events' 			=> true,
 		            'delete_sp_events' 				=> true,
 		            'delete_published_sp_events' 	=> true,
 		            'edit_published_sp_events' 		=> true,
+					'assign_sp_event_terms' 		=> true,
 
 		            'edit_sp_team'					=> true,
 		            'read_sp_team'					=> true,
-		            'delete_sp_team'				=> true,
 		            'edit_sp_teams' 				=> true,
-		            'delete_sp_teams' 				=> true,
 		            'edit_published_sp_teams' 		=> true,
+					'assign_sp_team_terms' 			=> true,
 
-		            'edit_sp_player_statistics'		=> true,
+		            'edit_sp_list'					=> true,
+		            'read_sp_list'					=> true,
+		            'delete_sp_list'				=> true,
+		            'edit_sp_lists' 				=> true,
+		            'publish_sp_lists' 				=> true,
+		            'delete_sp_lists' 				=> true,
+		            'delete_published_sp_lists' 	=> true,
+		            'edit_published_sp_lists' 		=> true,
+					'assign_sp_list_terms' 			=> true,
 		        )
 		    );
 
@@ -347,7 +384,6 @@ class SP_Install {
 				foreach ( $cap_group as $cap ):
 					$wp_roles->add_cap( 'sp_league_manager', $cap );
 					$wp_roles->add_cap( 'administrator', $cap );
-					$wp_roles->add_cap( 'administrator', 'manage_sportspress' );
 				endforeach;
 			endforeach;
 		endif;
@@ -364,9 +400,8 @@ class SP_Install {
 		$capabilities = array();
 
 		$capabilities['core'] = array(
+			'manage_sportspress',
 			'view_sportspress_reports',
-			'edit_sp_player_statistics',
-			'edit_sp_team_columns',
 		);
 
 		$post_types = sp_post_types();
@@ -496,7 +531,7 @@ class SP_Install {
 			if ( preg_match( $regexp, $response['body'], $matches ) ) {
 				$changelog = (array) preg_split( '~[\r\n]+~', trim( $matches[2] ) );
 
-				echo __( 'What\'s new:', 'sportspress' ) . '<div style="font-weight: normal;">';
+				_e( 'What\'s new:', 'sportspress' ) . '<div style="font-weight: normal;">';
 
 				$ul = false;
 
