@@ -4,7 +4,7 @@
  *
  * @author 		ThemeBoy
  * @package 	SportsPress/Templates
- * @version     0.8
+ * @version     1.1
  */
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
@@ -34,7 +34,10 @@ if ( isset( $id ) ):
 	foreach ( $events as $event ):
 		$event_ids[] = $event->ID;
 	endforeach;
-	$in = 'AND ID IN (' . implode( ', ', $event_ids ) . ')';
+	if ( empty( $event_ids ) )
+		$in = 'AND 1 = 0'; // False logic to prevent SQL error
+	else
+		$in = 'AND ID IN (' . implode( ', ', $event_ids ) . ')';
 else:
 	$in = '';
 endif;
@@ -88,7 +91,7 @@ $next = $wpdb->get_row("SELECT MONTH(post_date) AS month, YEAR(post_date) AS yea
 /* translators: Calendar caption: 1: month name, 2: 4-digit year */
 $calendar_caption = _x('%1$s %2$s', 'calendar caption', 'sportspress');
 $calendar_output = '
-<div class="widget_calendar sp-calendar-wrapper">
+<div class="sp-calendar-wrapper">
 <table id="wp-calendar" class="sp-calendar sp-event-calendar">
 <caption class="sp-table-caption">' . ( $caption_tag == 'caption' ? '' : '<' . $caption_tag . '>' ) . sprintf($calendar_caption, $wp_locale->get_month($thismonth), date('Y', $unixmonth)) . ( $caption_tag == 'caption' ? '' : '</' . $caption_tag . '>' ) . '</caption>
 <thead>
@@ -209,6 +212,6 @@ if ( $pad != 0 && $pad != 7 )
 $calendar_output .= "\n\t</tr>\n\t</tbody>\n\t</table>\n\t</div>";
 
 if ( $id && $show_all_events_link )
-	$calendar_output .= '<a class="sp-calendar-link sp-view-all-link" href="' . get_permalink( $id ) . '">' . SP()->text->string('View all events') . '</a>';
+	$calendar_output .= '<a class="sp-calendar-link sp-view-all-link" href="' . get_permalink( $id ) . '">' . __( 'View all events', 'sportspress' ) . '</a>';
 
 echo apply_filters( 'sportspress_event_calendar',  $calendar_output );

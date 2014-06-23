@@ -4,7 +4,7 @@
  *
  * @author 		ThemeBoy
  * @package 	SportsPress/Templates
- * @version     0.8
+ * @version     1.1
  */
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
@@ -13,6 +13,7 @@ $primary_result = get_option( 'sportspress_primary_result', null );
 
 $defaults = array(
 	'status' => 'default',
+	'date' => 'default',
 	'number' => -1,
 	'link_teams' => get_option( 'sportspress_calendar_link_teams', 'no' ) == 'yes' ? true : false,
 	'link_venues' => get_option( 'sportspress_calendar_link_venues', 'yes' ) == 'yes' ? true : false,
@@ -29,6 +30,8 @@ extract( $defaults, EXTR_SKIP );
 $calendar = new SP_Calendar( $id );
 if ( $status != 'default' )
 	$calendar->status = $status;
+if ( $date != 'default' )
+	$calendar->date = $date;
 if ( $order != 'default' )
 	$calendar->order = $order;
 $data = $calendar->data();
@@ -42,22 +45,22 @@ if ( isset( $columns ) )
 		<thead>
 			<tr>
 				<?php
-				echo '<th class="data-date">' . SP()->text->string('Date') . '</th>';
+				echo '<th class="data-date">' . __( 'Date', 'sportspress' ) . '</th>';
 
 				if ( $usecolumns == null || in_array( 'event', $usecolumns ) )
-					echo '<th class="data-event">' . SP()->text->string('Event') . '</th>';
+					echo '<th class="data-event">' . __( 'Event', 'sportspress' ) . '</th>';
 
 				if ( $usecolumns == null || in_array( 'teams', $usecolumns ) )
-					echo '<th class="data-teams">' . SP()->text->string('Teams') . '</th>';
+					echo '<th class="data-teams">' . __( 'Teams', 'sportspress' ) . '</th>';
 
 				if ( $usecolumns == null || in_array( 'time', $usecolumns ) )
-					echo '<th class="data-time">' . SP()->text->string('Time/Results') . '</th>';
+					echo '<th class="data-time">' . __( 'Time/Results', 'sportspress' ) . '</th>';
 
 				if ( $usecolumns == null || in_array( 'venue', $usecolumns ) )
-					echo '<th class="data-venue">' . SP()->text->string('Venue') . '</th>';
+					echo '<th class="data-venue">' . __( 'Venue', 'sportspress' ) . '</th>';
 
 				if ( $usecolumns == null || in_array( 'article', $usecolumns ) )
-					echo '<th class="data-article">' . SP()->text->string('Article') . '</th>';
+					echo '<th class="data-article">' . __( 'Article', 'sportspress' ) . '</th>';
 				?>
 			</tr>
 		</thead>
@@ -160,9 +163,9 @@ if ( isset( $columns ) )
 						endif;
 						if ( $event->post_content !== null ):
 							if ( $event->post_status == 'publish' ):
-								echo SP()->text->string('Recap');
+								_e( 'Recap', 'sportspress' );
 							else:
-								echo SP()->text->string('Preview');
+								_e( 'Preview', 'sportspress' );
 							endif;
 						endif;
 
@@ -180,5 +183,5 @@ if ( isset( $columns ) )
 </div>
 <?php
 if ( $id && $show_all_events_link )
-	echo '<a class="sp-calendar-link sp-view-all-link" href="' . get_permalink( $id ) . '">' . SP()->text->string('View all events') . '</a>';
+	echo '<a class="sp-calendar-link sp-view-all-link" href="' . get_permalink( $id ) . '">' . __( 'View all events', 'sportspress' ) . '</a>';
 ?>

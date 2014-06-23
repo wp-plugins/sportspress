@@ -5,7 +5,7 @@
  * The SportsPress player list class handles individual player list data.
  *
  * @class 		SP_Player_List
- * @version		1.0.2
+ * @version		1.1
  * @package		SportsPress/Classes
  * @category	Class
  * @author 		ThemeBoy
@@ -24,6 +24,7 @@ class SP_Player_List extends SP_Custom_Post {
 	public function __construct( $post ) {
 		parent::__construct( $post );
 		$this->columns = get_post_meta( $this->ID, 'sp_columns', true );
+		if ( ! is_array( $this->columns ) ) $this->columns = array();
 	}
 
 	/**
@@ -41,7 +42,6 @@ class SP_Player_List extends SP_Custom_Post {
 		$adjustments = get_post_meta( $this->ID, 'sp_adjustments', true );
 		$orderby = get_post_meta( $this->ID, 'sp_orderby', true );
 		$order = get_post_meta( $this->ID, 'sp_order', true );
-		$column_groups = (array)get_post_meta( $this->ID, 'sp_column_group' );
 
 		// Get labels from performance variables
 		$performance_labels = (array)sp_get_var_labels( 'sp_performance' );
@@ -135,11 +135,11 @@ class SP_Player_List extends SP_Custom_Post {
 		// Event loop
 		foreach ( $events as $event ):
 			$results = (array)get_post_meta( $event->ID, 'sp_results', true );
-			$team_performance = (array)get_post_meta( $event->ID, 'sp_players', true );
+			$team_performance = get_post_meta( $event->ID, 'sp_players', true );
 
 			// Add all team performance
-			foreach ( $team_performance as $team_id => $players ):
-				foreach( $players as $player_id => $player_performance ):
+			if ( is_array( $team_performance ) ): foreach ( $team_performance as $team_id => $players ):
+				if ( is_array( $players ) ): foreach ( $players as $player_id => $player_performance ):
 					if ( array_key_exists( $player_id, $totals ) && is_array( $totals[ $player_id ] ) ):
 
 						$player_performance = sp_array_value( $players, $player_id, array() );
@@ -206,8 +206,8 @@ class SP_Player_List extends SP_Custom_Post {
 							endif;
 						endif;
 					endif;
-				endforeach;
-			endforeach;
+				endforeach; endif;
+			endforeach; endif;
 		endforeach;
 
 		foreach ( $streaks as $player_id => $streak ):
@@ -242,67 +242,68 @@ class SP_Player_List extends SP_Custom_Post {
 			$totals[ $player_id ]['last10'] = $last10;
 		endforeach;
 
-		if ( ! empty( $column_groups ) ):
+		$args = array(
+			'post_type' => array( 'sp_performance', 'sp_metric', 'sp_statistic' ),
+			'numberposts' => -1,
+			'posts_per_page' => -1,
+	  		'orderby' => 'menu_order',
+	  		'order' => 'ASC'
+		);
+		$stats = get_posts( $args );
 
-			$args = array(
-				'post_type' => $column_groups,
-				'numberposts' => -1,
-				'posts_per_page' => -1,
-		  		'orderby' => 'menu_order',
-		  		'order' => 'ASC'
-			);
-			$stats = get_posts( $args );
+		foreach ( $stats as $stat ):
+
+			// Get post meta
+			$meta = get_post_meta( $stat->ID );
+
+			// Add equation to object
+			if ( $stat->post_type == 'sp_metric' ):
+				$stat->equation = null;
+			else:
+				$stat->equation = sp_array_value( sp_array_value( $meta, 'sp_equation', array() ), 0, 0 );
+			endif;
+
+			// Add precision to object
+			$stat->precision = sp_array_value( sp_array_value( $meta, 'sp_precision', array() ), 0, 0 );
+
+			// Add column name to columns
+			$columns[ $stat->post_name ] = $stat->post_title;
+
+		endforeach;
+
+		// Fill in empty placeholder values for each player
+		foreach ( $player_ids as $player_id ):
+			if ( ! $player_id )
+				continue;
+
+			$placeholders[ $player_id ] = array_merge( sp_array_value( $totals, $player_id, array() ), array_filter( sp_array_value( $placeholders, $player_id, array() ) ) );
 
 			foreach ( $stats as $stat ):
+				if ( sp_array_value( $placeholders[ $player_id ], $stat->post_name, '' ) == '' ):
 
-				// Get post meta
-				$meta = get_post_meta( $stat->ID );
-
-				// Add equation to object
-				if ( $stat->post_type == 'sp_metric' ):
-					$stat->equation = null;
-				else:
-					$stat->equation = sp_array_value( sp_array_value( $meta, 'sp_equation', array() ), 0, 0 );
-				endif;
-
-				// Add precision to object
-				$stat->precision = sp_array_value( sp_array_value( $meta, 'sp_precision', array() ), 0, 0 );
-
-				// Add column name to columns
-				$columns[ $stat->post_name ] = $stat->post_title;
-
-			endforeach;
-
-			// Fill in empty placeholder values for each player
-			foreach ( $player_ids as $player_id ):
-				if ( ! $player_id )
-					continue;
-
-				$placeholders[ $player_id ] = array_merge( sp_array_value( $totals, $player_id, array() ), array_filter( sp_array_value( $placeholders, $player_id, array() ) ) );
-
-				foreach ( $stats as $stat ):
-					if ( sp_array_value( $placeholders[ $player_id ], $stat->post_name, '' ) == '' ):
-
-						if ( $stat->equation === null ):
-							$placeholder = sp_array_value( sp_array_value( $adjustments, $player_id, array() ), $stat->post_name, null );
-							if ( $placeholder == null ):
-								$placeholder = '-';
-							endif;
-						else:
-							// Solve
-							$placeholder = sp_solve( $stat->equation, $placeholders[ $player_id ], $stat->precision );
-
-							// Adjustments
-							$placeholder += sp_array_value( sp_array_value( $adjustments, $player_id, array() ), $stat->post_name, 0 );
+					if ( $stat->equation === null ):
+						$placeholder = sp_array_value( sp_array_value( $adjustments, $player_id, array() ), $stat->post_name, null );
+						if ( $placeholder == null ):
+							$placeholder = '-';
 						endif;
+					else:
+						// Solve
+						$placeholder = sp_solve( $stat->equation, $placeholders[ $player_id ], $stat->precision );
 
-						$placeholders[ $player_id ][ $stat->post_name ] = $placeholder;
+						// Adjustments
+						$adjustment = sp_array_value( $adjustments, $player_id, array() );
+
+						if ( $adjustment != 0 ):
+							$placeholder += sp_array_value( $adjustment, $stat->post_name, 0 );
+							$placeholder = number_format( $placeholder, $stat->precision );
+						endif;
 					endif;
-				endforeach;
 
+					$placeholders[ $player_id ][ $stat->post_name ] = $placeholder;
+				endif;
 			endforeach;
 
-		endif;
+		endforeach;
 
 		// Merge the data and placeholders arrays
 		$merged = array();
@@ -313,6 +314,7 @@ class SP_Player_List extends SP_Custom_Post {
 			$merged[ $player_id ] = array();
 			$player_data['number'] = get_post_meta( $player_id, 'sp_number', true );
 			$player_data['name'] = get_the_title( $player_id );
+			$player_data['team'] = get_post_meta( $player_id, 'sp_team', true );
 
 			foreach( $player_data as $key => $value ):
 
@@ -343,7 +345,15 @@ class SP_Player_List extends SP_Custom_Post {
 		endforeach;
 		
 		if ( $admin ):
-			return array( $columns, $this->columns, $data, $placeholders, $merged );
+			$labels = array();
+			foreach( $this->columns as $key ):
+				if ( $key == 'team' ):
+					$labels[ $key ] = __( 'Team', 'sportspress' );
+				elseif ( array_key_exists( $key, $columns ) ):
+					$labels[ $key ] = $columns[ $key ];
+				endif;
+			endforeach;
+			return array( $labels, $data, $placeholders, $merged );
 		else:
 			if ( ! is_array( $this->columns ) )
 				$this->columns = array();
@@ -353,7 +363,7 @@ class SP_Player_List extends SP_Custom_Post {
 				endif;
 			endforeach;
 
-			$labels = array( 'name' => SP()->text->string('Player') );
+			$labels = array( 'name' => __( 'Player', 'sportspress' ) );
 			if ( in_array( 'team', $this->columns ) )
 				$labels['team'] = __( 'Team', 'sportspress' );
 

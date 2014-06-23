@@ -4,7 +4,7 @@
  *
  * @author 		ThemeBoy
  * @package 	SportsPress/Templates
- * @version     0.8.4
+ * @version     1.1
  */
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
@@ -46,7 +46,7 @@ if ( ! $columns )
 if ( ! is_array( $columns ) )
 	$columns = explode( ',', $columns );
 
-$output .= '<th class="data-rank">' . SP()->text->string('Pos') . '</th>';
+$output .= '<th class="data-rank">' . __( 'Pos', 'sportspress' ) . '</th>';
 
 foreach( $labels as $key => $label ):
 	if ( ! is_array( $columns ) || $key == 'name' || in_array( $key, $columns ) )
@@ -76,8 +76,8 @@ foreach( $data as $team_id => $row ):
 
 	if ( $show_team_logo ):
 		if ( has_post_thumbnail( $team_id ) ):
-			$logo = get_the_post_thumbnail( $team_id, 'sportspress-fit-icon', array( 'class' => 'team-logo' ) );
-			$name = $logo . ' ' . $name;
+			$logo = get_the_post_thumbnail( $team_id, 'sportspress-fit-icon' );
+			$name = '<span class="team-logo">' . $logo . '</span>' . $name;
 			$name_class .= ' has-logo';
 		endif;
 	endif;
@@ -107,6 +107,6 @@ $output .= '</tbody>' . '</table>';
 $output .= '</div>';
 
 if ( $show_full_table_link )
-	$output .= '<a class="sp-league-table-link sp-view-all-link" href="' . get_permalink( $id ) . '">' . SP()->text->string('View full table') . '</a>';
+	$output .= '<a class="sp-league-table-link sp-view-all-link" href="' . get_permalink( $id ) . '">' . __( 'View full table', 'sportspress' ) . '</a>';
 
 echo $output;

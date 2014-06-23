@@ -4,7 +4,7 @@
  *
  * @author 		ThemeBoy
  * @package 	SportsPress/Templates
- * @version     0.8
+ * @version     1.1
  */
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
@@ -12,6 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 $defaults = array(
 	'id' => get_the_ID(),
 	'number' => -1,
+	'grouptag' => 'h4',
 	'columns' => null,
 	'grouping' => null,
 	'orderby' => 'default',
@@ -36,7 +37,6 @@ if ( isset( $columns ) && null !== $columns ):
 	$list->columns = $columns;
 endif;
 $data = $list->data();
-
 
 // The first row should be column labels
 $labels = $data[0];
@@ -76,7 +76,7 @@ $output = '';
 foreach ( $groups as $group ):
 	if ( ! empty( $group->name ) ):
 		$output .= '<a name="group-' . $group->slug . '" id="group-' . $group->slug . '"></a>';
-		$output .= '<h3 class="sp-table-caption player-group-name player-list-group-name">' . $group->name . '</h3>';
+		$output .= '<' . $grouptag . ' class="sp-table-caption player-group-name player-list-group-name">' . $group->name . '</' . $grouptag . '>';
 	endif;
 
 	$output .= '<div class="sp-table-wrapper sp-scrollable-table-wrapper">' .
@@ -85,7 +85,7 @@ foreach ( $groups as $group ):
 	if ( in_array( $orderby, array( 'number', 'name' ) ) ):
 		$output .= '<th class="data-number">#</th>';
 	else:
-		$output .= '<th class="data-rank">' . SP()->text->string('Rank') . '</th>';
+		$output .= '<th class="data-rank">' . __( 'Rank', 'sportspress' ) . '</th>';
 	endif;
 
 	foreach( $labels as $key => $label ):
@@ -124,16 +124,12 @@ foreach ( $groups as $group ):
 		$output .= '<td class="data-name">' . $name . '</td>';
 		
 		if ( array_key_exists( 'team', $labels ) ):
-			$teams = get_post_meta( $player_id, 'sp_current_team' );
-			$team_names = array();
-			foreach ( $teams as $team ):
-				$team_name = get_the_title( $team );
-				if ( $link_teams ):
-					$team_name = '<a href="' . get_post_permalink( $team ) . '">' . $team_name . '</a>';
-				endif;
-				$team_names[] = $team_name;
-			endforeach;
-			$output .= '<td class="data-team">' . implode( ', ', $team_names ) . '</td>';
+			$team = sp_array_value( $row, 'team', get_post_meta( $id, 'sp_team', true ) );
+			$team_name = get_the_title( $team );
+			if ( $link_teams ):
+				$team_name = '<a href="' . get_post_permalink( $team ) . '">' . $team_name . '</a>';
+			endif;
+			$output .= '<td class="data-team">' . $team_name . '</td>';
 		endif;
 
 		foreach( $labels as $key => $value ):
@@ -153,6 +149,6 @@ foreach ( $groups as $group ):
 endforeach;
 
 if ( $show_all_players_link )
-	$output .= '<a class="sp-player-list-link sp-view-all-link" href="' . get_permalink( $id ) . '">' . SP()->text->string('View all players') . '</a>';
+	$output .= '<a class="sp-player-list-link sp-view-all-link" href="' . get_permalink( $id ) . '">' . __( 'View all players', 'sportspress' ) . '</a>';
 
 echo apply_filters( 'sportspress_player_list',  $output );

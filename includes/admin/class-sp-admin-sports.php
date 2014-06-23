@@ -41,6 +41,7 @@ class SP_Admin_Sports {
 			}
 			self::$options[ 'custom' ] = __( 'Custom', 'sportspress' );
 			self::$presets = apply_filters( 'sportspress_get_presets', $presets );
+			asort( self::$options );
 		}
 		return self::$presets;
 	}
@@ -82,12 +83,12 @@ class SP_Admin_Sports {
 		$post_type = 'sp_result';
 		$results = sp_array_value( $preset, 'results', array() );
 		self::delete_preset_posts( $post_type );
-		$main_result = 0;
+		$primary_result = 0;
 		foreach ( $results as $index => $result ) {
 			$post = self::get_post_array( $result, $post_type );
 			if ( empty( $post ) ) continue;
 			$id = self::insert_preset_post( $post, $index );
-			if ( array_key_exists( 'main', $result ) ) $main_result = $post['post_name'];
+			if ( array_key_exists( 'primary', $result ) ) $primary_result = $post['post_name'];
 		}
 
 		// Performance
@@ -135,7 +136,7 @@ class SP_Admin_Sports {
 			update_post_meta( $id, 'sp_equation', sp_array_value( $statistic, 'equation', null ) );
 			update_post_meta( $id, 'sp_precision', sp_array_value( $statistic, 'precision', 0 ) );
 		}
-    	update_option( 'sportspress_primary_result', $main_result );
+    	update_option( 'sportspress_primary_result', $primary_result );
 	}
 
 	public static function delete_preset_posts( $post_type = null ) {
