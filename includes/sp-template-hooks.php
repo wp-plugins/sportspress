@@ -7,7 +7,7 @@
  * @author 		ThemeBoy
  * @category 	Core
  * @package 	SportsPress/Functions
- * @version     0.8.4
+ * @version     1.1
  */
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
@@ -37,6 +37,8 @@ add_action( 'sportspress_single_event_content', 'sportspress_output_event_detail
 add_action( 'sportspress_single_event_content', 'sportspress_output_event_venue', 40 );
 add_action( 'sportspress_single_event_content', 'sportspress_output_event_performance', 50 );
 
+add_action( 'sportspress_after_single_event', 'sportspress_output_br_tag', 100 );
+
 /**
  * Single Calendar Content
  *
@@ -44,12 +46,20 @@ add_action( 'sportspress_single_event_content', 'sportspress_output_event_perfor
  */
 add_action( 'sportspress_single_calendar_content', 'sportspress_output_calendar', 10 );
 
+add_action( 'sportspress_after_single_calendar', 'sportspress_output_br_tag', 100 );
+
 /**
  * Single Team Content
  *
+ * @see sportspress_output_team_link()
  * @see sportspress_output_team_columns()
+ * @see sportspress_output_team_lists()
  */
-add_action( 'sportspress_single_team_content', 'sportspress_output_team_columns', 10 );
+add_action( 'sportspress_single_team_content', 'sportspress_output_team_link', 10 );
+add_action( 'sportspress_single_team_content', 'sportspress_output_team_columns', 20 );
+add_action( 'sportspress_single_team_content', 'sportspress_output_team_lists', 30 );
+
+add_action( 'sportspress_after_single_team', 'sportspress_output_br_tag', 100 );
 
 /**
  * Single Table Content
@@ -57,6 +67,8 @@ add_action( 'sportspress_single_team_content', 'sportspress_output_team_columns'
  * @see sportspress_output_league_table()
  */
 add_action( 'sportspress_single_table_content', 'sportspress_output_league_table', 10 );
+
+add_action( 'sportspress_after_single_table', 'sportspress_output_br_tag', 100 );
 
 /**
  * Single Player Content
@@ -67,6 +79,8 @@ add_action( 'sportspress_single_table_content', 'sportspress_output_league_table
 add_action( 'sportspress_single_player_content', 'sportspress_output_player_details', 10 );
 add_action( 'sportspress_single_player_content', 'sportspress_output_player_statistics', 20 );
 
+add_action( 'sportspress_after_single_player', 'sportspress_output_br_tag', 100 );
+
 /**
  * Single List Content
  *
@@ -74,12 +88,16 @@ add_action( 'sportspress_single_player_content', 'sportspress_output_player_stat
  */
 add_action( 'sportspress_single_list_content', 'sportspress_output_player_list', 10 );
 
+add_action( 'sportspress_after_single_list', 'sportspress_output_br_tag', 100 );
+
 /**
  * Single Staff Content
  *
  * @see sportspress_output_staff_details()
  */
 add_action( 'sportspress_single_staff_content', 'sportspress_output_staff_details', 10 );
+
+add_action( 'sportspress_after_single_staff', 'sportspress_output_br_tag', 100 );
 
 /**
  * Venue Archive Content
@@ -92,8 +110,8 @@ add_action( 'loop_start', 'sportspress_output_venue_map' );
 add_filter( 'previous_post_link', 'sportspress_hide_adjacent_post_links', 10, 4 );
 add_filter( 'next_post_link', 'sportspress_hide_adjacent_post_links', 10, 4 );
 
-function sportspress_the_title( $title, $id ) {
-	if ( ! is_admin() && ! current_theme_supports( 'sportspress' ) && in_the_loop() && $id == get_the_ID() ):
+function sportspress_the_title( $title, $id = null ) {
+	if ( $id && ! is_admin() && ! current_theme_supports( 'sportspress' ) && in_the_loop() && $id == get_the_ID() ):
 		if ( is_singular( 'sp_player' ) ):
 			$number = get_post_meta( $id, 'sp_number', true );
 			if ( $number != null ):
@@ -106,6 +124,7 @@ function sportspress_the_title( $title, $id ) {
 			endif;
 		elseif ( is_singular( 'sp_event' ) && get_option( 'sportspress_event_show_logos', 'yes' ) == 'yes' ):
 			$teams = get_post_meta( $id, 'sp_team' );
+			$teams = array_filter( $teams );
 			if ( $teams ):
 				$title .= '<div class="sp-event-teams">';
 				$delimiter = get_option( 'sportspress_event_teams_delimiter', 'vs' );
@@ -140,7 +159,7 @@ function sportspress_gettext( $translated_text, $untranslated_text, $domain ) {
 			endswitch;
 		endif;
 
-		if ( in_array( $typenow, array( 'sp_event', 'sp_team', 'sp_player', 'sp_staff' ) ) ):
+		if ( is_sp_post_type( $typenow ) ):
 			switch ( $untranslated_text ):
 			case 'Author':
 				$translated_text = __( 'User', 'sportspress' );
@@ -190,7 +209,11 @@ function sportspress_gettext( $translated_text, $untranslated_text, $domain ) {
 			endswitch;
 		endif;
 	else:
-    	if ( ! current_theme_supports( 'sportspress' ) && $untranslated_text == 'Archives' && is_tax( 'sp_venue' ) ):
+		if ( $domain == 'sportspress' ):
+			if ( ! empty( SP()->text[ $untranslated_text ] ) ):
+				$translated_text = SP()->text[ $untranslated_text ];
+			endif;
+    	elseif ( ! current_theme_supports( 'sportspress' ) && $untranslated_text == 'Archives' && is_tax( 'sp_venue' ) ):
     		$slug = get_query_var( 'sp_venue' );
 		    if ( $slug ):
 			    $venue = get_term_by( 'slug', $slug, 'sp_venue' );
@@ -202,6 +225,19 @@ function sportspress_gettext( $translated_text, $untranslated_text, $domain ) {
 	return $translated_text;
 }
 add_filter( 'gettext', 'sportspress_gettext', 20, 3 );
+
+function sportspress_team_permalink( $permalink, $post ) {
+    if ( ! is_admin() && 'sp_team' == get_post_type( $post ) ):
+    	if ( empty( $post->post_content ) ):
+    		$url = get_post_meta( $post->ID, 'sp_url', true );
+    		if ( ! empty( $url ) ):
+    			return $url;
+    		endif;
+    	endif;
+    endif;
+    return $permalink;
+}
+add_filter( 'post_type_link', 'sportspress_team_permalink', 10, 2 );
 
 function sportspress_pre_get_posts( $query ) {
 

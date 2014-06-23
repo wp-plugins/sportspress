@@ -183,6 +183,11 @@ class SP_Admin_Welcome {
 				SP_Admin_Sports::apply_preset( $sport );
 				update_option( 'sportspress_sport', $_POST['sportspress_sport'] );
 	    	endif;
+			if ( isset( $_POST['sportspress_mode'] ) && ! empty( $_POST['sportspress_mode'] ) && get_option( 'sportspress_mode', null ) != $_POST['sportspress_mode'] ):
+				$sport = $_POST['sportspress_mode'];
+				SP_Admin_Sports::apply_preset( $sport );
+				update_option( 'sportspress_mode', $_POST['sportspress_mode'] );
+	    	endif;
 	    	if ( isset( $_POST['sportspress_default_country'] ) ):
 	    		update_option( 'sportspress_default_country', $_POST['sportspress_default_country'] );
 	    		update_option( '_sportspress_needs_welcome', 1 );
@@ -217,6 +222,20 @@ class SP_Admin_Welcome {
 							));
 							SP_Admin_Settings::output_fields( $settings );
 							?>
+							<h4><?php _e( 'Mode', 'sportspress' ); ?></h4>
+							<?php
+							$settings = array( array(
+								'id'        => 'sportspress_mode',
+								'default'   => 'team',
+								'type'      => 'select',
+								'class' 	=> $class,
+								'options'   => array(
+									'team' => _x( 'Team', 'mode select', 'sportspress' ),
+									'player' => _x( 'Individual', 'mode select', 'sportspress' ),
+								),
+							));
+							SP_Admin_Settings::output_fields( $settings );
+							?>
 					        <p class="submit sportspress-actions">
 					        	<input name="save" class="button-primary" type="submit" value="<?php _e( 'Save changes', 'sportspress' ); ?>" />
 					        	<input type="hidden" name="subtab" id="last_tab" />
@@ -236,7 +255,7 @@ class SP_Admin_Welcome {
 						<h4><?php _e( 'Translators', 'sportspress' ); ?></h4>
 						<p><?php _e( 'SportsPress has been kindly translated into several other languages thanks to our translation team. Want to see your name? <a href="https://www.transifex.com/projects/p/sportspress/">Translate SportsPress</a>.', 'sportspress' ); ?></p>
 						<?php
-						$translator_handles = array( 'Abdulelah', 'albertone', 'Andrew_Melim', 'aylaview', 'Bhelpful2', 'bizover', 'BOCo', 'dic_2008', 'hanro', 'hushiea', 'i__k', 'JensZ', 'JuKi', 'karimjarro', 'King3R', 'massimo.marra', 'rochester', 'Selskei', 'sijo', 'Spirossmil', 'Taurus', 'ThemeBoy', 'valentijnreza' );
+						$translator_handles = array( 'Abdulelah', 'albertone', 'Andrew_Melim', 'ArtakEVN', 'aylaview', 'Bhelpful2', 'bizover', 'BOCo', 'dic_2008', 'hanro', 'hushiea', 'i__k', 'JensZ', 'JuKi', 'karimjarro', 'King3R', 'massimo.marra', 'rochester', 'Selskei', 'sijo', 'Spirossmil', 'Taurus', 'ThemeBoy', 'valentijnreza' );
 						$translator_links = array();
 						foreach ( $translator_handles as $handle ):
 							$translator_links[] = '<a href="https://www.transifex.com/accounts/profile/' . $handle . '">' . $handle . '</a>';

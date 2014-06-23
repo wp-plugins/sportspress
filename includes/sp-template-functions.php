@@ -7,7 +7,7 @@
  * @author 		ThemeBoy
  * @category 	Core
  * @package 	SportsPress/Functions
- * @version     0.8
+ * @version     1.1
  */
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
@@ -133,7 +133,7 @@ if ( ! function_exists( 'sportspress_output_event_performance' ) ) {
 	 * @return void
 	 */
 	function sportspress_output_event_performance() {
-		sp_get_template( 'event-performance.php' );
+		if ( SP()->mode == 'team' ) sp_get_template( 'event-performance.php' );
 	}
 }
 
@@ -160,6 +160,19 @@ if ( ! function_exists( 'sportspress_output_calendar' ) ) {
 
 /** Single Team ********************************************************/
 
+if ( ! function_exists( 'sportspress_output_team_link' ) ) {
+
+	/**
+	 * Output the team link.
+	 *
+	 * @access public
+	 * @subpackage	Team/Link
+	 * @return void
+	 */
+	function sportspress_output_team_link() {
+		sp_get_template( 'team-link.php' );
+	}
+}
 if ( ! function_exists( 'sportspress_output_team_columns' ) ) {
 
 	/**
@@ -171,6 +184,19 @@ if ( ! function_exists( 'sportspress_output_team_columns' ) ) {
 	 */
 	function sportspress_output_team_columns() {
 		sp_get_template( 'team-columns.php' );
+	}
+}
+if ( ! function_exists( 'sportspress_output_team_lists' ) ) {
+
+	/**
+	 * Output the team lists.
+	 *
+	 * @access public
+	 * @subpackage	Team/Lists
+	 * @return void
+	 */
+	function sportspress_output_team_lists() {
+		sp_get_template( 'team-lists.php' );
 	}
 }
 
@@ -271,4 +297,12 @@ function sportspress_output_venue_map( $query ) {
     $t_id = $venue->term_id;
     $meta = get_option( "taxonomy_$t_id" );
 	sp_get_template( 'venue-map.php', array( 'meta' => $meta ) );
+}
+
+/** Misc ********************************************************/
+
+function sportspress_output_br_tag() {
+	?>
+	<br>
+	<?php
 }

@@ -5,7 +5,7 @@
  * @author 		ThemeBoy
  * @category 	Admin
  * @package 	SportsPress/Admin
- * @version     0.8
+ * @version     1.1
  */
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
@@ -43,20 +43,30 @@ class SP_Settings_Text extends SP_Settings_Page {
 		);
 
 		$strings = sp_get_text_options();
+		$options = get_option( 'sportspress_text' );
 
-		foreach ( $strings as $key => $value ):
+		foreach ( $strings as $string ):
 			$settings[] = array(
-				'title'   => $value,
-				'id'      => 'sportspress_' . $key . '_text',
-				'default' => '',
-				'placeholder' => $value,
-				'type'    => 'text',
+				'title' 		=> $string,
+				'id' 			=> 'sportspress_text[' . $string . ']',
+				'default' 		=> '',
+				'placeholder' 	=> $string,
+				'value' 		=> sp_array_value( $options, $string, null ),
+				'type' 			=> 'text',
 			);
 		endforeach;
 
 		$settings[] = array( 'type' => 'sectionend', 'id' => 'text_options' );
 
 		return apply_filters( 'sportspress_text_settings', $settings ); // End event settings
+	}
+
+	/**
+	 * Save settings
+	 */
+	public function save() {
+		if ( isset( $_POST['sportspress_text'] ) )
+	    	update_option( 'sportspress_text', $_POST['sportspress_text'] );
 	}
 }
 

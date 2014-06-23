@@ -5,7 +5,7 @@
  * The SportsPress league table class handles individual league table data.
  *
  * @class 		SP_League_Table
- * @version		0.8
+ * @version		1.1
  * @package		SportsPress/Classes
  * @category	Class
  * @author 		ThemeBoy
@@ -83,7 +83,7 @@ class SP_League_Table extends SP_Custom_Post{
 			$static = get_post_meta( $team_id, 'sp_columns', true );
 
 			// Add static stats to placeholders
-			$placeholders[ $team_id ] = sp_array_value( $static, $div_id, array() );
+			$placeholders[ $team_id ] = sp_array_value( sp_array_value( $static, $league_id, array() ), $div_id, array() );
 
 		endforeach;
 
@@ -263,10 +263,10 @@ class SP_League_Table extends SP_Custom_Post{
 						$placeholder = sp_solve( $stat->equation, sp_array_value( $totals, $team_id, array() ), $stat->precision );
 
 						// Adjustments
-						$placeholder += sp_array_value( sp_array_value( $adjustments, $team_id, array() ), $stat->post_name, 0 );
+						$adjustment = sp_array_value( $adjustments, $team_id, array() );
 
-						// Format number
-						if ( $placeholder != '-' ):
+						if ( $adjustment != 0 ):
+							$placeholder += sp_array_value( $adjustment, $stat->post_name, 0 );
 							$placeholder = number_format( $placeholder, $stat->precision );
 						endif;
 					endif;
@@ -316,7 +316,7 @@ class SP_League_Table extends SP_Custom_Post{
 					unset( $columns[ $key ] );
 				endif;
 			endforeach;
-			$labels = array_merge( array( 'name' => SP()->text->string('Team') ), $columns );
+			$labels = array_merge( array( 'name' => __( 'Team', 'sportspress' ) ), $columns );
 			$merged[0] = $labels;
 			return $merged;
 		endif;

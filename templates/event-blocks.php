@@ -4,7 +4,7 @@
  *
  * @author 		ThemeBoy
  * @package 	SportsPress/Templates
- * @version     0.8
+ * @version     1.1
  */
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
@@ -13,6 +13,7 @@ $primary_result = get_option( 'sportspress_primary_result', null );
 
 $defaults = array(
 	'status' => 'default',
+	'date' => 'default',
 	'number' => -1,
 	'link_teams' => get_option( 'sportspress_calendar_link_teams', 'no' ) == 'yes' ? true : false,
 	'paginated' => get_option( 'sportspress_calendar_paginated', 'yes' ) == 'yes' ? true : false,
@@ -26,6 +27,8 @@ extract( $defaults, EXTR_SKIP );
 $calendar = new SP_Calendar( $id );
 if ( $status != 'default' )
 	$calendar->status = $status;
+if ( $date != 'default' )
+	$calendar->date = $date;
 if ( $order != 'default' )
 	$calendar->order = $order;
 $data = $calendar->data();
@@ -90,7 +93,7 @@ if ( isset( $columns ) )
 						<?php else: ?>
 							<h5 class="event-results"><?php echo implode( $main_results, ' - ' ); ?></h5>
 						<?php endif; ?>
-						<h3 class="event-title"><a href="<?php echo get_post_permalink( $event ); ?>"><?php echo $event->post_title; ?></a></h3>
+						<h4 class="event-title"><a href="<?php echo get_post_permalink( $event ); ?>"><?php echo $event->post_title; ?></a></h4>
 					</td>
 				</tr>
 				<?php
@@ -102,5 +105,5 @@ if ( isset( $columns ) )
 </div>
 <?php
 if ( $id && $show_all_events_link )
-	echo '<a class="sp-calendar-link sp-view-all-link" href="' . get_permalink( $id ) . '">' . SP()->text->string('View all events') . '</a>';
+	echo '<a class="sp-calendar-link sp-view-all-link" href="' . get_permalink( $id ) . '">' . __( 'View all events', 'sportspress' ) . '</a>';
 ?>
