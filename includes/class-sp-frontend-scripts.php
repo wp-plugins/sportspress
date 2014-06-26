@@ -3,7 +3,7 @@
  * Handle frontend forms
  *
  * @class 		SP_Frontend_Scripts
- * @version		1.1
+ * @version		1.1.4
  * @package		SportsPress/Classes
  * @category	Class
  * @author 		ThemeBoy
@@ -30,7 +30,7 @@ class SP_Frontend_Scripts {
 				'version' => SP_VERSION,
 				'media'   => 'all'
 			),
-		) );
+		));
 	}
 
 	/**
