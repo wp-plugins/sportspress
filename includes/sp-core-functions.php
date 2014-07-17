@@ -7,7 +7,7 @@
  * @author 		ThemeBoy
  * @category 	Core
  * @package 	SportsPress/Functions
- * @version     1.1.4
+ * @version     1.2
  */
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
@@ -75,11 +75,7 @@ function sp_get_template( $template_name, $args = array(), $template_path = '', 
 
 	do_action( 'sportspress_before_template_part', $template_name, $template_path, $located, $args );
 
-	echo '<div class="sp-template sp-template-' . str_replace( '.', '-', $template_name ) . '">';
-
 	include( $located );
-
-	echo '</div>';
 
 	do_action( 'sportspress_after_template_part', $template_name, $template_path, $located, $args );
 }
@@ -277,7 +273,7 @@ if ( !function_exists( 'sp_array_combine' ) ) {
 		endforeach;
 
 		foreach ( $keys as $key ):
-			if ( ! array_key_exists( $key, $output ) )
+			if ( $key !== false && ! array_key_exists( $key, $output ) )
 				$output[ $key ] = array();
 		endforeach;
 
