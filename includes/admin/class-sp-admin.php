@@ -10,7 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @author 		ThemeBoy
  * @category 	Admin
  * @package 	SportsPress/Admin
- * @version     0.7
+ * @version     1.2
  */
 class SP_Admin {
 
@@ -42,7 +42,10 @@ class SP_Admin {
 			include( 'class-sp-admin-notices.php' );
 			include( 'class-sp-admin-assets.php' );
 			include( 'class-sp-admin-permalink-settings.php' );
-//			include( 'class-sp-admin-editor.php' );
+
+			if ( get_option( 'sportspress_rich_editing', true ) ):
+				include( 'class-sp-admin-editor.php' );
+			endif;
 
 			// Help
 //			if ( apply_filters( 'sportspress_enable_admin_help_tab', true ) )
