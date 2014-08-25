@@ -9,7 +9,7 @@
  * @author 		ThemeBoy
  * @category 	Admin
  * @package 	SportsPress/Admin
- * @version     1.2.5
+ * @version     1.3
 */
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
@@ -182,11 +182,7 @@ class SP_Admin_Welcome {
 	    	if ( isset( $_POST['timezone_string'] ) ):
 	    		update_option( 'timezone_string', $_POST['timezone_string'] );
 	    	endif;
-			if ( isset( $_POST['sportspress_mode'] ) && ! empty( $_POST['sportspress_mode'] ) && get_option( 'sportspress_mode', null ) != $_POST['sportspress_mode'] ):
-				$sport = $_POST['sportspress_mode'];
-				update_option( 'sportspress_mode', $_POST['sportspress_mode'] );
-	    	endif;
-			if ( isset( $_POST['sportspress_sport'] ) && ! empty( $_POST['sportspress_sport'] ) && get_option( 'sportspress_sport', null ) != $_POST['sportspress_sport'] ):
+			if ( isset( $_POST['sportspress_sport'] ) && ! empty( $_POST['sportspress_sport'] ) ):
 				$sport = $_POST['sportspress_sport'];
 				SP_Admin_Sports::apply_preset( $sport );
 				update_option( 'sportspress_sport', $_POST['sportspress_sport'] );
@@ -229,23 +225,9 @@ class SP_Admin_Welcome {
 							$settings = array( array(
 								'id'        => 'sportspress_sport',
 								'default'   => 'soccer',
-								'type'      => 'select',
+								'type'      => 'groupselect',
 								'class' 	=> $class,
 								'options'   => $sport_options,
-							));
-							SP_Admin_Settings::output_fields( $settings );
-							?>
-							<h4><?php _e( 'Mode', 'sportspress' ); ?></h4>
-							<?php
-							$settings = array( array(
-								'id'        => 'sportspress_mode',
-								'default'   => 'team',
-								'type'      => 'select',
-								'class' 	=> $class,
-								'options'   => array(
-									'team' => _x( 'Team', 'mode select', 'sportspress' ),
-									'player' => _x( 'Individual', 'mode select', 'sportspress' ),
-								),
 							));
 							SP_Admin_Settings::output_fields( $settings );
 							?>
@@ -258,6 +240,7 @@ class SP_Admin_Welcome {
 					</div>
 					<div>
 						<h4><?php _e( 'Next Steps', 'sportspress' ); ?></h4>
+						<p><?php _e( 'We&#8217;ve assembled some links to get you started:', 'sportspress' ); ?></p>
 						<ul class="sportspress-steps">
 							<li><a href="<?php echo esc_url( admin_url( add_query_arg( array( 'post_type' => 'sp_team' ), 'post-new.php' ) ) ); ?>" class="welcome-icon welcome-add-team"><?php _e( 'Add New Team', 'sportspress' ); ?></a></li>
 							<li><a href="<?php echo esc_url( admin_url( add_query_arg( array( 'post_type' => 'sp_player' ), 'post-new.php' ) ) ); ?>" class="welcome-icon welcome-add-player"><?php _e( 'Add New Player', 'sportspress' ); ?></a></li>
@@ -268,7 +251,7 @@ class SP_Admin_Welcome {
 						<h4><?php _e( 'Translators', 'sportspress' ); ?></h4>
 						<p><?php _e( 'SportsPress has been kindly translated into several other languages thanks to our translation team. Want to see your name? <a href="https://www.transifex.com/projects/p/sportspress/">Translate SportsPress</a>.', 'sportspress' ); ?></p>
 						<?php
-						$translator_handles = array( 'Abdulelah', 'albertone', 'Andrew_Melim', 'ArtakEVN', 'aylaview', 'Bhelpful2', 'bizover', 'BOCo', 'den_zlateva', 'dic_2008', 'doncer', 'fredodq', 'hanro', 'hushiea', 'i__k', 'JensZ', 'joegalaxy66', 'JuKi', 'karimjarro', 'King3R', 'krisop', 'latixns', 'massimo.marra', 'MohamedZ', 'poelie', 'rochester', 'Selskei', 'sijo', 'Spirossmil', 'Taurus', 'ThemeBoy', 'valentijnreza' );
+						$translator_handles = array( 'Abdulelah', 'albertone', 'Andrew_Melim', 'ArtakEVN', 'aylaview', 'Bhelpful2', 'bizover', 'BOCo', 'den_zlateva', 'dic_2008', 'doncer', 'Ferenan', 'fredodq', 'hanro', 'hushiea', 'i__k', 'JensZ', 'joegalaxy66', 'JuKi', 'karimjarro', 'King3R', 'krisop', 'latixns', 'massimo.marra', 'MohamedZ', 'poelie', 'rochester', 'Selskei', 'sijo', 'SilverXp', 'Spirossmil', 'Taurus', 'ThemeBoy', 'tyby94', 'valentijnreza', 'Xyteton' );
 						$translator_links = array();
 						foreach ( $translator_handles as $handle ):
 							$translator_links[] = '<a href="https://www.transifex.com/accounts/profile/' . $handle . '">' . $handle . '</a>';
