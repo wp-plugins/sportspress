@@ -34,6 +34,14 @@ if ( $nationality ):
 	$common[ __( 'Nationality', 'sportspress' ) ] = $country_name ? ( $show_nationality_flags ? '<img src="' . plugin_dir_url( SP_PLUGIN_FILE ) . '/assets/images/flags/' . strtolower( $nationality ) . '.png" alt="' . $nationality . '"> ' : '' ) . $country_name : '&mdash;';
 endif;
 
+$position_names = array();
+$positions = get_the_terms( $id, 'sp_position' );
+if ( $positions ): foreach ( $positions as $position ):
+	$position_names[] = $position->name;
+endforeach; endif;
+
+$common[ __( 'Position', 'sportspress' ) ] = implode( ', ', $position_names );
+
 $data = array_merge( $metrics_before, $common, $metrics_after );
 
 if ( $current_teams ):
@@ -63,5 +71,6 @@ foreach( $data as $label => $value ):
 endforeach;
 
 $output .= '</dl></div>';
-
-echo apply_filters( 'sportspress_player_details',  $output );
+?>
+<?php echo $output; ?>
+<br>
