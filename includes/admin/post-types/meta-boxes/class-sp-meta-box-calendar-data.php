@@ -5,7 +5,7 @@
  * @author 		ThemeBoy
  * @category 	Admin
  * @package 	SportsPress/Admin/Meta_Boxes
- * @version     0.7
+ * @version     1.3.1
  */
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
@@ -176,7 +176,7 @@ class SP_Meta_Box_Calendar_Data {
 						else:
 							?>
 							<tr class="sp-row alternate">
-								<td colspan="6">
+								<td colspan="7">
 									<?php _e( 'No results found.', 'sportspress' ); ?>
 								</td>
 							</tr>
@@ -185,7 +185,7 @@ class SP_Meta_Box_Calendar_Data {
 					else:
 					?>
 					<tr class="sp-row alternate">
-						<td colspan="6">
+						<td colspan="7">
 							<?php printf( __( 'Select %s', 'sportspress' ), __( 'Details', 'sportspress' ) ); ?>
 						</td>
 					</tr>
