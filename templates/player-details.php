@@ -4,10 +4,11 @@
  *
  * @author 		ThemeBoy
  * @package 	SportsPress/Templates
- * @version     0.8
+ * @version     1.4
  */
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+if ( get_option( 'sportspress_player_show_details', 'yes' ) === 'no' ) return;
 
 if ( ! isset( $id ) )
 	$id = get_the_ID();
@@ -48,7 +49,9 @@ $data = array_merge( $metrics_before, $common, $metrics_after );
 if ( $current_teams ):
 	$teams = array();
 	foreach ( $current_teams as $team ):
-		$teams[] = '<a href="' . get_post_permalink( $team ) . '">' . get_the_title( $team ) . '</a>';
+		$team_name = get_the_title( $team );
+		if ( $link_teams ) $team_name = '<a href="' . get_post_permalink( $team ) . '">' . $team_name . '</a>';
+		$teams[] = $team_name;
 	endforeach;
 	$label = _n( 'Current Team', 'Current Teams', count( $teams ), 'sportspress' );
 	$data[ $label ] = implode( ', ', $teams );
@@ -57,20 +60,21 @@ endif;
 if ( $past_teams ):
 	$teams = array();
 	foreach ( $past_teams as $team ):
-		$teams[] = '<a href="' . get_post_permalink( $team ) . '">' . get_the_title( $team ) . '</a>';
+		$team_name = get_the_title( $team );
+		if ( $link_teams ) $team_name = '<a href="' . get_post_permalink( $team ) . '">' . $team_name . '</a>';
+		$teams[] = $team_name;
 	endforeach;
 	$data[ __( 'Past Teams', 'sportspress' ) ] = implode( ', ', $teams );
 endif;
 
-$output = '<div class="sp-list-wrapper">' .
-	'<dl class="sp-player-details">';
+$output = '<div class="sp-template sp-template-player-details sp-template-details"><div class="sp-list-wrapper"><dl class="sp-player-details">';
 
 foreach( $data as $label => $value ):
 
-	$output .= '<dt>' . $label . '<dd>' . $value . '</dd>';
+	$output .= '<dt>' . $label . '</dt><dd>' . $value . '</dd>';
 
 endforeach;
 
-$output .= '</dl></div>';
+$output .= '</dl></div></div>';
 
 echo $output;

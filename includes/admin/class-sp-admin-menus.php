@@ -5,7 +5,7 @@
  * @author 		ThemeBoy
  * @category 	Admin
  * @package 	SportsPress/Admin
- * @version     1.3
+ * @version     1.4
  */
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
@@ -28,9 +28,6 @@ class SP_Admin_Menus {
 		add_action( 'admin_menu', array( $this, 'leagues_menu' ), 9 );
 		add_action( 'admin_menu', array( $this, 'seasons_menu' ), 10 );
 		add_filter( 'admin_menu', array( $this, 'menu_add' ), 20 );
-
-		if ( current_user_can( 'manage_options' ) )
-			add_action( 'admin_menu', array( $this, 'status_menu' ), 20 );
 
 		add_action( 'admin_head', array( $this, 'menu_highlight' ) );
 		add_action( 'admin_head', array( $this, 'menu_rename' ) );
@@ -70,7 +67,7 @@ class SP_Admin_Menus {
 	 * Add menu item
 	 */
 	public function leagues_menu() {
-		add_submenu_page( 'sportspress', __( 'Leagues', 'sportspress' ), __( 'Leagues', 'sportspress' ), 'manage_sportspress', 'edit-tags.php?taxonomy=sp_league');
+		add_submenu_page( 'sportspress', __( 'Competitions', 'sportspress' ), __( 'Competitions', 'sportspress' ), 'manage_sportspress', 'edit-tags.php?taxonomy=sp_league');
 	}
 
 	/**
@@ -78,14 +75,6 @@ class SP_Admin_Menus {
 	 */
 	public function seasons_menu() {
 		add_submenu_page( 'sportspress', __( 'Seasons', 'sportspress' ), __( 'Seasons', 'sportspress' ), 'manage_sportspress', 'edit-tags.php?taxonomy=sp_season');
-	}
-
-	/**
-	 * Add menu item
-	 */
-	public function status_menu() {
-		add_submenu_page( 'sportspress', __( 'System Status', 'sportspress' ),  __( 'System Status', 'sportspress' ) , 'manage_sportspress', 'sp-status', array( $this, 'status_page' ) );
-		register_setting( 'sportspress_status_settings_fields', 'sportspress_status_options' );
 	}
 
 	/**
@@ -198,14 +187,6 @@ class SP_Admin_Menus {
 	}
 
 	/**
-	 * Init the status page
-	 */
-	public function status_page() {
-		$page = include( 'class-sp-admin-status.php' );
-		$page->output();
-	}
-
-	/**
 	 * Clean the SP menu items in admin.
 	 */
 	public function menu_clean() {
@@ -257,9 +238,9 @@ class SP_Admin_Menus {
 	public function menu_add() {
 		global $menu, $submenu, $current_user;
 
-		// Add "Roles" to Players submenu
+		// Add "Jobs" to Players submenu
 		if ( isset( $submenu['edit.php?post_type=sp_player'] ) ):
-			array_splice( $submenu['edit.php?post_type=sp_player'], 5, 0, array( array( __( 'Roles', 'sportspress' ), 'manage_categories', 'edit-tags.php?taxonomy=sp_role&post_type=sp_player' ) ) );
+			array_splice( $submenu['edit.php?post_type=sp_player'], 5, 0, array( array( __( 'Jobs', 'sportspress' ), 'manage_categories', 'edit-tags.php?taxonomy=sp_role&post_type=sp_player' ) ) );
 		endif;
 	}
 
@@ -290,7 +271,7 @@ class SP_Admin_Menus {
 	}
 
 	public function remove_leagues( $arr = array() ) {
-		return $arr[0] != __( 'Leagues', 'sportspress' );
+		return $arr[0] != __( 'Competitions', 'sportspress' );
 	}
 
 	public function remove_positions( $arr = array() ) {
@@ -314,7 +295,7 @@ class SP_Admin_Menus {
 	public static function sitemap_taxonomy_post_types( $post_types = array(), $taxonomy ) {
 		$post_types = array_intersect( $post_types, sp_primary_post_types() );
 		// Remove teams from venues taxonomy post type array
-		if ( ( $key = array_search( 'sp_team', $post_types ) ) !== false ):
+		if ( $taxonomy === 'sp_venue' && ( $key = array_search( 'sp_team', $post_types ) ) !== false ):
 			unset( $post_types[ $key ] );
 		endif;
 

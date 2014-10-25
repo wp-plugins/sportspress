@@ -39,13 +39,19 @@
 	margin-bottom: 1px !important;
 }
 
+#sp_editordiv #wp-content-editor-tools {
+	background: transparent;
+}
+
+#sp_editordiv .tmce-active .switch-html,
+#sp_editordiv .html-active .switch-tmce {
+	background: #fdfdfd;
+}
+
 .sp-link:before {
-	font: normal 20px/1 'dashicons';
+	font: normal 20px/1 dashicons;
 	speak: none;
 	display: inline-block;
-	padding: 0 2px 0 0;
-	top: 0;
-	left: -1px;
 	position: relative;
 	vertical-align: top;
 	-webkit-font-smoothing: antialiased;
@@ -263,20 +269,25 @@ table.widefat.sp-data-table th:not(.check-column) input[type=checkbox] {
 	vertical-align: middle;
 }
 
+table.widefat.sp-data-table tfoot th,
+table.widefat.sp-data-table tfoot td {
+	border-top: 1px solid #e1e1e1;
+}
+
 table.widefat select.sp-outcome {
 	width: 100%;
 }
 
-table.widefat.sp-sortable-table tbody tr .icon {
-	cursor: move;
-}
-
-table.widefat.sp-sortable-table tr {
+table.widefat.sp-sortable-table tbody tr {
 	background-color: #fff;
 }
 
-table.widefat.sp-sortable-table tr:nth-child(2n-1) {
+table.widefat.sp-sortable-table tbody tr:nth-child(2n-1) {
 	background-color: #f9f9f9;
+}
+
+table.widefat.sp-sortable-table tbody tr .icon {
+	cursor: move;
 }
 
 .sp-admin-config-table th,

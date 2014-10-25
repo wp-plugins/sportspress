@@ -3,12 +3,14 @@
  * Handle frontend forms
  *
  * @class 		SP_Frontend_Scripts
- * @version		1.1.4
+ * @version		1.4
  * @package		SportsPress/Classes
  * @category	Class
  * @author 		ThemeBoy
  */
 class SP_Frontend_Scripts {
+
+	public $theme;
 
 	/**
 	 * Constructor
@@ -23,9 +25,35 @@ class SP_Frontend_Scripts {
 	 * @return array
 	 */
 	public static function get_styles() {
-		return apply_filters( 'sportspress_enqueue_styles', array(
+		$styles = array(
 			'sportspress-general' => array(
 				'src'     => str_replace( array( 'http:', 'https:' ), '', SP()->plugin_url() ) . '/assets/css/sportspress.css',
+				'deps'    => '',
+				'version' => SP_VERSION,
+				'media'   => 'all'
+			),
+		);
+
+		if ( is_rtl() ):
+			$styles['sportspress-rtl'] = array(
+				'src'     => str_replace( array( 'http:', 'https:' ), '', SP()->plugin_url() ) . '/assets/css/sportspress-rtl.css',
+				'deps'    => '',
+				'version' => SP_VERSION,
+				'media'   => 'all'
+			);
+		endif;
+
+		return apply_filters( 'sportspress_enqueue_styles', $styles );
+	}
+
+	/**
+	 * Add theme-specific styles to the frontend
+	 * @return array
+	 */
+	public function add_theme_styles( $styles ) {
+		return array_merge( $styles, array(
+			'sportspress-' . $this->theme => array(
+				'src'     => str_replace( array( 'http:', 'https:' ), '', SP()->plugin_url() ) . '/assets/css/themes/' . $this->theme . '.css',
 				'deps'    => '',
 				'version' => SP_VERSION,
 				'media'   => 'all'
@@ -53,8 +81,22 @@ class SP_Frontend_Scripts {
 			wp_localize_script( 'sp-maps', 'vars', array( 'map_type' => strtoupper( get_option( 'sportspress_map_type', 'ROADMAP' ) ) ) );
 		endif;
 
-		// Localize scripts.
+		// Localize scripts
 		wp_localize_script( 'sportspress', 'localized_strings', array( 'days' => __( 'days', 'sportspress' ), 'hrs' => __( 'hrs', 'sportspress' ), 'mins' => __( 'mins', 'sportspress' ), 'secs' => __( 'secs', 'sportspress' ), 'previous' => __( 'Previous', 'sportspress' ), 'next' => __( 'Next', 'sportspress' ) ) );
+
+		// Theme styles
+		$theme = wp_get_theme();
+		$this->theme = $theme->stylesheet;
+		$dir = scandir( SP()->plugin_path() . '/assets/css/themes' );
+		$files = array();
+		if ( $dir ) {
+			foreach ( $dir as $key => $value ) {
+				if ( preg_replace('/\\.[^.\\s]{3,4}$/', '', $value ) == $this->theme ) {
+					add_filter( 'sportspress_enqueue_styles', array( $this, 'add_theme_styles' ) );
+					break;
+				}
+			}
+		}
 
 		// CSS Styles
     	wp_enqueue_style( 'dashicons' );
@@ -114,14 +156,18 @@ class SP_Frontend_Scripts {
 		if ( empty( $colors['text'] ) ) $colors['text'] = '#363f48';
 		if ( empty( $colors['heading'] ) ) $colors['heading'] = '#ffffff';
 		if ( empty( $colors['link'] ) ) $colors['link'] = '#00a69c';
+
+		// Calculate colors
+		$colors['highlight'] = sp_hex_lighter( $colors['background'], 30, true );
+		$colors['lowlight'] = sp_hex_darker( $colors['background'], 8, true );
 		
-		echo '<style type="text/css">.sp-data-table tbody a,.sp-data-table tbody a:hover,.sp-calendar tbody a,.sp-calendar tbody a:hover{background:none;}';
+		echo '<style type="text/css">';
 
 		if ( $enabled == 'yes' && sizeof( $colors ) > 0 ) {
 			echo ' /* SportsPress Frontend CSS */ ';
 
 			if ( isset( $colors['primary'] ) )
-				echo '.sp-data-table th,.sp-calendar th,.sp-data-table tfoot,.sp-calendar tfoot,.sp-button{background:' . $colors['primary'] . ' !important}.sp-data-table tbody a,.sp-calendar tbody a{color:' . $colors['primary'] . ' !important}';
+				echo '.sp-data-table th,.sp-calendar th,.sp-data-table tfoot,.sp-calendar tfoot,.sp-button,.sp-heading{background:' . $colors['primary'] . ' !important}.sp-data-table tbody a,.sp-calendar tbody a{color:' . $colors['primary'] . ' !important}';
 
 			if ( isset( $colors['background'] ) )
 				echo '.sp-data-table tbody,.sp-calendar tbody{background: ' . $colors['background'] . ' !important}';
@@ -130,10 +176,18 @@ class SP_Frontend_Scripts {
 				echo '.sp-data-table tbody,.sp-calendar tbody{color: ' . $colors['text'] . ' !important}';
 
 			if ( isset( $colors['heading'] ) )
-				echo '.sp-data-table th,.sp-data-table th a,.sp-data-table tfoot,.sp-data-table tfoot a,.sp-calendar th,.sp-calendar th a,.sp-calendar tfoot,.sp-calendar tfoot a,.sp-button{color: ' . $colors['heading'] . ' !important}';
+				echo '.sp-data-table th,.sp-data-table th a,.sp-data-table tfoot,.sp-data-table tfoot a,.sp-calendar th,.sp-calendar th a,.sp-calendar tfoot,.sp-calendar tfoot a,.sp-button,.sp-heading{color: ' . $colors['heading'] . ' !important}';
 
 			if ( isset( $colors['link'] ) )
 				echo '.sp-data-table tbody a,.sp-data-table tbody a:hover,.sp-calendar tbody a:focus{color: ' . $colors['link'] . ' !important}';
+
+			if ( isset( $colors['highlight'] ) )
+				echo '.sp-highlight,.sp-calendar td#today{background: ' . $colors['highlight'] . ' !important}';
+
+			if ( isset( $colors['lowlight'] ) )
+				echo '.sp-lowlight,.sp-data-table tbody tr.odd,.sp-data-table tr.alternate{background: ' . $colors['lowlight'] . ' !important}';
+
+			do_action( 'sportspress_frontend_css', $colors );
 		}
 
 		if ( $align != 'default' )

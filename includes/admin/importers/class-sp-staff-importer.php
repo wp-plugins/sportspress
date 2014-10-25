@@ -5,7 +5,7 @@
  * @author 		ThemeBoy
  * @category 	Admin
  * @package 	SportsPress/Admin/Importers
- * @version     1.3
+ * @version     1.4
  */
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
@@ -24,9 +24,9 @@ if ( class_exists( 'WP_Importer' ) ) {
 			$this->import_label = __( 'Import Staff', 'sportspress' );
 			$this->columns = array(
 				'post_title' => __( 'Name', 'sportspress' ),
-				'sp_role' => __( 'Roles', 'sportspress' ),
+				'sp_role' => __( 'Jobs', 'sportspress' ),
 				'sp_team' => __( 'Teams', 'sportspress' ),
-				'sp_league' => __( 'Leagues', 'sportspress' ),
+				'sp_league' => __( 'Competitions', 'sportspress' ),
 				'sp_season' => __( 'Seasons', 'sportspress' ),
 				'sp_nationality' => __( 'Nationality', 'sportspress' ),
 			);

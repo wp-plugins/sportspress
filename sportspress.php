@@ -3,8 +3,8 @@
  * Plugin Name: SportsPress
  * Plugin URI: http://themeboy.com/sportspress/
  * Description: Manage your club and its players, staff, events, league tables, and player lists.
- * Version: 1.3.2
- * Author: ThemeBoy
+ * Version: 1.4.1
+ * Author: ThemeBoy, brianmiyaji, aylaview
  * Author URI: http://themeboy.com
  * Requires at least: 3.8
  * Tested up to: 4.0
@@ -26,14 +26,14 @@ if ( ! class_exists( 'SportsPress' ) ) :
  * Main SportsPress Class
  *
  * @class SportsPress
- * @version	1.3.2
+ * @version	1.4.1
  */
 final class SportsPress {
 
 	/**
 	 * @var string
 	 */
-	public $version = '1.3.2';
+	public $version = '1.4.1';
 
 	/**
 	 * @var SporsPress The single instance of the class
@@ -214,6 +214,7 @@ final class SportsPress {
 		// Classes (used on all pages)
 		include_once( 'includes/class-sp-countries.php' );						// Defines continents and countries
 		include_once( 'includes/class-sp-formats.php' );						// Defines custom post type formats
+		include_once( 'includes/class-sp-feeds.php' );							// Adds feeds
 		
 		// Include template functions making them pluggable by plugins and themes.
 		include_once( 'includes/sp-template-functions.php' );
@@ -269,6 +270,7 @@ final class SportsPress {
 		// Load class instances
 		$this->countries = new SP_Countries();	// Countries class
 		$this->formats = new SP_Formats();		// Formats class
+		$this->feeds = new SP_Feeds(); 			// Feeds class
 
 		// Load string options
 		$this->text = get_option( 'sportspress_text', array() );
@@ -297,7 +299,7 @@ final class SportsPress {
 		add_theme_support( 'post-thumbnails' );
 
 		// Add image sizes
-		add_image_size( 'sportspress-fit-thumbnail',  320, 320, false );
+		add_image_size( 'sportspress-fit-medium',  300, 300, false );
 		add_image_size( 'sportspress-fit-icon',  128, 128, false );
 		add_image_size( 'sportspress-fit-mini',  32, 32, false );
 	}

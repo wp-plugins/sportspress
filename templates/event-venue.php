@@ -4,10 +4,11 @@
  *
  * @author 		ThemeBoy
  * @package 	SportsPress/Templates
- * @version     0.8
+ * @version     1.4
  */
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+if ( get_option( 'sportspress_event_show_venue', 'yes' ) === 'no' ) return;
 
 if ( ! isset( $id ) )
 	$id = get_the_ID();

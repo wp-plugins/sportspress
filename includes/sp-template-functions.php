@@ -7,7 +7,7 @@
  * @author 		ThemeBoy
  * @category 	Core
  * @package 	SportsPress/Functions
- * @version     1.3
+ * @version     1.4
  */
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
@@ -59,7 +59,6 @@ if ( ! function_exists( 'sportspress_taxonomy_archive_description' ) ) {
 	 * @return void
 	 */
 	function sportspress_taxonomy_archive_description() {
-		echo 'test';
 		if ( is_tax( array( 'sp_season', 'sp_league', 'sp_venue', 'sp_position' ) ) && get_query_var( 'paged' ) == 0 ) {
 			$description = apply_filters( 'the_content', term_description() );
 			if ( $description ) {
@@ -70,6 +69,20 @@ if ( ! function_exists( 'sportspress_taxonomy_archive_description' ) ) {
 }
 
 /** Single Event ********************************************************/
+
+if ( ! function_exists( 'sportspress_output_event_logos' ) ) {
+
+	/**
+	 * Output the event logos.
+	 *
+	 * @access public
+	 * @subpackage	Event/Logos
+	 * @return void
+	 */
+	function sportspress_output_event_logos() {
+		sp_get_template( 'event-logos.php' );
+	}
+}
 
 if ( ! function_exists( 'sportspress_output_event_video' ) ) {
 
@@ -173,6 +186,32 @@ if ( ! function_exists( 'sportspress_output_team_link' ) ) {
 		sp_get_template( 'team-link.php' );
 	}
 }
+if ( ! function_exists( 'sportspress_output_team_logo' ) ) {
+
+	/**
+	 * Output the team logo.
+	 *
+	 * @access public
+	 * @subpackage	Team/Logo
+	 * @return void
+	 */
+	function sportspress_output_team_logo() {
+		sp_get_template( 'team-logo.php' );
+	}
+}
+if ( ! function_exists( 'sportspress_output_team_details' ) ) {
+
+	/**
+	 * Output the team details.
+	 *
+	 * @access public
+	 * @subpackage	Team/Details
+	 * @return void
+	 */
+	function sportspress_output_team_details() {
+		sp_get_template( 'team-details.php' );
+	}
+}
 if ( ! function_exists( 'sportspress_output_team_tables' ) ) {
 
 	/**
@@ -218,13 +257,26 @@ if ( ! function_exists( 'sportspress_output_league_table' ) ) {
 
 /** Single Player ********************************************************/
 
+if ( ! function_exists( 'sportspress_output_player_photo' ) ) {
+
+	/**
+	 * Output the player photo.
+	 *
+	 * @access public
+	 * @subpackage	Player/Photo
+	 * @return void
+	 */
+	function sportspress_output_player_photo() {
+		sp_get_template( 'player-photo.php' );
+	}
+}
 if ( ! function_exists( 'sportspress_output_player_details' ) ) {
 
 	/**
-	 * Output the player metrics.
+	 * Output the player details.
 	 *
 	 * @access public
-	 * @subpackage	Player/Metrics
+	 * @subpackage	Player/Details
 	 * @return void
 	 */
 	function sportspress_output_player_details() {
@@ -268,13 +320,26 @@ if ( ! function_exists( 'sportspress_output_player_list' ) ) {
 
 /** Single Staff ********************************************************/
 
+if ( ! function_exists( 'sportspress_output_staff_photo' ) ) {
+
+	/**
+	 * Output the staff photo.
+	 *
+	 * @access public
+	 * @subpackage	Staff/Photo
+	 * @return void
+	 */
+	function sportspress_output_staff_photo() {
+		sp_get_template( 'staff-photo.php' );
+	}
+}
 if ( ! function_exists( 'sportspress_output_staff_details' ) ) {
 
 	/**
-	 * Output the staff metrics.
+	 * Output the staff details.
 	 *
 	 * @access public
-	 * @subpackage	Staff/Metrics
+	 * @subpackage	Staff/Details
 	 * @return void
 	 */
 	function sportspress_output_staff_details() {
