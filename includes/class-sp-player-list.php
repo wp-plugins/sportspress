@@ -5,7 +5,7 @@
  * The SportsPress player list class handles individual player list data.
  *
  * @class 		SP_Player_List
- * @version		1.3
+ * @version     1.4
  * @package		SportsPress/Classes
  * @category	Class
  * @author 		ThemeBoy
@@ -357,13 +357,15 @@ class SP_Player_List extends SP_Custom_Post {
 		if ( $admin ):
 			$labels = array();
 			foreach( $this->columns as $key ):
-				if ( $key == 'team' ):
+				if ( $key == 'number' ):
+					$labels[ $key ] = '#';
+				elseif ( $key == 'team' ):
 					$labels[ $key ] = __( 'Team', 'sportspress' );
 				elseif ( array_key_exists( $key, $columns ) ):
 					$labels[ $key ] = $columns[ $key ];
 				endif;
 			endforeach;
-			return array( $labels, $data, $placeholders, $merged );
+			return array( $labels, $data, $placeholders, $merged, $orderby );
 		else:
 			if ( ! is_array( $this->columns ) )
 				$this->columns = array();
@@ -373,9 +375,10 @@ class SP_Player_List extends SP_Custom_Post {
 				endif;
 			endforeach;
 
-			$labels = array( 'name' => __( 'Player', 'sportspress' ) );
-			if ( in_array( 'team', $this->columns ) )
-				$labels['team'] = __( 'Team', 'sportspress' );
+			$labels = array();
+			if ( in_array( 'number', $this->columns ) ) $labels['number'] = '#';
+			$labels['name'] = __( 'Player', 'sportspress' );
+			if ( in_array( 'team', $this->columns ) ) $labels['team'] = __( 'Team', 'sportspress' );
 
 			$merged[0] = array_merge( $labels, $columns );
 			return $merged;

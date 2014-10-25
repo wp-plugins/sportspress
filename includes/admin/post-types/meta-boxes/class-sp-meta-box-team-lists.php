@@ -5,7 +5,7 @@
  * @author 		ThemeBoy
  * @category 	Admin
  * @package 	SportsPress/Admin/Meta_Boxes
- * @version     1.1
+ * @version     1.4
  */
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
@@ -58,7 +58,7 @@ class SP_Meta_Box_Team_Lists {
 							<?php _e( 'Players', 'sportspress' ); ?>
 						</th>
 						<th class="column-league">
-							<?php _e( 'League', 'sportspress' ); ?>
+							<?php _e( 'Competition', 'sportspress' ); ?>
 						</th>
 						<th class="column-season">
 							<?php _e( 'Season', 'sportspress' ); ?>

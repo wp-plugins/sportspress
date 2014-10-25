@@ -7,7 +7,7 @@
  * @author 		ThemeBoy
  * @category 	Core
  * @package 	SportsPress/Functions
- * @version     1.3.2
+ * @version     1.4
  */
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
@@ -16,6 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 include( 'sp-conditional-functions.php' );
 include( 'sp-formatting-functions.php' );
 include( 'sp-deprecated-functions.php' );
+include( 'sp-api-functions.php' );
 
 /**
  * Get template part.
@@ -437,7 +438,8 @@ if ( !function_exists( 'sp_dropdown_dates' ) ) {
 		$dates = apply_filters( 'sportspress_dates', array(
 			0 => __( 'All', 'sportspress' ),
 			'w' => __( 'This week', 'sportspress' ),
-			'day' => __( 'Today', 'sportspress' )
+			'day' => __( 'Today', 'sportspress' ),
+			'range' => __( 'Date range:', 'sportspress' ),
 		));
 
 		foreach ( $dates as $value => $label ):
@@ -451,6 +453,7 @@ if ( !function_exists( 'sp_dropdown_dates' ) ) {
 if ( !function_exists( 'sp_dropdown_taxonomies' ) ) {
 	function sp_dropdown_taxonomies( $args = array() ) {
 		$defaults = array(
+			'show_option_blank' => false,
 			'show_option_all' => false,
 			'show_option_none' => false,
 			'taxonomy' => null,
@@ -495,6 +498,9 @@ if ( !function_exists( 'sp_dropdown_taxonomies' ) ) {
 			printf( '<select name="%s" class="postform %s" %s>', $name, $class . ( $chosen ? ' chosen-select' . ( is_rtl() ? ' chosen-rtl' : '' ) : '' ), ( $placeholder != null ? 'data-placeholder="' . $placeholder . '" ' : '' ) . $property );
 
 			if ( strpos( $property, 'multiple' ) === false ):
+				if ( $args['show_option_blank'] ):
+					echo '<option></option>';
+				endif;
 				if ( $args['show_option_all'] ):
 					printf( '<option value="0">%s</option>', $args['show_option_all'] );
 				endif;
@@ -599,11 +605,11 @@ if ( !function_exists( 'sp_dropdown_pages' ) ) {
 				if ( $args['show_option_blank'] ):
 					printf( '<option value=""></option>' );
 				endif;
-				if ( $args['show_option_all'] ):
-					printf( '<option value="%s" %s>%s</option>', $args['option_all_value'], selected( $selected, $args['option_all_value'], false ), $args['show_option_all'] );
-				endif;
 				if ( $args['show_option_none'] ):
 					printf( '<option value="%s" %s>%s</option>', $args['option_none_value'], selected( $selected, $args['option_none_value'], false ), ( $args['show_option_none'] === true ? '' : $args['show_option_none'] ) );
+				endif;
+				if ( $args['show_option_all'] ):
+					printf( '<option value="%s" %s>%s</option>', $args['option_all_value'], selected( $selected, $args['option_all_value'], false ), $args['show_option_all'] );
 				endif;
 				if ( $args['prepend_options'] && is_array( $args['prepend_options'] ) ):
 					foreach( $args['prepend_options'] as $slug => $label ):
@@ -1081,10 +1087,11 @@ function sp_get_text_options() {
 	$strings = apply_filters( 'sportspress_text', array(
 		__( 'Article', 'sportspress' ),
 		__( 'Current Team', 'sportspress' ),
+		__( 'Current Teams', 'sportspress' ),
 		__( 'Date', 'sportspress' ),
 		__( 'Details', 'sportspress' ),
 		__( 'Event', 'sportspress' ),
-		__( 'League', 'sportspress' ),
+		__( 'Competition', 'sportspress' ),
 		__( 'Nationality', 'sportspress' ),
 		__( 'Outcome', 'sportspress' ),
 		__( 'Past Teams', 'sportspress' ),
@@ -1105,6 +1112,7 @@ function sp_get_text_options() {
 		__( 'Time/Results', 'sportspress' ),
 		__( 'Total', 'sportspress' ),
 		__( 'Venue', 'sportspress' ),
+		__( 'Video', 'sportspress' ),
 		__( 'View all events', 'sportspress' ),
 		__( 'View all players', 'sportspress' ),
 		__( 'View full table', 'sportspress' ),

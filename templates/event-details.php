@@ -4,10 +4,11 @@
  *
  * @author 		ThemeBoy
  * @package 	SportsPress/Templates
- * @version     1.3
+ * @version     1.4
  */
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+if ( get_option( 'sportspress_event_show_details', 'yes' ) === 'no' ) return;
 
 if ( ! isset( $id ) )
 	$id = get_the_ID();

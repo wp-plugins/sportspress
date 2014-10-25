@@ -4,17 +4,17 @@
  *
  * @author 		ThemeBoy
  * @package 	SportsPress/Templates
- * @version     1.3
+ * @version     1.4
  */
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
-
-$primary_result = get_option( 'sportspress_primary_result', null );
 
 $defaults = array(
 	'id' => null,
 	'status' => 'default',
 	'date' => 'default',
+	'date_from' => 'default',
+	'date_to' => 'default',
 	'number' => -1,
 	'link_teams' => get_option( 'sportspress_link_teams', 'no' ) == 'yes' ? true : false,
 	'link_venues' => get_option( 'sportspress_link_venues', 'yes' ) == 'yes' ? true : false,
@@ -35,6 +35,10 @@ if ( $status != 'default' )
 	$calendar->status = $status;
 if ( $date != 'default' )
 	$calendar->date = $date;
+if ( $date_from != 'default' )
+	$calendar->from = $date_from;
+if ( $date_to != 'default' )
+	$calendar->to = $date_to;
 if ( $order != 'default' )
 	$calendar->order = $order;
 $data = $calendar->data();
@@ -50,7 +54,7 @@ endif;
 ?>
 <div class="sp-template sp-template-event-list">
 	<div class="sp-table-wrapper<?php if ( $scrollable ) { ?> sp-scrollable-table-wrapper<?php } ?>">
-		<table class="sp-event-list sp-data-table<?php if ( $responsive ) { ?> sp-responsive-table<?php } if ( $paginated ) { ?> sp-paginated-table<?php } ?>" data-sp-rows="<?php echo $rows; ?>">
+		<table class="sp-event-list sp-data-table<?php if ( $responsive ) { ?> sp-responsive-table<?php } if ( $paginated ) { ?> sp-paginated-table<?php } if ( $sortable ) { ?> sp-sortable-table<?php } ?>" data-sp-rows="<?php echo $rows; ?>">
 			<thead>
 				<tr>
 					<?php
@@ -59,7 +63,6 @@ endif;
 					if ( $usecolumns == null || in_array( 'event', $usecolumns ) ):
 						if ( $title_format == 'homeaway' ):
 							echo '<th class="data-home">' . __( 'Home', 'sportspress' ) . '</th>';
-							echo '<th class="data-away">' . __( 'Away', 'sportspress' ) . '</th>';
 						elseif ( $title_format == 'teams' ):
 							echo '<th class="data-teams">' . __( 'Teams', 'sportspress' ) . '</th>';
 						else:
@@ -67,11 +70,18 @@ endif;
 						endif;
 					endif;
 
-					if ( $usecolumns == null || in_array( 'time', $usecolumns ) )
-						echo '<th class="data-time">' . __( 'Time/Results', 'sportspress' ) . '</th>';
+					if ( $usecolumns == null || in_array( 'time', $usecolumns ) ):
+						if ( $usecolumns == null || in_array( 'event', $usecolumns ) && $title_format == 'homeaway' )
+							echo '<th class="data-time">&nbsp;</th>';
+						else
+							echo '<th class="data-time">' . __( 'Time/Results', 'sportspress' ) . '</th>';
+					endif;
+
+					if ( $usecolumns == null || in_array( 'event', $usecolumns ) && $title_format == 'homeaway' )
+						echo '<th class="data-away">' . __( 'Away', 'sportspress' ) . '</th>';
 
 					if ( $usecolumns == null || in_array( 'league', $usecolumns ) )
-						echo '<th class="data-league">' . __( 'League', 'sportspress' ) . '</th>';
+						echo '<th class="data-league">' . __( 'Competition', 'sportspress' ) . '</th>';
 
 					if ( $usecolumns == null || in_array( 'season', $usecolumns ) )
 						echo '<th class="data-season">' . __( 'Season', 'sportspress' ) . '</th>';
@@ -95,10 +105,10 @@ endif;
 					if ( isset( $limit ) && $i >= $limit ) continue;
 
 					$teams = get_post_meta( $event->ID, 'sp_team' );
-					$results = get_post_meta( $event->ID, 'sp_results', true );
 					$video = get_post_meta( $event->ID, 'sp_video', true );
 
-					$main_results = array();
+					$main_results = sp_get_main_results( $event );
+
 					$teams_output = '';
 					$teams_array = '';
 
@@ -106,28 +116,18 @@ endif;
 						foreach ( $teams as $team ):
 							$name = get_the_title( $team );
 							if ( $name ):
-								$team_results = sp_array_value( $results, $team, null );
-
-								if ( $primary_result ):
-									$team_result = sp_array_value( $team_results, $primary_result, null );
-								else:
-									if ( is_array( $team_results ) ):
-										unset( $team_results['outcome'] );
-										$team_result = end( $team_results );
-									else:
-										$team_result = null;
-									endif;
-								endif;
-
 								if ( $link_teams ):
 									$team_output = '<a href="' . get_post_permalink( $team ) . '">' . $name . '</a>';
 								else:
 									$team_output = $name;
 								endif;
 
+								$team_result = sp_array_value( $main_results, $team, null );
+
 								if ( $team_result != null ):
-									$main_results[] = $team_result;
-									$team_output .= ' (' . $team_result . ')';
+									if ( $usecolumns != null && ! in_array( 'time', $usecolumns ) ):
+										$team_output .= ' (' . $team_result . ')';
+									endif;
 								endif;
 
 								$teams_array[] = $team_output;
@@ -141,14 +141,12 @@ endif;
 
 					echo '<tr class="sp-row sp-post' . ( $i % 2 == 0 ? ' alternate' : '' ) . '">';
 
-						echo '<td class="data-date"><a href="' . get_permalink( $event->ID ) . '">' . get_post_time( get_option( 'date_format' ), false, $event, true ) . '</a></td>';
+						echo '<td class="data-date"><a href="' . get_permalink( $event->ID ) . '"><date>' . get_post_time( 'Y-m-d H:i:s', false, $event ) . '</date>' . get_post_time( get_option( 'date_format' ), false, $event, true ) . '</a></td>';
 
 						if ( $usecolumns == null || in_array( 'event', $usecolumns ) ):
 							if ( $title_format == 'homeaway' ):
 								$team = array_shift( $teams_array );
 								echo '<td class="data-home">' . $team . '</td>';
-								$team = array_shift( $teams_array );
-								echo '<td class="data-away">' . $team . '</td>';
 							else:
 								if ( $title_format == 'teams' ):
 									echo '<td class="data-event">' . $teams_output . '</td>';
@@ -163,9 +161,14 @@ endif;
 							if ( ! empty( $main_results ) ):
 								echo implode( ' - ', $main_results );
 							else:
-								echo get_post_time( get_option( 'time_format' ), false, $event, true );
+								echo '<date>&nbsp;' . get_post_time( 'H:i:s', false, $event ) . '</date>' . sp_get_time( $event );
 							endif;
 							echo '</a></td>';
+						endif;
+
+						if ( $usecolumns == null || in_array( 'event', $usecolumns ) && $title_format == 'homeaway' ):
+							$team = array_shift( $teams_array );
+							echo '<td class="data-away">' . $team . '</td>';
 						endif;
 
 						if ( $usecolumns == null || in_array( 'league', $usecolumns ) ):

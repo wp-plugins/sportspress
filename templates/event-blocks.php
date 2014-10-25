@@ -4,7 +4,7 @@
  *
  * @author 		ThemeBoy
  * @package 	SportsPress/Templates
- * @version     1.3
+ * @version     1.4
  */
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
@@ -12,8 +12,11 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 $primary_result = get_option( 'sportspress_primary_result', null );
 
 $defaults = array(
+	'id' => null,
 	'status' => 'default',
 	'date' => 'default',
+	'date_from' => 'default',
+	'date_to' => 'default',
 	'number' => -1,
 	'link_teams' => get_option( 'sportspress_link_teams', 'no' ) == 'yes' ? true : false,
 	'paginated' => get_option( 'sportspress_event_blocks_paginated', 'yes' ) == 'yes' ? true : false,
@@ -31,6 +34,10 @@ if ( $status != 'default' )
 	$calendar->status = $status;
 if ( $date != 'default' )
 	$calendar->date = $date;
+if ( $date_from != 'default' )
+	$calendar->from = $date_from;
+if ( $date_to != 'default' )
+	$calendar->to = $date_to;
 if ( $order != 'default' )
 	$calendar->order = $order;
 $data = $calendar->data();
@@ -64,7 +71,7 @@ if ( isset( $columns ) )
 						$j++;
 						if ( has_post_thumbnail ( $team ) ):
 							if ( $link_teams ):
-								$logo = '<a href="' . get_post_permalink( $team ) . '" title="' . get_the_title( $team ) . '">' . get_the_post_thumbnail( $team, 'sportspress-fit-icon', array( 'class' => 'team-logo logo-' . ( $j % 2 ? 'odd' : 'even' ) ) ) . '</a>';
+								$logo = '<a class="team-logo logo-' . ( $j % 2 ? 'odd' : 'even' ) . '" href="' . get_post_permalink( $team ) . '" title="' . get_the_title( $team ) . '">' . get_the_post_thumbnail( $team, 'sportspress-fit-icon' ) . '</a>';
 							else:
 								$logo = get_the_post_thumbnail( $team, 'sportspress-fit-icon', array( 'class' => 'team-logo logo-' . ( $j % 2 ? 'odd' : 'even' ) ) );
 							endif;
