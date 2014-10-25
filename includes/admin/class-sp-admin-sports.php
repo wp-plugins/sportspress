@@ -5,7 +5,7 @@
  * The SportsPress admin sports class stores preset sport data.
  *
  * @class 		SP_Admin_Sports
- * @version		1.3
+ * @version		1.4
  * @package		SportsPress/Admin
  * @category	Class
  * @author 		ThemeBoy
@@ -42,7 +42,7 @@ class SP_Admin_Sports {
 				if ( ! is_array( $data ) ) continue;
 				$id = preg_replace('/\\.[^.\\s]{3,4}$/', '', $file );
 				$presets[ $id ] = $data;
-				$name = array_key_exists( 'name', $data ) ? $data['name'] : $id;
+				$name = array_key_exists( 'name', $data ) ? __( $data['name'], 'sportspress' ) : $id;
 				self::$options[ __( 'Traditional Sports', 'sportspress' ) ][ $id ] = $name;
 			}
 			asort( self::$options[ __( 'Traditional Sports', 'sportspress' ) ] );
@@ -62,7 +62,7 @@ class SP_Admin_Sports {
 				if ( ! is_array( $data ) ) continue;
 				$id = preg_replace('/\\.[^.\\s]{3,4}$/', '', $file );
 				$presets[ $id ] = $data;
-				$name = array_key_exists( 'name', $data ) ? $data['name'] : $id;
+				$name = array_key_exists( 'name', $data ) ? __( $data['name'], 'sportspress' ) : $id;
 				self::$options[ __( 'Esports', 'sportspress' ) ][ $id ] = $name;
 			}
 			asort( self::$options[ __( 'Esports', 'sportspress' ) ] );
@@ -106,6 +106,13 @@ class SP_Admin_Sports {
 			$preset = self::get_preset( $id );
 		}
 
+		// Positions
+		$positions = sp_array_value( $preset, 'positions', array() );
+		foreach ( $positions as $index => $term ) {
+			$slug = $index . '-' . sanitize_title( $term );
+			wp_insert_term( $term, 'sp_position', array( 'description' => $term, 'slug' => $slug ) );
+		}
+
 		// Outcomes
 		$post_type = 'sp_outcome';
 		$outcomes = sp_array_value( $preset, 'outcomes', array() );
@@ -129,6 +136,9 @@ class SP_Admin_Sports {
 			if ( is_array( $result ) && array_key_exists( 'primary', $result ) ) $primary_result = $post['post_name'];
 		}
 
+		// Make sure statistics and metrics have greater menu order than performance
+		$i = 0;
+
 		// Performance
 		$post_type = 'sp_performance';
 		$performances = sp_array_value( $preset, 'performance', array() );
@@ -137,6 +147,7 @@ class SP_Admin_Sports {
 			$post = self::get_post_array( $performance, $post_type );
 			if ( empty( $post ) ) continue;
 			$id = self::insert_preset_post( $post, $index );
+			$i ++;
 		}
 
 		// Columns
@@ -160,7 +171,8 @@ class SP_Admin_Sports {
 		foreach ( $metrics as $index => $metric ) {
 			$post = self::get_post_array( $metric, $post_type );
 			if ( empty( $post ) ) continue;
-			$id = self::insert_preset_post( $post, $index );
+			$id = self::insert_preset_post( $post, $i + $index );
+			$i ++;
 		}
 
 		// Statistics
@@ -170,11 +182,11 @@ class SP_Admin_Sports {
 		foreach ( $statistics as $index => $statistic ) {
 			$post = self::get_post_array( $statistic, $post_type );
 			if ( empty( $post ) ) continue;
-			$id = self::insert_preset_post( $post, $index );
+			$id = self::insert_preset_post( $post, $i + $index );
 			update_post_meta( $id, 'sp_equation', sp_array_value( $statistic, 'equation', null ) );
 			update_post_meta( $id, 'sp_precision', sp_array_value( $statistic, 'precision', 0 ) );
 		}
-    	update_option( 'sportspress_primary_result', $primary_result );
+		update_option( 'sportspress_primary_result', $primary_result );
 	}
 
 	public static function delete_preset_posts( $post_type = null ) {
@@ -230,5 +242,32 @@ class SP_Admin_Sports {
 		update_post_meta( $id, '_sp_preset', 1 );
 
 		return $id;
+	}
+
+	/**
+	 * Sport preset names for localization
+	 * @return null
+	 */
+	public static function sport_preset_names() {
+		__( 'Baseball', 'sportspress' );
+		__( 'Basketball', 'sportspress' );
+		__( 'Cricket', 'sportspress' );
+		__( 'Darts', 'sportspress' );
+		__( 'American Football', 'sportspress' );
+		__( 'Australian Rules Football', 'sportspress' );
+		__( 'Handball', 'sportspress' );
+		__( 'Ice Hockey', 'sportspress' );
+		__( 'Netball', 'sportspress' );
+		__( 'Rugby League', 'sportspress' );
+		__( 'Rugby Union', 'sportspress' );
+		__( 'Snooker', 'sportspress' );
+		__( 'Soccer (Association Football)', 'sportspress' );
+		__( 'Squash', 'sportspress' );
+		__( 'Table Tennis', 'sportspress' );
+		__( 'Tennis', 'sportspress' );
+		__( 'Volleyball', 'sportspress' );
+		__( 'Water Polo', 'sportspress' );
+		__( 'Dota 2', 'sportspress' );
+		__( 'League of Legends', 'sportspress' );
 	}
 }

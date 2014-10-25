@@ -4,7 +4,7 @@
  *
  * @author 		ThemeBoy
  * @package 	SportsPress/Templates
- * @version     1.3
+ * @version     1.4
  */
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
@@ -44,10 +44,10 @@ $labels = $data[0];
 // Remove the first row to leave us with the actual data
 unset( $data[0] );
 
-if ( ! $columns )
+if ( $columns === null )
 	$columns = get_post_meta( $id, 'sp_columns', true );
 
-if ( ! is_array( $columns ) )
+if ( null !== $columns && ! is_array( $columns ) )
 	$columns = explode( ',', $columns );
 
 $output .= '<th class="data-rank">' . __( 'Pos', 'sportspress' ) . '</th>';
@@ -103,24 +103,23 @@ foreach ( $data as $team_id => $row ):
 	if ( ! $name ) continue;
 
 	// Generate tags for highlighted team
-	$before = $after = $class = '';
+	$tr_class = $td_class = '';
 	if ( $highlight == $team_id ):
-		$before = '<strong>';
-		$after = '</strong>';
-		$class = ' highlighted';
+		$tr_class = ' highlighted';
+		$td_class = ' sp-highlight';
 	endif;
 
-	$output .= '<tr class="' . ( $i % 2 == 0 ? 'odd' : 'even' ) . $class . '">';
+	$output .= '<tr class="' . ( $i % 2 == 0 ? 'odd' : 'even' ) . $tr_class . '">';
 
 	// Rank
-	$output .= '<td class="data-rank">' . $before . ( $start + 1 ) . $after . '</td>';
+	$output .= '<td class="data-rank' . $td_class . '">' . sp_array_value( $row, 'pos' ) . '</td>';
 
 	$name_class = '';
 
 	if ( $show_team_logo ):
 		if ( has_post_thumbnail( $team_id ) ):
 			$logo = get_the_post_thumbnail( $team_id, 'sportspress-fit-icon' );
-			$name = '<span class="team-logo">' . $logo . '</span>' . $before . $name . $after;
+			$name = '<span class="team-logo">' . $logo . '</span>' . $name;
 			$name_class .= ' has-logo';
 		endif;
 	endif;
@@ -130,13 +129,13 @@ foreach ( $data as $team_id => $row ):
 		$name = '<a href="' . $permalink . '">' . $name . '</a>';
 	endif;
 
-	$output .= '<td class="data-name' . $name_class . '">' . $name . '</td>';
+	$output .= '<td class="data-name' . $name_class . $td_class . '">' . $name . '</td>';
 
 	foreach( $labels as $key => $value ):
-		if ( $key == 'name' )
+		if ( in_array( $key, array( 'pos', 'name' ) ) )
 			continue;
 		if ( ! is_array( $columns ) || in_array( $key, $columns ) )
-			$output .= '<td class="data-' . $key . '">' . $before . sp_array_value( $row, $key, '&mdash;' ) . $after . '</td>';
+			$output .= '<td class="data-' . $key . $td_class . '">' . sp_array_value( $row, $key, '&mdash;' ) . '</td>';
 	endforeach;
 
 	$output .= '</tr>';

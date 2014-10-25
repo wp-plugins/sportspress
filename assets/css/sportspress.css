@@ -6,10 +6,19 @@
 	overflow: visible;
 }
 
-/* Title */
-.sp-event-teams {
-	margin-top: 0.5em;
-	margin-bottom: 0.5em;
+/* Thumbnails and Details */
+.sp-template-logo,
+.sp-template-photo {
+	float: left;
+	margin-bottom: 2em;
+	margin-right: 2em;
+	max-width: 50%;
+}
+.sp-template-event-logos {
+	text-align: center;
+}
+.sp-template-details {
+	display: inline-block;
 }
 
 /* Data Tables */
@@ -19,6 +28,8 @@
 .sp-data-table {
 	width: 100%;
 	position: relative;
+    border-spacing: 0;
+	border-collapse: separate;
 }
 .sp-scrollable-table-wrapper .sp-data-table {
 	margin-bottom: 0;
@@ -32,6 +43,9 @@
 .sp-data-table thead .sorting_asc_disabled,
 .sp-data-table thead .sorting_desc_disabled {
 	cursor: pointer;
+}
+.sp-data-table tbody a {
+	text-decoration: none;
 }
 .sp-data-table .sorting:after,
 .sp-data-table .sorting_asc:after,
@@ -154,6 +168,10 @@
 }
 
 /* Event Calendar */
+.sp-event-calendar {
+    border-spacing: 0;
+	border-collapse: separate;
+}
 .sp-event-calendar tbody td, .sp-event-calendar thead th {
 	text-align: center;
 }
@@ -165,11 +183,18 @@
 }
 
 /* Event List */
-.sp-event-list .column-article {
+.sp-event-list .data-date date,
+.sp-event-list .data-time date {
+	display: none;
+}
+.sp-event-list .data-article {
 	white-space: nowrap;
 }
-.sp-event-list .column-article a .dashicons {
+.sp-event-list .data-article a .dashicons {
 	padding-right: 3px;
+}
+.sp-event-list .data-time {
+	white-space: nowrap;
 }
 
 /* Event Blocks */
@@ -202,6 +227,12 @@
 .sp-event-blocks .logo-even {
 	float: right;
 }
+.sp-event-blocks .team-logo img {
+	max-width: 100%;
+	max-height: 100%;
+	width: auto;
+	height: auto;
+}
 .widget .sp-event-blocks .event-title {
 	margin: 10px;
 	padding: 0;
@@ -226,16 +257,20 @@
 
 /* Alternate */
 .sp-data-table tbody tr.odd,
-.sp-data-table tbody tr.alternate,
-.sp-calendar tbody td#today {
+.sp-data-table tbody tr.alternate {
 	background: rgba(0, 0, 0, 0.02);
+}
+
+/* Highlight */
+.sp-highlight {
+	background: #fff;
+	font-weight: bold;
 }
 
 @media only screen and (max-width: 40em) {
 	.sp-responsive-table {
 		margin-bottom: 0;
 	}
-
 	.sp-pinned-table {
 		position: absolute;
 		left: 0;
@@ -257,7 +292,6 @@
 	.sp-pinned-table td:last-child {
 		border-bottom: 0;
 	}
-	
 	.sp-responsive-table-wrapper {
 		position: relative;
 		overflow: hidden;
@@ -270,7 +304,6 @@
 		overflow: scroll;
 		overflow-y: hidden;
 	}	
-	
 	.sp-responsive-table-wrapper .scrollable td,
 	.sp-responsive-table-wrapper .scrollable th {
 		position: relative;

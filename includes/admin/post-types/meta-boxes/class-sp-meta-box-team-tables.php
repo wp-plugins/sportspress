@@ -5,7 +5,7 @@
  * @author 		ThemeBoy
  * @category 	Admin
  * @package 	SportsPress/Admin/Meta_Boxes
- * @version     1.3
+ * @version     1.4
  */
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
@@ -54,11 +54,11 @@ class SP_Meta_Box_Team_Tables {
 						<th class="column-table">
 							<?php _e( 'League Table', 'sportspress' ); ?>
 						</th>
-						<th class="column-players">
+						<th class="column-teams">
 							<?php _e( 'Teams', 'sportspress' ); ?>
 						</th>
 						<th class="column-league">
-							<?php _e( 'League', 'sportspress' ); ?>
+							<?php _e( 'Competition', 'sportspress' ); ?>
 						</th>
 						<th class="column-season">
 							<?php _e( 'Season', 'sportspress' ); ?>
@@ -71,7 +71,7 @@ class SP_Meta_Box_Team_Tables {
 						if ( sizeof( $data ) > 0 ):
 							$i = 0;
 							foreach ( $data as $table ):
-								$players = array_filter( get_post_meta( $table->ID, 'sp_player' ) );
+								$teams = array_filter( get_post_meta( $table->ID, 'sp_team' ) );
 								$format = get_post_meta( $table->ID, 'sp_format', true );
 								?>
 								<tr class="sp-row sp-post<?php if ( $i % 2 == 0 ) echo ' alternate'; ?>">
@@ -83,7 +83,7 @@ class SP_Meta_Box_Team_Tables {
 											<?php echo $table->post_title; ?>
 										</a>
 									</td>
-									<td><?php echo sizeof( $players ); ?></td>
+									<td><?php echo sizeof( $teams ); ?></td>
 									<td><?php echo get_the_terms ( $table->ID, 'sp_league' ) ? the_terms( $table->ID, 'sp_league' ) : '&mdash;'; ?></td>
 									<td><?php echo get_the_terms ( $table->ID, 'sp_season' ) ? the_terms( $table->ID, 'sp_season' ) : '&mdash;'; ?></td>
 								</tr>

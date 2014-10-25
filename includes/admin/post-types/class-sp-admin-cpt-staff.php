@@ -5,7 +5,7 @@
  * @author 		ThemeBoy
  * @category 	Admin
  * @package 	SportsPress/Admin/Post_Types
- * @version     0.9
+ * @version     1.4
  */
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
@@ -62,9 +62,9 @@ class SP_Admin_CPT_Staff extends SP_Admin_CPT {
 		$columns = array_merge( array(
 			'cb' => '<input type="checkbox" />',
 			'title' => null,
-			'sp_role' => __( 'Role', 'sportspress' ),
+			'sp_role' => __( 'Job', 'sportspress' ),
 			'sp_team' => __( 'Teams', 'sportspress' ),
-			'sp_league' => __( 'Leagues', 'sportspress' ),
+			'sp_league' => __( 'Competitions', 'sportspress' ),
 			'sp_season' => __( 'Seasons', 'sportspress' ),
 		), $existing_columns, array(
 			'title' => __( 'Name', 'sportspress' )

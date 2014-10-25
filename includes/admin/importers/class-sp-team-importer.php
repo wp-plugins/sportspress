@@ -5,7 +5,7 @@
  * @author 		ThemeBoy
  * @category 	Admin
  * @package 	SportsPress/Admin/Importers
- * @version     1.3
+ * @version     1.4
  */
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
@@ -24,7 +24,7 @@ if ( class_exists( 'WP_Importer' ) ) {
 			$this->import_label = __( 'Import Teams', 'sportspress' );
 			$this->columns = array(
 				'post_title' => __( 'Name', 'sportspress' ),
-				'sp_league' => __( 'Leagues', 'sportspress' ),
+				'sp_league' => __( 'Competitions', 'sportspress' ),
 				'sp_season' => __( 'Seasons', 'sportspress' ),
 				'sp_url' => __( 'Site URL', 'sportspress' ),
 				'sp_abbreviation' => __( 'Abbreviation', 'sportspress' ),
@@ -84,6 +84,14 @@ if ( class_exists( 'WP_Importer' ) ) {
 				// Update seasons
 				$seasons = explode( '|', sp_array_value( $meta, 'sp_season' ) );
 				wp_set_object_terms( $id, $seasons, 'sp_season', false );
+
+				// Update venues
+				$venues = explode( '|', sp_array_value( $meta, 'sp_venue' ) );
+				wp_set_object_terms( $id, $venues, 'sp_venue', false );
+
+				// Update meta
+				update_post_meta( $id, 'sp_url', sp_array_value( $meta, 'sp_url' ) );
+				update_post_meta( $id, 'sp_abbreviation', sp_array_value( $meta, 'sp_abbreviation' ) );
 
 				$this->imported++;
 
