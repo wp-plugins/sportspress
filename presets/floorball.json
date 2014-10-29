@@ -1,14 +1,14 @@
 {
-	"name":				"Ice Hockey",
+	"name":				"Floorball",
 	"positions": [
 						"Forward",
 						"Defenseman",
-						"Goalie"
+						"Goalkeeper"
 	],
 	"outcomes": [
 						"Win",
 						"Loss",
-						{ "name" : "Overtime loss", "abbreviation" : "OT" }
+						"Tie"
 	],
 	"results": [
 						{ "name" : "1st", "description" : "1st period goals" },
@@ -22,7 +22,6 @@
 	"performance": [
 						{ "name" : "G", "description" : "Goals" },
 						{ "name" : "A", "description" : "Assists" },
-						{ "name" : "H", "description" : "Hits" },
 						{ "name" : "SOG", "id" : "s", "description" : "Shots on goal" },
 						{ "name" : "PIM", "description" : "Penalty in minutes" },
 						{ "name" : "SA", "description" : "Shots against" },
@@ -33,8 +32,7 @@
 						{ "name" : "GP", "equation" : "$eventsplayed", "description" : "Games played" },
 						{ "name" : "W", "equation" : "$win", "description" : "Wins" },
 						{ "name" : "L", "equation" : "$loss", "description" : "Losses" },
-						{ "name" : "OT", "equation" : "$overtimeloss", "description" : "Overtime Losses" },
-						{ "name" : "PTS", "equation" : "$win * 2 + $overtimeloss", "priority" : 1, "description" : "Points" },
+						{ "name" : "PTS", "equation" : "$win * 2 + $tie", "priority" : 1, "description" : "Points" },
 						{ "name" : "GF", "equation" : "$goalsfor", "priority" : 3, "description" : "Goals for" },
 						{ "name" : "GA", "equation" : "$goalsagainst", "description" : "Goals against" },
 						{ "name" : "Diff", "equation" : "$goalsfor - $goalsagainst", "priority" : 2, "description" : "Goal differential" },
@@ -43,9 +41,7 @@
 						{ "name" : "PP%", "equation" : "$ppgfor / $ppofor * 100", "precision" : 1, "description" : "Power play percentage" },
 						{ "name" : "PPGA", "equation" : "$ppgagainst", "description" : "Power play goals against" },
 						{ "name" : "PPOA", "equation" : "$ppoagainst", "description" : "Power play opportunities against" },
-						{ "name" : "PK%", "equation" : "( $ppoagainst - $ppgagainst ) / $ppoagainst * 100", "precision" : 1, "description" : "Penalty kill percentage" },
-						{ "name" : "L10", "equation" : "$last10", "description" : "Last 10" },
-						{ "name" : "Strk", "equation" : "$streak", "description" : "Current streak" }
+						{ "name" : "PK%", "equation" : "( $ppoagainst - $ppgagainst ) / $ppoagainst * 100", "precision" : 1, "description" : "Penalty kill percentage" }
 	],
 	"metrics": [
 						"Height",
@@ -54,6 +50,7 @@
 	"statistics": [
 						{ "name" : "GP", "equation" : "$eventsplayed", "description" : "Games played" },
 						{ "name" : "P", "equation" : "$g + $assists", "description" : "Points" },
+						{ "name" : "GAA", "equation" : "$ga / $eventsplayed", "precision" : 2, "description" : "Goals against average" },
 						{ "name" : "S%", "equation" : "$g / $s * 100", "precision" : 2, "description" : "Shot percentage" },
 						{ "name" : "SV%", "equation" : "$sv / $sa * 100", "precision" : 2, "description" : "Save percentage" }
 	]

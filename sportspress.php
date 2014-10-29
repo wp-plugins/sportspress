@@ -3,7 +3,7 @@
  * Plugin Name: SportsPress
  * Plugin URI: http://themeboy.com/sportspress/
  * Description: Manage your club and its players, staff, events, league tables, and player lists.
- * Version: 1.4.3
+ * Version: 1.4.4
  * Author: ThemeBoy, brianmiyaji, aylaview
  * Author URI: http://themeboy.com
  * Requires at least: 3.8
@@ -26,14 +26,14 @@ if ( ! class_exists( 'SportsPress' ) ) :
  * Main SportsPress Class
  *
  * @class SportsPress
- * @version	1.4.3
+ * @version	1.4.4
  */
 final class SportsPress {
 
 	/**
 	 * @var string
 	 */
-	public $version = '1.4.3';
+	public $version = '1.4.4';
 
 	/**
 	 * @var SporsPress The single instance of the class
@@ -296,7 +296,9 @@ final class SportsPress {
 	 * Ensure theme and server variable compatibility and setup image sizes.
 	 */
 	public function setup_environment() {
-		add_theme_support( 'post-thumbnails', sp_post_types() );
+		if ( ! current_theme_supports( 'post-thumbnails' ) ) {
+			add_theme_support( 'post-thumbnails' );
+		}
 
 		// Add image sizes
 		add_image_size( 'sportspress-fit-medium',  300, 300, false );
