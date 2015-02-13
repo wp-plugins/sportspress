@@ -5,7 +5,7 @@
  * The SportsPress modules class stores available modules.
  *
  * @class 		SP_Modules
- * @version     1.6
+ * @version     1.6.1
  * @package		SportsPress/Classes
  * @category	Class
  * @author 		ThemeBoy
@@ -31,6 +31,10 @@ class SP_Modules {
 				'event_videos' => array(
 					'label' => __( 'Videos', 'sportspress' ),
 					'icon' => 'dashicons dashicons-video-alt',
+				),
+				'countdowns' => array(
+					'label' => __( 'Countdowns', 'sportspress' ),
+					'icon' => 'sp-icon-clock',
 				),
 				'tournaments' => array(
 					'label' => __( 'Tournaments', 'sportspress' ),
@@ -85,7 +89,7 @@ class SP_Modules {
 					'label' => __( 'Twitter', 'sportspress' ),
 					'class' => 'SportsPress_Twitter',
 					'action' => __( 'Tweet #SportsPress', 'sportspress' ),
-					'link' => 'http://ctt.ec/d0sCF',
+					'link' => 'http://tboy.co/tweet',
 					'tip' => __( 'Help spread the word by tweeting with #SportsPress and get the Twitter module for free.', 'sportspress' ),
 					'icon' => 'dashicons dashicons-twitter',
 				),
