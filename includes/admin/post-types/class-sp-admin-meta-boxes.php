@@ -7,7 +7,7 @@
  * @author 		ThemeBoy
  * @category 	Admin
  * @package 	SportsPress/Admin/Meta_Boxes
- * @version     1.6
+ * @version     1.6.1
  */
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
@@ -162,7 +162,7 @@ class SP_Admin_Meta_Boxes {
 					'priority' => 'default',
 				),
 				'editor' => array(
-					'title' => __( 'Article', 'sportspress' ),
+					'title' => __( 'Profile', 'sportspress' ),
 					'output' => 'SP_Meta_Box_Team_Editor::output',
 					'context' => 'normal',
 					'priority' => 'low',
