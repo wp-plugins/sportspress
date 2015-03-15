@@ -5,7 +5,7 @@
  * @author 		ThemeBoy
  * @category 	Admin
  * @package 	SportsPress/Admin/Importers
- * @version     1.6
+ * @version     1.7
  */
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
@@ -23,7 +23,7 @@ if ( class_exists( 'WP_Importer' ) ) {
 			$this->import_page = 'sp_player_csv';
 			$this->import_label = __( 'Import Players', 'sportspress' );
 			$this->columns = array(
-				'sp_number' => __( 'Number', 'sportspress' ),
+				'sp_number' => __( 'Squad Number', 'sportspress' ),
 				'post_title' => __( 'Name', 'sportspress' ),
 				'sp_position' => __( 'Positions', 'sportspress' ),
 				'sp_team' => __( 'Teams', 'sportspress' ),

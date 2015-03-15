@@ -117,7 +117,6 @@ final class SportsPress {
 
 		// Hooks
 		add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), array( $this, 'action_links' ) );
-		add_action( 'widgets_init', array( $this, 'include_widgets' ) );
 		add_action( 'init', array( $this, 'init' ), 0 );
 		add_action( 'init', array( 'SP_Shortcodes', 'init' ) );
 		add_action( 'after_setup_theme', array( $this, 'setup_environment' ) );
@@ -255,18 +254,12 @@ final class SportsPress {
 	 * Include core modules.
 	 */
 	private function include_modules() {
-		foreach ( glob( $this->plugin_path() . '/modules/*.php' ) as $filename ) {
+		$l1 = glob( $this->plugin_path() . '/modules/sportspress-?*.php', GLOB_NOSORT );
+		$l2 = glob( $this->plugin_path() . '/modules/sportspress-?*/sportspress-?*.php', GLOB_NOSORT );
+		$files = array_merge( $l1, $l2 );
+		foreach ( $files as $filename ) {
 			include $filename;
 		}
-	}
-
-	/**
-	 * Include core widgets.
-	 */
-	public function include_widgets() {
-		include_once( 'includes/widgets/class-sp-widget-staff.php' );
-
-		do_action( 'sportspress_widgets' );
 	}
 
 	/**
