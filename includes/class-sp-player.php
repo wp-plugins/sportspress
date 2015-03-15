@@ -5,12 +5,22 @@
  * The SportsPress player class handles individual player data.
  *
  * @class 		SP_Player
- * @version		1.6
+ * @version		1.7
  * @package		SportsPress/Classes
  * @category	Class
  * @author 		ThemeBoy
  */
 class SP_Player extends SP_Custom_Post {
+
+	/**
+	 * Returns positions
+	 *
+	 * @access public
+	 * @return array
+	 */
+	public function positions() {
+		return get_the_terms( $this->ID, 'sp_position' );
+	}
 
 	/**
 	 * Returns current teams
@@ -136,8 +146,9 @@ class SP_Player extends SP_Custom_Post {
 					),
 					array(
 						'key' => 'sp_format',
-						'value' => 'league'
-					)
+						'value' => apply_filters( 'sportspress_competitive_event_formats', array( 'league' ) ),
+						'compare' => 'IN',
+					),
 				),
 				'tax_query' => array(
 					'relation' => 'AND',
@@ -159,6 +170,8 @@ class SP_Player extends SP_Custom_Post {
 					'terms' => $div_id
 				);
 			endif;
+
+			$args = apply_filters( 'sportspress_player_data_event_args', $args );
 
 			$events = get_posts( $args );
 
