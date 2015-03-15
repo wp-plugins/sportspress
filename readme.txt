@@ -143,6 +143,9 @@ Your feedback is much appreciated and makes all the difference in improving Spor
 
 == Installation ==
 
+= Tutorial Video =
+[vimeo http://vimeo.com/121430679]
+
 = Minimum Requirements =
 * WordPress 3.8 or greater
 * PHP version 5.2.4 or greater
