@@ -5,7 +5,7 @@
  * @author 		ThemeBoy
  * @category 	Admin
  * @package 	SportsPress/Admin/Post_Types
- * @version     1.6
+ * @version     1.7
  */
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
@@ -156,6 +156,7 @@ class SP_Admin_CPT_Event extends SP_Admin_CPT {
 
 								if ( is_array( $team_results ) ):
 									unset( $team_results['outcome'] );
+									$team_results = array_filter( $team_results, 'sp_filter_non_empty' );
 									$team_results = implode( ' | ', $team_results );
 								endif;
 

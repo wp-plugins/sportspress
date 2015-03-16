@@ -5,7 +5,7 @@
  * The SportsPress team class handles individual team data.
  *
  * @class 		SP_Team
- * @version		1.3
+ * @version		1.7
  * @package		SportsPress/Classes
  * @category	Class
  * @author 		ThemeBoy
@@ -116,8 +116,9 @@ class SP_Team extends SP_Custom_Post {
 					),
 					array(
 						'key' => 'sp_format',
-						'value' => 'league'
-					)
+						'value' => apply_filters( 'sportspress_competitive_event_formats', array( 'league' ) ),
+						'compare' => 'IN',
+					),
 				),
 				'tax_query' => array(
 					'relation' => 'AND',
@@ -139,6 +140,8 @@ class SP_Team extends SP_Custom_Post {
 					'terms' => $div_id
 				);
 			endif;
+
+			$args = apply_filters( 'sportspress_team_data_event_args', $args );
 
 			$events = get_posts( $args );
 
