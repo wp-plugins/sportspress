@@ -3,7 +3,7 @@
  * Plugin Name: SportsPress
  * Plugin URI: http://themeboy.com/sportspress/
  * Description: Manage your club and its players, staff, events, league tables, and player lists.
- * Version: 1.6.1
+ * Version: 1.7.1
  * Author: ThemeBoy
  * Author URI: http://themeboy.com
  * Requires at least: 3.8
@@ -26,14 +26,14 @@ if ( ! class_exists( 'SportsPress' ) ) :
  * Main SportsPress Class
  *
  * @class SportsPress
- * @version	1.6.1
+ * @version	1.7.1
  */
 final class SportsPress {
 
 	/**
 	 * @var string
 	 */
-	public $version = '1.6.1';
+	public $version = '1.7.1';
 
 	/**
 	 * @var SporsPress The single instance of the class
@@ -117,7 +117,6 @@ final class SportsPress {
 
 		// Hooks
 		add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), array( $this, 'action_links' ) );
-		add_action( 'widgets_init', array( $this, 'include_widgets' ) );
 		add_action( 'init', array( $this, 'init' ), 0 );
 		add_action( 'init', array( 'SP_Shortcodes', 'init' ) );
 		add_action( 'after_setup_theme', array( $this, 'setup_environment' ) );
@@ -255,18 +254,17 @@ final class SportsPress {
 	 * Include core modules.
 	 */
 	private function include_modules() {
-		foreach ( glob( $this->plugin_path() . '/modules/*.php' ) as $filename ) {
-			include $filename;
+		$dir = scandir( $this->plugin_path() . '/modules' );
+		if ( $dir ) {
+			$path = $this->plugin_path() . '/modules/';
+			foreach ( $dir as $module ) {
+				if ( $path && substr( $module, 0, 1 ) !== '.' ) {
+					if ( is_readable( $path . $module ) ) {
+						include_once( $path . $module );
+					}
+				}
+			}
 		}
-	}
-
-	/**
-	 * Include core widgets.
-	 */
-	public function include_widgets() {
-		include_once( 'includes/widgets/class-sp-widget-staff.php' );
-
-		do_action( 'sportspress_widgets' );
 	}
 
 	/**

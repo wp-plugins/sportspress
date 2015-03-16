@@ -3,7 +3,7 @@
  * Handle frontend forms
  *
  * @class 		SP_Frontend_Scripts
- * @version		1.6
+ * @version		1.7
  * @package		SportsPress/Classes
  * @category	Class
  * @author 		ThemeBoy
@@ -148,7 +148,8 @@ class SP_Frontend_Scripts {
 			$offset = ( 'twentyfourteen' == $template ? 48 : 0 );
 		}
 
-		$colors = (array) get_option( 'sportspress_frontend_css_colors', array() );
+		$colors = array_map( 'esc_attr', (array) get_option( 'themeboy', array() ) );
+		if ( empty( $colors ) ) $colors = array_map( 'esc_attr', (array) get_option( 'sportspress_frontend_css_colors', array() ) );
 
 		// Defaults
 		if ( empty( $colors['primary'] ) ) $colors['primary'] = '#2b353e';

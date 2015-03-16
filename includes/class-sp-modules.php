@@ -5,7 +5,7 @@
  * The SportsPress modules class stores available modules.
  *
  * @class 		SP_Modules
- * @version     1.6.1
+ * @version     1.7
  * @package		SportsPress/Classes
  * @category	Class
  * @author 		ThemeBoy
@@ -23,6 +23,32 @@ class SP_Modules {
 	 */
 	public function __construct() {
 		$this->data = apply_filters( 'sportspress_modules', array(
+			'general' => array(
+				'tutorials' => array(
+					'label' => __( 'Tutorials', 'sportspress' ),
+					'icon' => 'dashicons dashicons-video-alt3',
+				),
+				'overview' => array(
+					'label' => __( 'Overview', 'sportspress' ),
+					'icon' => 'dashicons dashicons-networking',
+				),
+				'widgets' => array(
+					'label' => __( 'Widgets', 'sportspress' ),
+					'icon' => 'dashicons dashicons-admin-generic',
+				),
+				'importers' => array(
+					'label' => __( 'Importers', 'sportspress' ),
+					'icon' => 'sp-icon-import',
+				),
+				'twitter' => array(
+					'label' => __( 'Twitter', 'sportspress' ),
+					'class' => 'SportsPress_Twitter',
+					'action' => __( 'Tweet #SportsPress', 'sportspress' ),
+					'link' => 'http://tboy.co/tweet',
+					'tip' => __( 'Help spread the word by tweeting with #SportsPress and get the Twitter module for free.', 'sportspress' ),
+					'icon' => 'dashicons dashicons-twitter',
+				),
+			),
 			'event' => array(
 				'calendars' => array(
 					'label' => __( 'Calendars', 'sportspress' ),
@@ -39,7 +65,6 @@ class SP_Modules {
 				'tournaments' => array(
 					'label' => __( 'Tournaments', 'sportspress' ),
 					'class' => 'SportsPress_Tournaments',
-					'tip' => __( 'Upgrade to Pro', 'sportspress' ),
 					'icon' => 'sp-icon-tournament',
 					'link' => 'http://tboy.co/tournaments',
 				),
@@ -52,7 +77,6 @@ class SP_Modules {
 				'team_colors' => array(
 					'label' => __( 'Team Colors', 'sportspress' ),
 					'class' => 'SportsPress_Team_Colors',
-					'tip' => __( 'Upgrade to Pro', 'sportspress' ),
 					'icon' => 'sp-icon-color',
 					'link' => 'http://tboy.co/colors',
 				),
@@ -79,45 +103,32 @@ class SP_Modules {
 				'staff_directories' => array(
 					'label' => __( 'Directories', 'sportspress' ),
 					'class' => 'SportsPress_Staff_Directories',
-					'tip' => __( 'Upgrade to Pro', 'sportspress' ),
 					'icon' => 'sp-icon-archive',
 					'link' => 'http://tboy.co/directories',
 				),
 			),
 			'other' => array(
-				'twitter' => array(
-					'label' => __( 'Twitter', 'sportspress' ),
-					'class' => 'SportsPress_Twitter',
-					'action' => __( 'Tweet #SportsPress', 'sportspress' ),
-					'link' => 'http://tboy.co/tweet',
-					'tip' => __( 'Help spread the word by tweeting with #SportsPress and get the Twitter module for free.', 'sportspress' ),
-					'icon' => 'dashicons dashicons-twitter',
-				),
 				'branding' => array(
 					'label' => __( 'Branding', 'sportspress' ),
 					'class' => 'SportsPress_Branding',
-					'tip' => __( 'Upgrade to Pro', 'sportspress' ),
 					'icon' => 'sp-icon-sportspress',
 					'link' => 'http://tboy.co/branding',
 				),
 				'league_menu' => array(
 					'label' => __( 'League Menu', 'sportspress' ),
 					'class' => 'SportsPress_League_Menu',
-					'tip' => __( 'Upgrade to Pro', 'sportspress' ),
 					'icon' => 'sp-icon-menu',
 					'link' => 'http://tboy.co/menu',
 				),
 				'sponsors' => array(
 					'label' => __( 'Sponsors', 'sportspress' ),
 					'class' => 'SportsPress_Sponsors',
-					'tip' => __( 'Upgrade to Pro', 'sportspress' ),
 					'icon' => 'sp-icon-megaphone',
 					'link' => 'http://tboy.co/sponsors',
 				),
 				'multisite' => array(
 					'label' => __( 'Multisite', 'sportspress' ),
 					'class' => 'SportsPress_Multisite',
-					'tip' => __( 'Upgrade to Pro', 'sportspress' ),
 					'icon' => 'sp-icon-globe',
 					'link' => 'http://tboy.co/multisite',
 				),

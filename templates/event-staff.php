@@ -4,7 +4,7 @@
  *
  * @author 		ThemeBoy
  * @package 	SportsPress/Templates
- * @version     1.1
+ * @version     1.7
  */
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
@@ -21,36 +21,38 @@ if ( ! $staffs ) return;
 
 extract( $defaults, EXTR_SKIP );
 ?>
-<p class="sp-event-staff">
-<?php
-foreach( $staffs as $staff_id ):
+<div class="sp-template sp-template-event-staff">
+	<p class="sp-event-staff">
+	<?php
+	foreach( $staffs as $staff_id ):
 
-	if ( ! $staff_id )
-		continue;
+		if ( ! $staff_id )
+			continue;
 
-	$name = get_the_title( $staff_id );
+		$name = get_the_title( $staff_id );
 
-	if ( ! $name )
-		continue;
+		if ( ! $name )
+			continue;
 
-	$staff = new SP_Staff( $staff_id );
+		$staff = new SP_Staff( $staff_id );
 
-	$role = $staff->role();
+		$role = $staff->role();
 
-	if ( $role )
-		echo $role->name;
-	else
-		_e( 'Staff', 'sportspress' );
+		if ( $role )
+			echo $role->name;
+		else
+			_e( 'Staff', 'sportspress' );
 
-	echo ': ';
+		echo ': ';
 
-	if ( $link_posts ):
-		$permalink = get_post_permalink( $staff_id );
-		$name =  '<a href="' . $permalink . '">' . $name . '</a>';
-	endif;
+		if ( $link_posts ):
+			$permalink = get_post_permalink( $staff_id );
+			$name =  '<a href="' . $permalink . '">' . $name . '</a>';
+		endif;
 
-	echo $name . '<br>';
+		echo $name . '<br>';
 
-endforeach;
-?>
-</p>
+	endforeach;
+	?>
+	</p>
+</div>
