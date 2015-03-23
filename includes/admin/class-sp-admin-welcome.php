@@ -9,7 +9,7 @@
  * @author 		ThemeBoy
  * @category 	Admin
  * @package 	SportsPress/Admin
- * @version     1.7.1
+ * @version     1.7.3
 */
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
@@ -387,6 +387,7 @@ class SP_Admin_Welcome {
 				'GhiMax',
 				'GuneshGamza95',
 				'hanro',
+				'Hermanni',
 				'HuguesD',
 				'hushiea',
 				'i__k',
@@ -419,6 +420,7 @@ class SP_Admin_Welcome {
 				'ThemeBoy',
 				'tyby94',
 				'valentijnreza',
+				'ValliFudd',
 				'violaud',
 				'vlinicx',
 				'xFrAx',
