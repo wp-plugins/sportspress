@@ -5,7 +5,7 @@
  * The SportsPress modules class stores available modules.
  *
  * @class 		SP_Modules
- * @version     1.7.3
+ * @version     1.7.4
  * @package		SportsPress/Classes
  * @category	Class
  * @author 		ThemeBoy
@@ -27,14 +27,6 @@ class SP_Modules {
 				'calendars' => array(
 					'label' => __( 'Calendars', 'sportspress' ),
 					'icon' => 'sp-icon-calendar',
-				),
-				'event_videos' => array(
-					'label' => __( 'Videos', 'sportspress' ),
-					'icon' => 'dashicons dashicons-video-alt',
-				),
-				'countdowns' => array(
-					'label' => __( 'Countdowns', 'sportspress' ),
-					'icon' => 'sp-icon-clock',
 				),
 				'tournaments' => array(
 					'label' => __( 'Tournaments', 'sportspress' ),
@@ -111,12 +103,6 @@ class SP_Modules {
 					'class' => 'SportsPress_Sponsors',
 					'icon' => 'sp-icon-megaphone',
 					'link' => 'http://tboy.co/sponsors',
-				),
-				'multisite' => array(
-					'label' => __( 'Multisite', 'sportspress' ),
-					'class' => 'SportsPress_Multisite',
-					'icon' => 'sp-icon-globe',
-					'link' => 'http://tboy.co/multisite',
 				),
 			),
 		));
