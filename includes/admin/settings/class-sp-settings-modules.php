@@ -5,7 +5,7 @@
  * @author 		ThemeBoy
  * @category 	Admin
  * @package 	SportsPress/Admin
- * @version     1.7.4
+ * @version     1.7.6
  */
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
@@ -55,7 +55,7 @@ class SP_Settings_Modules extends SP_Settings_Page {
 
 		<div class="sp-modules-wrapper">
 			<div class="sp-modules-sidebar">
-				<?php if ( current_user_can( 'manage_network_plugins' ) ) { ?>
+				<?php if ( current_user_can( 'install_plugins' ) ) { ?>
 					<?php if ( ! class_exists( 'SportsPress_Pro' ) ) { ?>
 					<table class="widefat" cellspacing="0">
 						<thead>
