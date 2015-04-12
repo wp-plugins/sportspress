@@ -5,7 +5,7 @@
  * @author 		ThemeBoy
  * @category 	Admin
  * @package 	SportsPress/Admin
- * @version     1.7.2
+ * @version     1.7.7
  */
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
@@ -107,6 +107,23 @@ class SP_Settings_Events extends SP_Settings_Page {
 				),
 				
 				array( 'type' => 'delimiter' ),
+
+				array(
+					'title'     => __( 'Teams', 'sportspress' ),
+					'desc' 		=> __( 'Filter by competition', 'sportspress' ),
+					'id' 		=> 'sportspress_event_filter_teams_by_league',
+					'default'	=> 'no',
+					'type' 		=> 'checkbox',
+					'checkboxgroup'	=> 'start',
+				),
+
+				array(
+					'desc' 		=> __( 'Filter by season', 'sportspress' ),
+					'id' 		=> 'sportspress_event_filter_teams_by_season',
+					'default'	=> 'no',
+					'type' 		=> 'checkbox',
+					'checkboxgroup'	=> 'end',
+				),
 
 				array(
 					'title'     => __( 'Venues', 'sportspress' ),
