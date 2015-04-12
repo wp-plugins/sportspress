@@ -4,7 +4,7 @@ Tags: sport, sports, club, clubs, teams, statistics, stats, metrics, data, fixtu
 Donate link: http://tboy.co/donate
 Requires at least: 3.8
 Tested up to: 4.1
-Stable tag: 1.7.6
+Stable tag: 1.7.7
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -148,7 +148,7 @@ Your feedback is much appreciated and makes all the difference in improving Spor
 * PHP version 5.2.4 or greater
 * MySQL version 5.0 or greater
 
-[vimeo http://vimeo.com/121430679]
+[youtube http://www.youtube.com/watch?v=nE8-RlbotmU]
 
 = Automatic Installation =
 
@@ -223,6 +223,9 @@ There are [3 different licenses](http://tboy.co/pricing) that you can choose fro
 When you upgrade to one of the SportsPress Pro licenses, you can simply activate the Pro version without losing any of your data. Please note that we recommend that you do a complete backup whenever you make big changes to your website.
 
 == Changelog ==
+
+= 1.7.7 =
+* Tweak - Add option to filter teams in event by competition and season with no filter as default setting.
 
 = 1.7.6 =
 * Fix - Modules sidebar not displaying in admin.
