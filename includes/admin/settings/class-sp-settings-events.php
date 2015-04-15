@@ -5,7 +5,7 @@
  * @author 		ThemeBoy
  * @category 	Admin
  * @package 	SportsPress/Admin
- * @version     1.7.7
+ * @version     1.8
  */
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
@@ -26,6 +26,7 @@ class SP_Settings_Events extends SP_Settings_Page {
 
 		add_filter( 'sportspress_settings_tabs_array', array( $this, 'add_settings_page' ), 20 );
 		add_action( 'sportspress_settings_' . $this->id, array( $this, 'output' ) );
+		add_action( 'sportspress_admin_field_current_mode', array( $this, 'current_mode_setting' ) );
 		add_action( 'sportspress_admin_field_delimiter', array( $this, 'delimiter_setting' ) );
 		add_action( 'sportspress_settings_save_' . $this->id, array( $this, 'save' ) );
 	}
@@ -86,12 +87,26 @@ class SP_Settings_Events extends SP_Settings_Page {
 				),
 
 				array(
-					'desc' 		=> __( 'Player Performance', 'sportspress' ),
+					'desc' 		=> __( 'Box Score', 'sportspress' ),
 					'id' 		=> 'sportspress_event_show_performance',
 					'default'	=> 'yes',
 					'type' 		=> 'checkbox',
 					'checkboxgroup'		=> 'end',
 				),
+				
+				array(
+					'title'     => __( 'Mode', 'sportspress' ),
+					'id'        => 'sportspress_load_individual_mode_module',
+					'default'   => 'no',
+					'type'      => 'radio',
+					'options'   => array(
+						'no' => __( 'Team vs team', 'sportspress' ),
+						'yes' => __( 'Player vs player', 'sportspress' ),
+					),
+					'desc_tip' 		=> _x( 'Who competes in events?', 'mode setting description', 'sportspress' ),
+				),
+
+				array( 'type' => 'current_mode' ),
 				
 				array(
 					'title' 	=> __( 'Limit', 'sportspress' ),
@@ -196,6 +211,14 @@ class SP_Settings_Events extends SP_Settings_Page {
 						'manual'	=> __( 'Manual', 'sportspress' ),
 					),
 				),
+
+				array(
+					'title'     => __( 'Teams', 'sportspress' ),
+					'desc' 		=> __( 'Reverse order', 'sportspress' ),
+					'id' 		=> 'sportspress_event_results_reverse_teams',
+					'default'	=> 'no',
+					'type' 		=> 'checkbox',
+				),
 				
 				array(
 					'title'     => __( 'Outcome', 'sportspress' ),
@@ -211,7 +234,7 @@ class SP_Settings_Events extends SP_Settings_Page {
 			),
 
 			array(
-				array( 'title' => __( 'Player Performance', 'sportspress' ), 'type' => 'title', 'desc' => '', 'id' => 'performance_options' ),
+				array( 'title' => __( 'Box Score', 'sportspress' ), 'type' => 'title', 'desc' => '', 'id' => 'performance_options' ),
 			),
 
 			apply_filters( 'sportspress_performance_options', array(
@@ -258,14 +281,6 @@ class SP_Settings_Events extends SP_Settings_Page {
 						'manual'	=> __( 'Manual', 'sportspress' ),
 					),
 				),
-				
-				array(
-					'title'     => __( 'Position', 'sportspress' ),
-					'desc' 		=> __( 'Display position', 'sportspress' ),
-					'id' 		=> 'sportspress_event_show_position',
-					'default'	=> 'yes',
-					'type' 		=> 'checkbox',
-				),
 
 				array(
 					'title' 	=> __( 'Mode', 'sportspress' ),
@@ -279,12 +294,36 @@ class SP_Settings_Events extends SP_Settings_Page {
 				),
 
 				array(
+					'title'     => __( 'Teams', 'sportspress' ),
+					'desc' 		=> __( 'Reverse order', 'sportspress' ),
+					'id' 		=> 'sportspress_event_performance_reverse_teams',
+					'default'	=> 'no',
+					'type' 		=> 'checkbox',
+				),
+
+				array(
+					'title'     => __( 'Positions', 'sportspress' ),
+					'desc' 		=> __( 'Top-level only', 'sportspress' ),
+					'id' 		=> 'sportspress_event_hide_child_positions',
+					'default'	=> 'no',
+					'type' 		=> 'checkbox',
+				),
+
+				array(
 					'title'     => __( 'Players', 'sportspress' ),
 					'desc' 		=> __( 'Display squad numbers', 'sportspress' ),
 					'id' 		=> 'sportspress_event_show_player_numbers',
 					'default'	=> 'yes',
 					'type' 		=> 'checkbox',
 					'checkboxgroup' 	=> 'start',
+				),
+				
+				array(
+					'desc' 		=> __( 'Display positions', 'sportspress' ),
+					'id' 		=> 'sportspress_event_show_position',
+					'default'	=> 'yes',
+					'type' 		=> 'checkbox',
+					'checkboxgroup'		=> '',
 				),
 
 				array(
@@ -364,6 +403,21 @@ class SP_Settings_Events extends SP_Settings_Page {
 			</td>
 		</tr>
 		<?php
+	}
+
+	/**
+	 * Output script to refresh page when mode is changed.
+	 */
+	function current_mode_setting() {
+		?>
+		<input type="hidden" name="sportspress_individual_mode_module_loaded" value="<?php echo get_option( 'sportspress_load_individual_mode_module', 'no' ); ?>">
+		<?php if ( sp_array_value( $_POST, 'sportspress_load_individual_mode_module', 'no' ) !== sp_array_value( $_POST, 'sportspress_individual_mode_module_loaded', 'no' ) ) { ?>
+			<script type="text/javascript">
+			window.onload = function() {
+				window.location = window.location.href;
+			}
+			</script>
+		<?php }
 	}
 }
 

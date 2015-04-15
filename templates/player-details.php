@@ -4,7 +4,7 @@
  *
  * @author 		ThemeBoy
  * @package 	SportsPress/Templates
- * @version     1.7
+ * @version     1.8
  */
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
@@ -59,8 +59,7 @@ if ( $current_teams ):
 		if ( $link_teams ) $team_name = '<a href="' . get_post_permalink( $team ) . '">' . $team_name . '</a>';
 		$teams[] = $team_name;
 	endforeach;
-	$label = _n( 'Current Team', 'Current Teams', count( $teams ), 'sportspress' );
-	$data[ $label ] = implode( ', ', $teams );
+	$data[ __( 'Current Team', 'sportspress' ) ] = implode( ', ', $teams );
 endif;
 
 if ( $past_teams ):

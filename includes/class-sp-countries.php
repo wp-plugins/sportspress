@@ -5,7 +5,7 @@
  * The SportsPress countries class stores continent/country data.
  *
  * @class 		SP_Countries
- * @version		1.6
+ * @version		1.8
  * @package		SportsPress/Classes
  * @category	Class
  * @author 		ThemeBoy
@@ -160,6 +160,7 @@ class SP_Countries {
 				'irl',
 				'isl',
 				'ita',
+				'kos',
 				'lie',
 				'ltu',
 				'lux',
@@ -366,6 +367,7 @@ class SP_Countries {
 			'jpn' => __( "Japan", 'sportspress' ),
 			'kaz' => __( "Kazakhstan", 'sportspress' ),
 			'ken' => __( "Kenya", 'sportspress' ),
+			'kos' => __( "Kosovo", 'sportspress' ),
 			'kgz' => __( "Kyrgyzstan", 'sportspress' ),
 			'kir' => __( "Kiribati", 'sportspress' ),
 			'kor' => __( "South Korea", 'sportspress' ),

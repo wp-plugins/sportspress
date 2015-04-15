@@ -5,7 +5,7 @@
  * @author 		ThemeBoy
  * @category 	Admin
  * @package 	SportsPress/Admin
- * @version     1.7.7
+ * @version     1.8
  */
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
@@ -33,8 +33,7 @@ class SP_Settings_Modules extends SP_Settings_Page {
 			'general' => __( 'General', 'sportspress' ),
 			'event' => __( 'Events', 'sportspress' ),
 			'team' => __( 'Teams', 'sportspress' ),
-			'player' => __( 'Players', 'sportspress' ),
-			'staff' => __( 'Staff', 'sportspress' ),
+			'player_staff' => __( 'Players', 'sportspress' ) . ' &amp; ' . __( 'Staff', 'sportspress' ),
 			'other' => __( 'Other', 'sportspress' ),
 		));
 
@@ -73,7 +72,7 @@ class SP_Settings_Modules extends SP_Settings_Page {
 					</tbody>
 				</table>
 				<?php } ?>
-			
+
 				<?php if ( current_user_can( 'install_plugins' ) && ! class_exists( 'SportsPress_TV' ) ) { ?>
 				<table class="widefat" cellspacing="0">
 					<thead>
@@ -246,8 +245,16 @@ class SP_Settings_Modules extends SP_Settings_Page {
 									<i class="<?php echo sp_array_value( $module, 'icon', 'dashicons dashicons-admin-generic' ); ?>"></i>
 									<?php echo sp_array_value( $module, 'label', $id ); ?>
 								</span>
-								<?php if ( array_key_exists( 'link', $module ) ) { ?>
-								<a class="button<?php if ( ! array_key_exists( 'action', $module ) ) { ?> button-primary<?php } ?>" href="<?php echo $module['link']; ?>" target="_blank"><?php echo sp_array_value( $module, 'action', __( 'Learn More', 'sportspress' ) ); ?></a>
+								<?php if ( isset( $module['desc'] ) && ! array_key_exists( 'action', $module ) ) { ?>
+									<span class="sp-desc">
+										<?php echo $module['desc']; ?>
+										<?php if ( array_key_exists( 'link', $module ) && ! array_key_exists( 'action', $module ) ) { ?>
+											<a href="<?php echo $module['link']; ?>" target="_blank"><?php echo sp_array_value( $module, 'action', __( 'Learn more', 'sportspress' ) ); ?></a>
+										<?php } ?>
+									</span>
+								<?php } ?>
+								<?php if ( array_key_exists( 'link', $module ) && array_key_exists( 'action', $module ) ) { ?>
+									<a class="button" href="<?php echo $module['link']; ?>" target="_blank"><?php echo sp_array_value( $module, 'action', __( 'Learn more', 'sportspress' ) ); ?></a>
 								<?php } ?>
 							</td></tr>
 							<?php } else { ?>
@@ -257,6 +264,9 @@ class SP_Settings_Modules extends SP_Settings_Page {
 									<i class="<?php echo sp_array_value( $module, 'icon', 'dashicons dashicons-admin-generic' ); ?>"></i>
 									<?php echo sp_array_value( $module, 'label', $id ); ?>
 								</label>
+								<?php if ( isset( $module['desc'] ) ) { ?>
+									<span class="sp-desc"><?php echo $module['desc']; ?></span>
+								<?php } ?>
 							</td></tr>
 							<?php } ?>
 						<?php } ?>
