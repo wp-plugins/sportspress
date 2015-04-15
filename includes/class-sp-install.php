@@ -5,7 +5,7 @@
  * @author 		ThemeBoy
  * @category 	Admin
  * @package 	SportsPress/Classes
- * @version     1.5
+ * @version     1.8
  */
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
@@ -289,6 +289,7 @@ class SP_Install {
 		            'read_sp_player'				=> true,
 		            'delete_sp_player'				=> true,
 		            'edit_sp_players' 				=> true,
+		            'edit_others_sp_players'		=> true,
 		            'publish_sp_players' 			=> true,
 		            'delete_sp_players' 			=> true,
 		            'delete_published_sp_players' 	=> true,
@@ -299,6 +300,7 @@ class SP_Install {
 		            'read_sp_staff'					=> true,
 		            'delete_sp_staff'				=> true,
 		            'edit_sp_staffs' 				=> true,
+		            'edit_others_sp_staffs'			=> true,
 		            'publish_sp_staffs' 			=> true,
 		            'delete_sp_staffs' 				=> true,
 		            'delete_published_sp_staffs' 	=> true,
@@ -309,6 +311,7 @@ class SP_Install {
 		            'read_sp_event'					=> true,
 		            'delete_sp_event'				=> true,
 		            'edit_sp_events' 				=> true,
+		            'edit_others_sp_events' 		=> true,
 		            'publish_sp_events' 			=> true,
 		            'delete_sp_events' 				=> true,
 		            'delete_published_sp_events' 	=> true,

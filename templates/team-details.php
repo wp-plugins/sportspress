@@ -4,7 +4,7 @@
  *
  * @author 		ThemeBoy
  * @package 	SportsPress/Templates
- * @version     1.4
+ * @version     1.8
  */
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
@@ -21,7 +21,7 @@ if ( $terms ):
 	foreach ( $terms as $term ):
 		$leagues[] = $term->name;
 	endforeach;
-	$data[ _n( 'Competition', 'Competitions', sizeof( $leagues ), 'sportspress' ) ] = implode( ', ', $leagues );
+	$data[ __( 'Competitions', 'sportspress' ) ] = implode( ', ', $leagues );
 endif;
 
 $terms = get_the_terms( $id, 'sp_season' );
@@ -30,7 +30,7 @@ if ( $terms ):
 	foreach ( $terms as $term ):
 		$seasons[] = $term->name;
 	endforeach;
-	$data[ _n( 'Season', 'Seasons', sizeof( $seasons ), 'sportspress' ) ] = implode( ', ', $seasons );
+	$data[ __( 'Seasons', 'sportspress' ) ] = implode( ', ', $seasons );
 endif;
 
 $terms = get_the_terms( $id, 'sp_venue' );

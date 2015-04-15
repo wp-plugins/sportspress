@@ -5,7 +5,7 @@
  * @author 		ThemeBoy
  * @category 	Admin
  * @package 	SportsPress/Admin/Post_Types
- * @version     0.9
+ * @version     1.8
  */
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
@@ -43,7 +43,7 @@ class SP_Admin_CPT_Statistic extends SP_Admin_CPT {
 			'title' => __( 'Label', 'sportspress' ),
 			'sp_key' => __( 'Key', 'sportspress' ),
 			'sp_equation' => __( 'Equation', 'sportspress' ),
-			'sp_precision' => __( 'Rounding', 'sportspress' ),
+			'sp_precision' => __( 'Decimal Places', 'sportspress' ),
 			'sp_description' => __( 'Description', 'sportspress' ),
 		);
 		return apply_filters( 'sportspress_statistic_admin_columns', $columns );
