@@ -7,7 +7,7 @@
  * @author 		ThemeBoy
  * @category 	Core
  * @package 	SportsPress/Functions
- * @version     1.7
+ * @version     1.8.7
  */
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
@@ -255,4 +255,20 @@ function sp_staff_photo( $post = 0 ) {
 function sp_venue_map( $term = 0 ) {
     $meta = get_option( "taxonomy_$term" );
 	sp_get_template( 'venue-map.php', array( 'meta' => $meta ) );
+}
+
+/*
+ *
+ */
+
+function sp_get_position_caption( $term = 0 ) {
+    $meta = get_option( "taxonomy_$term" );
+	$caption = sp_array_value( $meta, 'sp_caption', '' );
+	if ( $caption ) {
+		return $caption;
+	} else {
+		$term = get_term( $term, 'sp_position' );
+		return $term->name;
+	}
+
 }

@@ -4,13 +4,14 @@
  *
  * @author 		ThemeBoy
  * @package 	SportsPress/Templates
- * @version     1.8.2
+ * @version     1.8.7
  */
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
 $defaults = array(
 	'id' => null,
+	'title' => false,
 	'status' => 'default',
 	'date' => 'default',
 	'date_from' => 'default',
@@ -55,11 +56,13 @@ if ( isset( $columns ) ):
 		$usecolumns = explode( ',', $columns );
 endif;
 
-if ( $show_title && $id ) {
-	echo '<h4 class="sp-table-caption">' . get_the_title( $id ) . '</h4>';
-}
+if ( $show_title && false === $title && $id )
+	$title = get_the_title( $id );
 ?>
 <div class="sp-template sp-template-event-list">
+	<?php if ( $title ) { ?>
+		<h4 class="sp-table-caption"><?php echo $title; ?></h4>
+	<?php } ?>
 	<div class="sp-table-wrapper">
 		<table class="sp-event-list sp-data-table<?php if ( $paginated ) { ?> sp-paginated-table<?php } if ( $sortable ) { ?> sp-sortable-table<?php } if ( $scrollable ) { ?> sp-scrollable-table<?php } ?>" data-sp-rows="<?php echo $rows; ?>">
 			<thead>
@@ -359,6 +362,6 @@ if ( $show_title && $id ) {
 	</div>
 	<?php
 	if ( $id && $show_all_events_link )
-		echo '<a class="sp-calendar-link sp-view-all-link" href="' . get_permalink( $id ) . '">' . __( 'View all events', 'sportspress' ) . '</a>';
+		echo '<div class="sp-calendar-link sp-view-all-link"><a href="' . get_permalink( $id ) . '">' . __( 'View all events', 'sportspress' ) . '</a></div>';
 	?>
 </div>
