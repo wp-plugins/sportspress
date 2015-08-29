@@ -4,7 +4,7 @@
  *
  * @author 		ThemeBoy
  * @package 	SportsPress/Templates
- * @version     1.5
+ * @version     1.8.7
  */
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
@@ -12,6 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 $html5 = current_theme_supports( 'html5', 'gallery' );
 $defaults = array(
 	'id' => get_the_ID(),
+	'title' => false,
 	'number' => -1,
 	'grouping' => null,
 	'orderby' => 'default',
@@ -59,6 +60,8 @@ endif;
 if ( $orderby == 'default' ):
 	$orderby = $list->orderby;
 	$order = $list->order;
+elseif ( $orderby == 'rand' ):
+	uasort( $data, 'sp_sort_random' );
 else:
 	$list->priorities = array(
 		array(
@@ -68,6 +71,9 @@ else:
 	);
 	uasort( $data, array( $list, 'sort' ) );
 endif;
+
+if ( $title )
+	echo '<h4 class="sp-table-caption">' . $title . '</h4>';
 
 $gallery_style = $gallery_div = '';
 if ( apply_filters( 'use_default_gallery_style', ! $html5 ) )
@@ -94,8 +100,7 @@ $size_class = sanitize_html_class( $size );
 $gallery_div = "<div id='$selector' class='gallery galleryid-{$id} gallery-columns-{$columns} gallery-size-{$size_class}'>";
 echo apply_filters( 'gallery_style', $gallery_style . "\n\t\t" );
 ?>
-<div class="sp-template sp-template-player-gallery">
-	<?php echo $gallery_div; ?>
+<?php echo $gallery_div; ?>
 	<?php
 	if ( intval( $number ) > 0 )
 		$limit = $number;
@@ -110,8 +115,12 @@ echo apply_filters( 'gallery_style', $gallery_style . "\n\t\t" );
 		$groups = array( $group );
 	endif;
 
+	$j = 0;
+
 	foreach ( $groups as $group ):
 		$i = 0;
+
+		echo '<div class="sp-template sp-template-player-gallery sp-template-gallery">';
 
 		if ( ! empty( $group->name ) ):
 			echo '<a name="group-' . $group->slug . '" id="group-' . $group->slug . '"></a>';
@@ -140,20 +149,23 @@ echo apply_filters( 'gallery_style', $gallery_style . "\n\t\t" );
 
 		endif; endforeach;
 
+		$j++;
+
 		if ( ! $html5 && $columns > 0 && ++$i % $columns == 0 ) {
 			echo '<br style="clear: both" />';
 		}
+
+		if ( $show_all_players_link && ( 'position' !== $grouping || $j == count( $groups ) ) ) {
+			echo '<div class="sp-player-gallery-link sp-gallery-link sp-view-all-link"><a href="' . get_permalink( $id ) . '">' . __( 'View all players', 'sportspress' ) . '</a></div>';
+		}
+
+		echo '</div>';
 
 	endforeach;
 
 	if ( ! $html5 && $columns > 0 && ++$i % $columns == 0 ) {
 		echo '<br style="clear: both" />';
 	}
-
-	if ( $show_all_players_link ) {
-		echo '<a class="sp-player-list-link sp-view-all-link" href="' . get_permalink( $id ) . '">' . __( 'View all players', 'sportspress' ) . '</a>';
-	}
 		
-	echo "</div>\n";
-	?>
-</div>
+echo "</div>\n";
+?>

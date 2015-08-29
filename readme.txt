@@ -3,8 +3,8 @@ Contributors: ThemeBoy, brianmiyaji, aylaview
 Tags: sport, sports, club, clubs, teams, statistics, stats, metrics, data, fixtures, results, standings, league tables, leagues, shortcodes, sports data, sports club, themeboy, esports, wordpress sports, equations, calculations, events, calendars, players, profiles, staff, seasons, countdowns, club management, football, nfl, footy, afl, baseball, basketball, cricket, darts, handball, hockey, netball, rugby, snooker, soccer, squash, tennis, volleyball, dota 2, league of legends
 Donate link: http://tboy.co/donate
 Requires at least: 3.8
-Tested up to: 4.2.2
-Stable tag: 1.8.6
+Tested up to: 4.3
+Stable tag: 1.8.9
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -50,7 +50,7 @@ More details about each feature are available on the [SportsPress Website](http:
 
 = SportsPress Pro =
 
-Looking for more advanced sports functionality? Upgrade to [SportsPress Pro](http://tboy.co/pricing) to get access to more advanced features for your team, club, or league website.
+Looking for more advanced sports functionality? Upgrade to [SportsPress Pro](http://tboy.co/pro) to get access to more advanced features for your team, club, or league website.
 
 = Available Languages =
 * English – English ( en_US )
@@ -86,6 +86,7 @@ Looking for more advanced sports functionality? Upgrade to [SportsPress Pro](htt
 
 = Sport Presets Included =
 * American Football
+* Association Football (Soccer)
 * Australian Rules Football
 * Baseball
 * Basketball
@@ -98,7 +99,7 @@ Looking for more advanced sports functionality? Upgrade to [SportsPress Pro](htt
 * Rugby League
 * Rugby Union
 * Snooker
-* Soccer (Association Football)
+* Softball
 * Squash
 * Table Tennis
 * Tennis
@@ -129,8 +130,6 @@ Feel free to share your suggestions with us so we can continue to develop awesom
 Developers can contribute via the [SportsPress GitHub Repository](https://github.com/ThemeBoy/SportsPress/blob/master/CONTRIBUTING.md).
 
 Translators can contribute to SportsPress translations through [Transifex](https://www.transifex.com/projects/p/sportspress/).
-
-Couldn't find a preset for your sport? Help us [add it to SportsPress](http://themeboy.com/add-sport-preset/).
 
 = Stay Current =
 To keep up with the latest updates and new features, be sure to do the following:
@@ -219,11 +218,41 @@ The current modules that are available exclusively to SportsPress Pro are:
 * League Menu: Display a global navigation bar at the top of your website for easy navigation from one team to the next.
 * Branding: Instantly rebrands your admin panel to reflect your organization's brand.
 
-There are [3 different licenses](http://tboy.co/pricing) that you can choose from (Social, Club, and League), each with a [specified set of modules](http://sportspresspro.com/features/).
+There are [4 different licenses](http://tboy.co/pro) that you can choose from (Social, Club, and League), each with a [specified set of modules](http://tboy.co/pro).
 
 When you upgrade to one of the SportsPress Pro licenses, you can simply activate the Pro version without losing any of your data. Please note that we recommend that you do a complete backup whenever you make big changes to your website.
 
 == Changelog ==
+
+= 1.8.9 =
+* Feature - Enable multiple nationalities for players and staff.
+* Feature - Enable multiple seasons and competitions for league tables.
+* Feature - Enable multiple seasons, competitions, and positions for player lists.
+* Feature - Add custom title field and widget alignment option to shortcodes.
+* Feature - Add option to always increment league table position.
+* Fix - Import button on admin pages.
+* Fix - Update jQuery DataTables to version 1.10.8 props devilsaces.
+* Localization - Group translation team by language and display stats.
+* Localization - Add albpower, elgolden, mobking, wah826, iojvan, eifelstudio, deckerweb, denkuhn, green_big_frog, Flubber89, sododesign, webby1973, Laislebai, slappfiskene.no, AugustoNeto, lfrodines, GonerSTUDIO, cofeman.sl, i1m3a7n92, opticadeharo, and ViktoriaRuzhylo to translation team.
+* Localization - Update Polish, Finnish, Armenian, German, Slovenian, Italian, Czech, Dutch, Spanish, Romanian, and French translations.
+
+= 1.8.8 =
+* Feature - Add option to hide player and staff details.
+* Tweak - Ability to display multiple current teams in staff profile.
+
+= 1.8.7 =
+* Feature - Add custom table heading option to widgets.
+* Feature - Add random sorting to player gallery.
+* Feature - Add option to hide player list and league table titles.
+* Feature - Add heading option to player positions.
+* Tweak - Display Soccer (Association Football) as Football.
+* Tweak - Flush permalinks automatically when saving modules.
+* Tweak - Separate scrollable and responsive table options.
+* Tweak - Display event performance icon tables in 2 columns.
+* Fix - Duplicate league table captions in team page.
+* Preset - Add softball preset.
+* Localization - Add FollowCandyPanda to translation team.
+* Localization - Update Polish, Spanish, German, Norwegian, Dutch, Finnish, Russian, Armenian, and Czech translations.
 
 = 1.8.6 =
 * Tweak - Update modules page to reflect a change in offered features.

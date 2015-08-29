@@ -5,12 +5,22 @@
  * The SportsPress staff class handles individual staff data.
  *
  * @class 		SP_Staff
- * @version		1.6
+ * @version		1.8.9
  * @package		SportsPress/Classes
  * @category	Class
  * @author 		ThemeBoy
  */
 class SP_Staff extends SP_Custom_Post {
+
+	/**
+	 * Returns current teams
+	 *
+	 * @access public
+	 * @return array
+	 */
+	public function current_teams() {
+		return get_post_meta( $this->ID, 'sp_current_team', false );
+	}
 
 	/**
 	 * Returns past teams
@@ -20,6 +30,16 @@ class SP_Staff extends SP_Custom_Post {
 	 */
 	public function past_teams() {
 		return get_post_meta( $this->ID, 'sp_past_team', false );
+	}
+
+	/**
+	 * Returns nationalities
+	 *
+	 * @access public
+	 * @return array
+	 */
+	public function nationalities() {
+		return get_post_meta( $this->ID, 'sp_nationality', false );
 	}
 
 	/**

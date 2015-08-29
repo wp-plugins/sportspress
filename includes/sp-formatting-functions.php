@@ -7,7 +7,7 @@
  * @author 		ThemeBoy
  * @category 	Core
  * @package 	SportsPress/Functions
- * @version     1.7
+ * @version     1.8.7
  */
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
@@ -83,6 +83,17 @@ function sp_filter_positive( $var = 0 ) {
  */
 function sp_filter_non_empty( $var = '' ) {
 	return strlen( $var ) > 0;
+}
+
+/**
+ * Sort array randomly and maintain index association.
+ *
+ * @access public
+ * @param array $array
+ * @return bool
+ */
+function sp_sort_random() {
+	return mt_rand( 0, 1 );
 }
 
 /**
