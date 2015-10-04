@@ -5,7 +5,7 @@
  * @author 		ThemeBoy
  * @category 	Admin
  * @package 	SportsPress/Admin/Meta_Boxes
- * @version     1.6
+ * @version     1.9.7
  */
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
@@ -52,10 +52,12 @@ class SP_Meta_Box_List_Data {
 							<?php echo 'number' == $orderby ? '#' : __( 'Rank', 'sportspress' ); ?>
 						</label></th>
 						<th><?php _e( 'Player', 'sportspress' ); ?></th>
-						<th><label for="sp_columns_team">
-							<input type="checkbox" name="sp_columns[]" value="team" id="sp_columns_team" <?php checked( ! is_array( $columns ) || array_key_exists( 'team', $columns ) ); ?>>
-							<?php _e( 'Team', 'sportspress' ); ?>
-						</label></th>
+						<?php if ( apply_filters( 'sportspress_has_teams', true ) ) { ?>
+							<th><label for="sp_columns_team">
+								<input type="checkbox" name="sp_columns[]" value="team" id="sp_columns_team" <?php checked( ! is_array( $columns ) || array_key_exists( 'team', $columns ) ); ?>>
+								<?php _e( 'Team', 'sportspress' ); ?>
+							</label></th>
+						<?php } ?>
 						<?php foreach ( $columns as $key => $label ): ?>
 							<?php if ( in_array( $key, array( 'number', 'team' ) ) ) continue; ?>
 							<th><label for="sp_columns_<?php echo $key; ?>">
@@ -95,32 +97,34 @@ class SP_Meta_Box_List_Data {
 										<a class="dashicons dashicons-edit sp-edit" title="<?php _e( 'Edit', 'sportspress' ); ?>"></a>
 									</span>
 									<span class="hidden sp-custom-value">
-										<input type="text" name="sp_players[<?php echo $player_id; ?>][name]" class="name sp-custom-value-input" value="<?php echo sp_array_value( $player_stats, 'name', '' ); ?>" placeholder="<?php echo get_the_title( $player_id ); ?>" size="6">
+										<input type="text" name="sp_players[<?php echo $player_id; ?>][name]" class="name sp-custom-value-input" value="<?php echo esc_attr( sp_array_value( $player_stats, 'name', '' ) ); ?>" placeholder="<?php echo esc_attr( get_the_title( $player_id ) ); ?>" size="6">
 										<a class="button button-secondary sp-cancel"><?php _e( 'Cancel', 'sportspress' ); ?></a>
 										<a class="button button-primary sp-save"><?php _e( 'Save', 'sportspress' ); ?></a>
 									</span>
 								</td>
-								<td>
-									<?php
-									$selected = sp_array_value( $player_stats, 'team', get_post_meta( get_the_ID(), 'sp_team', true ) );
-									if ( ! $selected ) $selected = get_post_meta( $player_id, 'sp_team', true );
-									$include = get_post_meta( $player_id, 'sp_team' );
-									$args = array(
-										'post_type' => 'sp_team',
-										'name' => 'sp_players[' . $player_id . '][team]',
-										'include' => $include,
-										'selected' => $selected,
-										'values' => 'ID',
-									);
-									wp_dropdown_pages( $args );
-									?>
-								</td>
+								<?php if ( apply_filters( 'sportspress_has_teams', true ) ) { ?>
+									<td>
+										<?php
+										$selected = sp_array_value( $player_stats, 'team', get_post_meta( get_the_ID(), 'sp_team', true ) );
+										if ( ! $selected ) $selected = get_post_meta( $player_id, 'sp_team', true );
+										$include = get_post_meta( $player_id, 'sp_team' );
+										$args = array(
+											'post_type' => 'sp_team',
+											'name' => 'sp_players[' . $player_id . '][team]',
+											'include' => $include,
+											'selected' => $selected,
+											'values' => 'ID',
+										);
+										wp_dropdown_pages( $args );
+										?>
+									</td>
+								<?php } ?>
 								<?php foreach( $columns as $column => $label ):
 									if ( in_array( $column, array( 'number', 'team' ) ) ) continue;
 									$value = sp_array_value( $player_stats, $column, '' );
 									$placeholder = sp_array_value( sp_array_value( $placeholders, $player_id, array() ), $column, 0 );
 									?>
-									<td><input type="text" name="sp_players[<?php echo $player_id; ?>][<?php echo $column; ?>]" value="<?php echo $value; ?>" placeholder="<?php echo $placeholder; ?>" data-placeholder="<?php echo $placeholder; ?>" data-matrix="<?php echo $player_id; ?>_<?php echo $column; ?>" data-adjustment="<?php echo sp_array_value( sp_array_value( $adjustments, $player_id, array() ), $column, 0 ); ?>" /></td>
+									<td><input type="text" name="sp_players[<?php echo $player_id; ?>][<?php echo $column; ?>]" value="<?php echo esc_attr( $value ); ?>" placeholder="<?php echo esc_attr( $placeholder ); ?>" data-placeholder="<?php echo esc_attr( $placeholder ); ?>" data-matrix="<?php echo $player_id; ?>_<?php echo $column; ?>" data-adjustment="<?php echo sp_array_value( sp_array_value( $adjustments, $player_id, array() ), $column, 0 ); ?>" /></td>
 								<?php endforeach; ?>
 							</tr>
 							<?php
@@ -129,7 +133,7 @@ class SP_Meta_Box_List_Data {
 					else:
 					?>
 					<tr class="sp-row alternate">
-						<td colspan="<?php $colspan = sizeof( $columns ) + 3; echo $colspan; ?>">
+						<td colspan="<?php $colspan = sizeof( $columns ) + ( apply_filters( 'sportspress_has_teams', true ) ? 3 : 2 ); echo $colspan; ?>">
 							<?php printf( __( 'Select %s', 'sportspress' ), __( 'Data', 'sportspress' ) ); ?>
 						</td>
 					</tr>
@@ -168,7 +172,7 @@ class SP_Meta_Box_List_Data {
 									if ( $column == 'team' ) continue;
 									$value = sp_array_value( sp_array_value( $adjustments, $player_id, array() ), $column, '' );
 									?>
-									<td><input type="text" name="sp_adjustments[<?php echo $player_id; ?>][<?php echo $column; ?>]" value="<?php echo $value; ?>" placeholder="0" data-matrix="<?php echo $player_id; ?>_<?php echo $column; ?>" /></td>
+									<td><input type="text" name="sp_adjustments[<?php echo $player_id; ?>][<?php echo $column; ?>]" value="<?php echo esc_attr( $value ); ?>" placeholder="0" data-matrix="<?php echo $player_id; ?>_<?php echo $column; ?>" /></td>
 								<?php endforeach; ?>
 							</tr>
 							<?php
