@@ -5,7 +5,7 @@
  * @author 		ThemeBoy
  * @category 	Admin
  * @package 	SportsPress/Admin/Meta_Boxes
- * @version     1.7
+ * @version     1.9.7
  */
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
@@ -22,17 +22,18 @@ class SP_Meta_Box_Event_Details {
 		$taxonomies = get_object_taxonomies( 'sp_event' );
 		$minutes = get_post_meta( $post->ID, 'sp_minutes', true );
 		?>
+		<?php do_action( 'sportspress_event_details_meta_box', $post ); ?>
 		<div class="sp-event-minutes-field">
 			<p><strong><?php _e( 'Full Time', 'sportspress' ); ?></strong></p>
 			<p>
-				<input name="sp_minutes" type="number" step="1" min="0" class="small-text" placeholder="<?php echo get_option( 'sportspress_event_minutes', 90 ); ?>" value="<?php echo $minutes; ?>">
+				<input name="sp_minutes" type="number" step="1" min="0" class="small-text" placeholder="<?php echo get_option( 'sportspress_event_minutes', 90 ); ?>" value="<?php echo esc_attr( $minutes ); ?>">
 				<?php _e( 'mins', 'sportspress' ); ?>
 			</p>
 		</div>
 		<?php
 		foreach ( $taxonomies as $taxonomy ) {
 			if ( 'sp_venue' == $taxonomy ) continue;
-			sp_taxonomy_field( $taxonomy, $post, true );
+			sp_taxonomy_field( $taxonomy, $post, true, true );
 		}
 		?>
 		<div class="sp-event-sp_venue-field">

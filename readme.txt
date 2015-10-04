@@ -1,10 +1,10 @@
 === SportsPress - Manage Leagues & Sports Clubs ===
 Contributors: ThemeBoy, brianmiyaji, aylaview
-Tags: sport, sports, club, clubs, teams, statistics, stats, metrics, data, fixtures, results, standings, league tables, leagues, shortcodes, sports data, sports club, themeboy, esports, wordpress sports, equations, calculations, events, calendars, players, profiles, staff, seasons, countdowns, club management, football, nfl, footy, afl, baseball, basketball, cricket, darts, handball, hockey, netball, rugby, snooker, soccer, squash, tennis, volleyball, dota 2, league of legends
+Tags: sport, sports, club, clubs, teams, statistics, stats, metrics, data, fixtures, results, standings, league tables, leagues, shortcodes, sports data, sports club, themeboy, esports, wordpress sports, equations, calculations, events, calendars, players, profiles, staff, seasons, countdowns, club management, football, nfl, footy, afl, baseball, basketball, cricket, darts, handball, hockey, netball, rugby, snooker, soccer, squash, tennis, volleyball, dota 2, league of legends, golf
 Donate link: http://tboy.co/donate
 Requires at least: 3.8
 Tested up to: 4.3
-Stable tag: 1.8.9
+Stable tag: 1.9.7
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -48,6 +48,11 @@ Transform your WordPress blog into a fully configurable team, club, or league we
 
 More details about each feature are available on the [SportsPress Website](http://tboy.co/pro).
 
+= Free Extensions =
+* [SportsPress for Cricket](https://wordpress.org/plugins/sportspress-for-cricket/)
+* [SportsPress for Football (Soccer)](https://wordpress.org/plugins/sportspress-for-soccer/)
+* [SportsPress for Golf](https://wordpress.org/plugins/sportspress-for-golf/)
+
 = SportsPress Pro =
 
 Looking for more advanced sports functionality? Upgrade to [SportsPress Pro](http://tboy.co/pro) to get access to more advanced features for your team, club, or league website.
@@ -72,6 +77,7 @@ Looking for more advanced sports functionality? Upgrade to [SportsPress Pro](htt
 * Korean – 한국어 ( ko_KR )
 * Macedonian – македонски ( mk_MK )
 * Norwegian Bokmål – Norsk bokmål ( nb_NO )
+* Persian – فارسی ( fa_IR )
 * Polish – Polski ( pl_PL )
 * Portuguese (Brazil) – Português do Brasil ( pt_BR )
 * Portuguese (Portugal) – Português ( pt_PT )
@@ -81,6 +87,7 @@ Looking for more advanced sports functionality? Upgrade to [SportsPress Pro](htt
 * Slovenian – Slovenija ( sl_SI )
 * Spanish – Español ( es_ES )
 * Swedish – Svenska ( sv_SE )
+* Tamil – தமிழ் ( ta_IN )
 * Thai – ไทย ( th )
 * Turkish – Türkçe ( tr_TR )
 
@@ -92,6 +99,7 @@ Looking for more advanced sports functionality? Upgrade to [SportsPress Pro](htt
 * Basketball
 * Cricket
 * Darts
+* Golf
 * Handball
 * Ice Hockey
 * Lacrosse
@@ -214,15 +222,90 @@ The current modules that are available exclusively to SportsPress Pro are:
 * Tournaments: Create and display tournaments in a bracket/knockout cup format.
 * Sponsors: Add your sponsors on your website and track each of their clicks and impressions.
 * Staff Directories: Show contact information of your key personnel so people know who to get in touch with.
+* Team Access: Assign users to a specific team and limit their access to data related to that team.
 * Team Colors: Make each team's profile page unique by displaying their team colors.
 * League Menu: Display a global navigation bar at the top of your website for easy navigation from one team to the next.
+* Birthdays: Display each player's birthday and their current age.
+* Twitter: Add a Twitter feed to team, player, and staff pages.
 * Branding: Instantly rebrands your admin panel to reflect your organization's brand.
+* Duplicator: Clone anything with just one click. Great for creating multiple events.
+* Lazy Loading: Load players using Ajax to speed up the event edit screen.
 
-There are [4 different licenses](http://tboy.co/pro) that you can choose from (Social, Club, and League), each with a [specified set of modules](http://tboy.co/pro).
+There are [4 different licenses](http://tboy.co/pro) that you can choose from: Social, Club, League, and Agency.
 
 When you upgrade to one of the SportsPress Pro licenses, you can simply activate the Pro version without losing any of your data. Please note that we recommend that you do a complete backup whenever you make big changes to your website.
 
 == Changelog ==
+
+= 1.9.7 =
+* Fix - Escape text inputs in admin.
+* Localization - Update German translation.
+
+= 1.9.6 =
+* Feature - Venue subset to reflect statistics from a team's home venue.
+* Tweak - Use team order instead of venue to get home and away subset.
+* Tweak - Allow special HTML characters in player list fields.
+* Tweak - Relabel box score to scorecard.
+* Fix - Player list sorting by ascending squad number.
+* Localization - Add Ales70, Elmister, and chinnz25 to translation team.
+* Localization - Add Tamil (India) translations.
+* Localization - Update Persian, Finnish, Italian, Czech, Greek, Slovenian, and Polish translations.
+
+= 1.9.5 =
+* Fix - Streaks calculation in league tables.
+
+= 1.9.4 =
+* Feature - Add Home and Away subset options to table column equation builder.
+* Tweak - Display player and team checklists in admin only when Manual mode is enabled to improve performance.
+* Localization - Add mahdi12 to translation team.
+* Localization - Update Persian and Polish translation.
+
+= 1.9.3 =
+* Fix - Event results skipping some players in player list.
+
+= 1.9.2 =
+* Fix - Dynamic stats not being reflected in player lists.
+
+= 1.9.1 =
+* Fix - Add up statistics from multiple competitions and seasons in player list.
+* Fix - Use player metrics as default in player list.
+* Localization - Update Spanish translation.
+
+= 1.9 =
+* Feature - New Icons module containing vector icon options for player performance.
+* Feature - Add event results to equation builder.
+* Feature - Allow different page templates to be selected for each post type.
+* Feature - Add equation builder to automate event results based on player performance.
+* Feature - Allow Event Managers to edit venues.
+* Feature - Display post excerpts in templates.
+* Feature - Hide featured image if photo or logo is displayed.
+* Feature - Add default outcome condition for events with more than 2 teams.
+* Feature - Add option to display competition and season in player details.
+* Feature - Add Google map zoom option.
+* Feature - Add national flag option to player list.
+* Feature - Add competition and season filter to manually inserted calendar shortcodes.
+* Refactor - Move cricket functionality to free extension.
+* Tweak - Improve individual mode admin screens and functionality.
+* Tweak - Add styling to default event teams template.
+* Tweak - Add cell padding to admin edit table.
+* Tweak - Display position column only if positions exist.
+* Tweak - Display Performance as Box Score in all occurrences.
+* Tweak - Simplify sample data team names.
+* Tweak - Move League Table module to Teams section.
+* Tweak - Display column labels for time and results in split team mode.
+* Tweak - Lock variable names once published to prevent equations from breaking.
+* Tweak - Rename featured image meta boxes to reflect image type.
+* Tweak - Improve readability of equations in admin.
+* Tweak - Trim delimiter example when limit is more than 3 teams.
+* Tweak - Allow a team limit of 0 for unlimited teams per event.
+* Fix - Sample data generator for individual mode.
+* Fix - Overview hierarchy in individual mode.
+* Fix - Event delimiter sample output.
+* Fix - Error in league table when stats are empty.
+* Fix - Check if teams exist in countdown.
+* Preset - Add golf preset.
+* Preset - Recommend sport-specific extensions for cricket, golf, and football (soccer).
+* Localization - Update Greek and French translations.
 
 = 1.8.9 =
 * Feature - Enable multiple nationalities for players and staff.
